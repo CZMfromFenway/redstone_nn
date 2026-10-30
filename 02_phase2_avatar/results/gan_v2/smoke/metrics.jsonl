@@ -1,0 +1,7 @@
+{"step": 40, "loss_d": 2.3153185844421387, "loss_g": 1.4371411800384521, "sec": 0.9}
+{"step": 60, "d_acc": 0.9678, "d_logit_std_real": 0.7379, "d_logit_std_fake": 0.0893, "d_real_mean": 1.4402, "d_fake_mean": -2.299, "levels_per_sample": 13.97265625, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 0.5306396484375}
+{"step": 60, "frozen_G_scores": [{"snap_step": 60, "d_acc_on_this_G": 0.0}]}
+{"step": 80, "loss_d": 1.529428243637085, "loss_g": 2.419971227645874, "sec": 1.9}
+{"step": 120, "loss_d": 1.7121198177337646, "loss_g": 1.8739442825317383, "sec": 2.8}
+{"step": 120, "d_acc": 0.9912, "d_logit_std_real": 0.5313, "d_logit_std_fake": 0.1039, "d_real_mean": 1.7714, "d_fake_mean": -1.7079, "levels_per_sample": 14.029296875, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 0.53173828125}
+{"step": 120, "frozen_G_scores": [{"snap_step": 60, "d_acc_on_this_G": 0.0}, {"snap_step": 120, "d_acc_on_this_G": 0.0}]}

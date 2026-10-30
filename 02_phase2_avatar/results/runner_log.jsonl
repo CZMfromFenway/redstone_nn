@@ -1,0 +1,20 @@
+{"event": "start", "detail": "executing 9 measured steps; deadline 21:00, reserve 150s", "clock": "2026-10-16 19:46:17", "seconds_left": 4423}
+{"event": "launch", "detail": "sweep_uncond: 1500 steps, measured 3.1 min", "clock": "2026-10-16 19:46:17", "seconds_left": 4423}
+{"event": "done", "detail": "sweep_uncond: ok=True actual 2.1 min (predicted 3.1 min)", "clock": "2026-10-16 19:48:24", "seconds_left": 4296}
+{"event": "launch", "detail": "sweep_pca4: 1500 steps, measured 5.0 min", "clock": "2026-10-16 19:48:24", "seconds_left": 4296}
+{"event": "done", "detail": "sweep_pca4: ok=True actual 2.3 min (predicted 5.0 min)", "clock": "2026-10-16 19:50:41", "seconds_left": 4159}
+{"event": "launch", "detail": "sweep_pca8: 1500 steps, measured 5.0 min", "clock": "2026-10-16 19:50:41", "seconds_left": 4159}
+{"event": "done", "detail": "sweep_pca8: ok=True actual 2.3 min (predicted 5.0 min)", "clock": "2026-10-16 19:52:58", "seconds_left": 4022}
+{"event": "launch", "detail": "sweep_pca16: 1500 steps, measured 5.1 min", "clock": "2026-10-16 19:52:58", "seconds_left": 4022}
+{"event": "done", "detail": "sweep_pca16: ok=True actual 2.2 min (predicted 5.1 min)", "clock": "2026-10-16 19:55:13", "seconds_left": 3887}
+{"event": "launch", "detail": "sweep_pca22: 1500 steps, measured 5.3 min", "clock": "2026-10-16 19:55:13", "seconds_left": 3887}
+{"event": "done", "detail": "sweep_pca22: ok=True actual 2.3 min (predicted 5.3 min)", "clock": "2026-10-16 19:57:31", "seconds_left": 3749}
+{"event": "launch", "detail": "sweep_half: 1500 steps, measured 3.6 min", "clock": "2026-10-16 19:57:31", "seconds_left": 3749}
+{"event": "done", "detail": "sweep_half: ok=True actual 2.2 min (predicted 3.6 min)", "clock": "2026-10-16 19:59:46", "seconds_left": 3614}
+{"event": "launch", "detail": "sweep_code3: 1500 steps, measured 7.0 min", "clock": "2026-10-16 19:59:46", "seconds_left": 3614}
+{"event": "done", "detail": "sweep_code3: ok=True actual 2.4 min (predicted 7.0 min)", "clock": "2026-10-16 20:02:09", "seconds_left": 3471}
+{"event": "launch", "detail": "sweep_code5: 1500 steps, measured 11.0 min", "clock": "2026-10-16 20:02:09", "seconds_left": 3471}
+{"event": "done", "detail": "sweep_code5: ok=True actual 2.6 min (predicted 11.0 min)", "clock": "2026-10-16 20:04:45", "seconds_left": 3315}
+{"event": "launch", "detail": "kernel_style: 4000 steps, measured 12.8 min", "clock": "2026-10-16 20:04:45", "seconds_left": 3315}
+{"event": "done", "detail": "kernel_style: ok=True actual 0.4 min (predicted 12.8 min)", "clock": "2026-10-16 20:05:11", "seconds_left": 3289}
+{"event": "finish", "detail": "ran 9: ['sweep_uncond', 'sweep_pca4', 'sweep_pca8', 'sweep_pca16', 'sweep_pca22', 'sweep_half', 'sweep_code3', 'sweep_code5', 'kernel_style']", "clock": "2026-10-16 20:05:11", "seconds_left": 3289}

@@ -1,0 +1,57 @@
+{
+  "real": {
+    "agree": 0.7764910714285714,
+    "iso": 0.0,
+    "blobs": 13.788,
+    "detail": 2.128875
+  },
+  "rows": [
+    {
+      "name": "REAL",
+      "agree": 0.7764910714285714,
+      "iso": 0.0,
+      "blobs": 13.788,
+      "detail": 2.128875
+    },
+    {
+      "name": "teacher 512",
+      "acc": 0.7150625,
+      "agree": 0.7759107142857142,
+      "iso": 0.0,
+      "blobs": 13.922,
+      "detail": 2.02975
+    },
+    {
+      "name": "student distill (no TV)",
+      "acc": 0.73484375,
+      "agree": 0.7297857142857144,
+      "iso": 0.0,
+      "blobs": 18.99,
+      "detail": 2.0761607142857144
+    },
+    {
+      "name": "student distill TV 0.2",
+      "acc": 0.7016875,
+      "agree": 0.7438392857142858,
+      "iso": 0.0,
+      "blobs": 17.231,
+      "detail": 1.9375714285714285
+    },
+    {
+      "name": "student hard+TV5 (earlier)",
+      "acc": 0.771875,
+      "agree": 0.7280892857142858,
+      "iso": 0.0,
+      "blobs": 18.919,
+      "detail": 2.1226964285714285
+    },
+    {
+      "name": "student hard+TV30 (earlier)",
+      "acc": 0.7138125,
+      "agree": 0.7493035714285713,
+      "iso": 0.0,
+      "blobs": 15.725,
+      "detail": 2.004410714285714
+    }
+  ]
+}

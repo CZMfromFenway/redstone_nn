@@ -1,0 +1,83 @@
+[
+  {
+    "name": "4-32-32-32",
+    "tag": "dim4w32L2",
+    "mult": 2176,
+    "params": 2272,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.62325
+  },
+  {
+    "name": "4-64-32",
+    "tag": "dim4w64L1",
+    "mult": 2304,
+    "params": 2400,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.75725
+  },
+  {
+    "name": "4-128-32",
+    "tag": "dim4w128L1",
+    "mult": 4608,
+    "params": 4768,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.774
+  },
+  {
+    "name": "4-64-64-32",
+    "tag": "dim4w64L2",
+    "mult": 6400,
+    "params": 6560,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.77575
+  },
+  {
+    "name": "4-256-32",
+    "tag": "dim4w256L1",
+    "mult": 9216,
+    "params": 9504,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.717
+  },
+  {
+    "name": "4-96-96-32",
+    "tag": "dim4w96L2",
+    "mult": 12672,
+    "params": 12896,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.77225
+  },
+  {
+    "name": "4-128-128-32",
+    "tag": "dim4w128L2",
+    "mult": 20992,
+    "params": 21280,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.7
+  },
+  {
+    "name": "4-192-192-32",
+    "tag": "dim4w192L2",
+    "mult": 43776,
+    "params": 44192,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.78025
+  },
+  {
+    "name": "4-256-256-32",
+    "tag": "dim4w256L2",
+    "mult": 74752,
+    "params": 75296,
+    "acc": null,
+    "agree": null,
+    "proxy": 0.76725
+  }
+]

@@ -1,0 +1,542 @@
+{
+  "sheet_labels": {
+    "anime": [
+      1,
+      2,
+      4,
+      9,
+      13,
+      15,
+      17,
+      18,
+      19,
+      21
+    ],
+    "real3d": [
+      5,
+      7,
+      20
+    ],
+    "game": [
+      0,
+      6,
+      11,
+      14,
+      16,
+      22,
+      23
+    ]
+  },
+  "unlabelled": [
+    3,
+    8,
+    10,
+    12
+  ],
+  "results": [
+    {
+      "space": "pca22",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.47297122951877174,
+      "nmi_lab": 0.6111117072952735,
+      "silhouette": 0.08081183749410124,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.30526315789473685,
+      "nmi_lab": 0.361430706227454,
+      "silhouette": 0.15753284374848345,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": 0.2507394019060138,
+      "nmi_lab": 0.21874949035198113,
+      "silhouette": 0.06916754873409175,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": 0.20138459636543454,
+      "nmi_lab": 0.38426024487193033,
+      "silhouette": 0.03492551391746391,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": 0.18553248492967178,
+      "nmi_lab": 0.4376844173116716,
+      "silhouette": 0.0075265699478650515,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": 0.15957808778496088,
+      "nmi_lab": 0.26233186713802914,
+      "silhouette": 0.0714266251207216,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": 0.15315218558694021,
+      "nmi_lab": 0.14144994094907415,
+      "silhouette": 0.1442101852116036,
+      "loo": 0.65
+    },
+    {
+      "space": "pca22",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": 0.12741110090539298,
+      "nmi_lab": 0.3383893592809691,
+      "silhouette": -0.03346779242935523,
+      "loo": 0.65
+    },
+    {
+      "space": "hist",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.17257683215130026,
+      "nmi_lab": 0.32574680657247895,
+      "silhouette": 0.05286631945038861,
+      "loo": 0.4
+    },
+    {
+      "space": "stats_hist",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.22140532722670847,
+      "nmi_lab": 0.3109281917642214,
+      "silhouette": 0.0870611829944693,
+      "loo": 0.35
+    },
+    {
+      "space": "stats",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": 0.1615282311691452,
+      "nmi_lab": 0.2733995173860168,
+      "silhouette": 0.17664776234109594,
+      "loo": 0.4
+    },
+    {
+      "space": "hist",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.15789473684210525,
+      "nmi_lab": 0.19148510726074439,
+      "silhouette": 0.027560905780867753,
+      "loo": 0.4
+    },
+    {
+      "space": "stats",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.1252955082742317,
+      "nmi_lab": 0.2859716019728176,
+      "silhouette": 0.2113834288018832,
+      "loo": 0.4
+    },
+    {
+      "space": "stats_hist",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": 0.1615282311691452,
+      "nmi_lab": 0.2733995173860168,
+      "silhouette": 0.061375796474254486,
+      "loo": 0.35
+    },
+    {
+      "space": "hist",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": 0.07754887809998687,
+      "nmi_lab": 0.26346172721612326,
+      "silhouette": -0.061788051911858155,
+      "loo": 0.4
+    },
+    {
+      "space": "stats",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.07422240021358963,
+      "nmi_lab": 0.2865304724364192,
+      "silhouette": 0.17563092601668026,
+      "loo": 0.4
+    },
+    {
+      "space": "hist",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": 0.07005543106498406,
+      "nmi_lab": 0.11583029330972316,
+      "silhouette": 0.026218072591556115,
+      "loo": 0.4
+    },
+    {
+      "space": "stats",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": 0.06110642400867785,
+      "nmi_lab": 0.19988383601597443,
+      "silhouette": 0.12077440754690205,
+      "loo": 0.4
+    },
+    {
+      "space": "stats_hist",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.10917615539182851,
+      "nmi_lab": 0.3080831356690739,
+      "silhouette": 0.044626424478210885,
+      "loo": 0.35
+    },
+    {
+      "space": "hist",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": 0.015544041450777177,
+      "nmi_lab": 0.09184659774770791,
+      "silhouette": 0.02568080305628606,
+      "loo": 0.4
+    },
+    {
+      "space": "stats",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": 0.0067453625632378136,
+      "nmi_lab": 0.13905735893545884,
+      "silhouette": 0.20607267057808865,
+      "loo": 0.4
+    },
+    {
+      "space": "hist",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": 0.0067453625632378136,
+      "nmi_lab": 0.06120358750013654,
+      "silhouette": 0.053335109218579264,
+      "loo": 0.4
+    },
+    {
+      "space": "k3",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": 0.054373522458628865,
+      "nmi_lab": 0.22353391341007228,
+      "silhouette": 0.21141814237415948,
+      "loo": 0.35
+    },
+    {
+      "space": "k3",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": 0.0526177666972838,
+      "nmi_lab": 0.24367254286908288,
+      "silhouette": 0.046490729500710315,
+      "loo": 0.35
+    },
+    {
+      "space": "k3",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.04719043332904721,
+      "nmi_lab": 0.21544413457423225,
+      "silhouette": 0.18476922243420144,
+      "loo": 0.35
+    },
+    {
+      "space": "k3",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.04220997445893264,
+      "nmi_lab": 0.2757297397064215,
+      "silhouette": 0.19726974336366113,
+      "loo": 0.35
+    },
+    {
+      "space": "hist",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": -0.020581250706773756,
+      "nmi_lab": 0.12618542714633857,
+      "silhouette": 0.042254730967594856,
+      "loo": 0.4
+    },
+    {
+      "space": "stats_hist",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": 0.02599780300256318,
+      "nmi_lab": 0.12363665635798467,
+      "silhouette": 0.026549043067380363,
+      "loo": 0.35
+    },
+    {
+      "space": "kernels_all",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.07201001878522231,
+      "nmi_lab": 0.2183911351618731,
+      "silhouette": 0.20372087705943417,
+      "loo": 0.3
+    },
+    {
+      "space": "kernels_all",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": 0.06645375261024444,
+      "nmi_lab": 0.1657174420828135,
+      "silhouette": 0.19902531375422175,
+      "loo": 0.3
+    },
+    {
+      "space": "hist",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": -0.03755711579181998,
+      "nmi_lab": 0.06211907366501434,
+      "silhouette": 0.03885886561310676,
+      "loo": 0.4
+    },
+    {
+      "space": "stats_hist",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": 0.0067453625632378136,
+      "nmi_lab": 0.13905735893545884,
+      "silhouette": 0.10630326832987828,
+      "loo": 0.35
+    },
+    {
+      "space": "stats",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": -0.04534005037783377,
+      "nmi_lab": 0.17402378271500324,
+      "silhouette": 0.14952319614883955,
+      "loo": 0.4
+    },
+    {
+      "space": "kernels_all",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": 0.0526177666972838,
+      "nmi_lab": 0.24367254286908288,
+      "silhouette": 0.04661278995109688,
+      "loo": 0.3
+    },
+    {
+      "space": "stats",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": -0.06145251396648045,
+      "nmi_lab": 0.08738983487321285,
+      "silhouette": 0.2077009282202212,
+      "loo": 0.4
+    },
+    {
+      "space": "k3",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": -0.02230691626499271,
+      "nmi_lab": 0.12159398068270866,
+      "silhouette": 0.09152886825810617,
+      "loo": 0.35
+    },
+    {
+      "space": "stats",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": -0.07777637715870413,
+      "nmi_lab": 0.09989601915382187,
+      "silhouette": 0.07274608454814459,
+      "loo": 0.4
+    },
+    {
+      "space": "kernels_all",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.01423440202208326,
+      "nmi_lab": 0.24857548886876515,
+      "silhouette": 0.2273164331506763,
+      "loo": 0.3
+    },
+    {
+      "space": "k3",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": -0.036317679925502215,
+      "nmi_lab": 0.18008947362156827,
+      "silhouette": 0.007110985420337505,
+      "loo": 0.35
+    },
+    {
+      "space": "stats_hist",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": -0.04534005037783377,
+      "nmi_lab": 0.17402378271500324,
+      "silhouette": 0.05047649535284865,
+      "loo": 0.35
+    },
+    {
+      "space": "k3",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": -0.05642966993966639,
+      "nmi_lab": 0.12695309624479773,
+      "silhouette": 0.1334723264998871,
+      "loo": 0.35
+    },
+    {
+      "space": "stats_hist",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": -0.07131350016109975,
+      "nmi_lab": 0.08072865826112452,
+      "silhouette": 0.10366428432385322,
+      "loo": 0.35
+    },
+    {
+      "space": "kernels_all",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": -0.02230691626499271,
+      "nmi_lab": 0.12159398068270866,
+      "silhouette": 0.10019643970039442,
+      "loo": 0.3
+    },
+    {
+      "space": "k3",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": -0.07490832896804611,
+      "nmi_lab": 0.060872825911630006,
+      "silhouette": 0.3444284311132387,
+      "loo": 0.35
+    },
+    {
+      "space": "stats_hist",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": -0.07777637715870413,
+      "nmi_lab": 0.09989601915382187,
+      "silhouette": 0.02404656371985504,
+      "loo": 0.35
+    },
+    {
+      "space": "kernels_all",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": -0.036317679925502215,
+      "nmi_lab": 0.18008947362156827,
+      "silhouette": -0.018678939138790162,
+      "loo": 0.3
+    },
+    {
+      "space": "kernels_all",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": -0.05642966993966639,
+      "nmi_lab": 0.12695309624479773,
+      "silhouette": 0.1193028272995002,
+      "loo": 0.3
+    },
+    {
+      "space": "kernels_all",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": -0.07490832896804611,
+      "nmi_lab": 0.060872825911630006,
+      "silhouette": 0.3406787015292234,
+      "loo": 0.3
+    },
+    {
+      "space": "k2",
+      "k": 4,
+      "method": "kmeans",
+      "ari_lab": 0.024420788979336274,
+      "nmi_lab": 0.2449125855064094,
+      "silhouette": 0.23821415264507886,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 5,
+      "method": "kmeans",
+      "ari_lab": 0.002755543891877687,
+      "nmi_lab": 0.19271288131877226,
+      "silhouette": 0.2609467753016979,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 5,
+      "method": "gmm-ish",
+      "ari_lab": 0.00040469445568594133,
+      "nmi_lab": 0.20997325385407817,
+      "silhouette": 0.1612595649216995,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 3,
+      "method": "kmeans",
+      "ari_lab": -0.05023952831347498,
+      "nmi_lab": 0.07662682444463602,
+      "silhouette": 0.22776490212799727,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 3,
+      "method": "gmm-ish",
+      "ari_lab": -0.05023952831347498,
+      "nmi_lab": 0.07662682444463602,
+      "silhouette": 0.22776490212799727,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 2,
+      "method": "gmm-ish",
+      "ari_lab": -0.05090752872945974,
+      "nmi_lab": 0.08253077398179073,
+      "silhouette": 0.33456873085572486,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 4,
+      "method": "gmm-ish",
+      "ari_lab": -0.05382579099962181,
+      "nmi_lab": 0.12343767854154111,
+      "silhouette": 0.14466481213036458,
+      "loo": 0.2
+    },
+    {
+      "space": "k2",
+      "k": 2,
+      "method": "kmeans",
+      "ari_lab": -0.07490832896804611,
+      "nmi_lab": 0.060872825911630006,
+      "silhouette": 0.33977430940917336,
+      "loo": 0.2
+    }
+  ]
+}

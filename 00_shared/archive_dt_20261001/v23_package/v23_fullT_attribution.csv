@@ -1,0 +1,4 @@
+sequence,full_added,added_reachable_with_cc,added_reachable_with_ss,added_reachable_with_either_same,added_need_mixed_same_interaction,cc_pool,ss_pool
+DT,755,673,82,755,0,1376,1592
+TD,1492,616,931,1492,0,1189,1546
+TT,1667,148,14,162,1505,339,90

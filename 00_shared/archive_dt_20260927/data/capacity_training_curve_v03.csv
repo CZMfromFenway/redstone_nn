@@ -1,0 +1,21 @@
+family,width,mean_errors,training_measure,mean_training_units
+MLP-tanh,5,93.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,6,89.0,4800 gradient steps (4x1200),4800.0
+MLP-tanh,7,84.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,8,85.0,4800 gradient steps (4x1200),4800.0
+MLP-tanh,9,82.25,4800 gradient steps (4x1200),4800.0
+MLP-tanh,10,78.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,11,72.25,4800 gradient steps (4x1200),4800.0
+MLP-tanh,12,68.5,4800 gradient steps (4x1200),4800.0
+MLP-tanh,13,71.25,4800 gradient steps (4x1200),4800.0
+MLP-tanh,14,63.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,15,64.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,16,58.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,18,53.75,4800 gradient steps (4x1200),4800.0
+MLP-tanh,20,54.5,4800 gradient steps (4x1200),4800.0
+MLP-tanh,24,45.5,4800 gradient steps (4x1200),4800.0
+Count-DDTT-function,0,84.0,network evaluations,2476.5
+Count-DDTT-function,2,69.75,network evaluations,62873.5
+Count-DDTT-function,3,64.25,network evaluations,100190.25
+Count-DDTT-function,4,58.5,network evaluations,143811.75
+Count-DDTT-function,5,50.5,network evaluations,148500.5

@@ -1,0 +1,9 @@
+{
+ "S_range": [
+  15,
+  897
+ ],
+ "W_max": 882,
+ "algebra": "N = K - sum(out), K = 15b + sum|W|",
+ "K_max": 7176
+}

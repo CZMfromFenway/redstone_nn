@@ -1,0 +1,58 @@
+[
+  {
+    "tag": "long_lam2_mode_s2",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 9000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "long_lam2_sample",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--decode", "sample", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 9000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "lam_fine_1",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "0.75,1.25,1.75", "--penalty", "tv_probs", "--decode", "mode", "--tag", "lam_fine_1"],
+    "steps_arg": "--steps",
+    "steps": 900,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "lam_fine_2",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "2.5,3.5,5.0", "--penalty", "tv_probs", "--decode", "mode", "--tag", "lam_fine_2"],
+    "steps_arg": "--steps",
+    "steps": 900,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "lam_ce_smooth",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "0.5,2.0,8.0", "--penalty", "ce_smooth", "--decode", "mode", "--tag", "lam_ce_smooth"],
+    "steps_arg": "--steps",
+    "steps": 900,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "long_lam175",
+    "script": "coherence_long.py",
+    "args": ["--lam", "1.75", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 9000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "long_lam3",
+    "script": "coherence_long.py",
+    "args": ["--lam", "3.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 9000,
+    "pilot_steps": 40
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "A": 0,
+  "A_quant_origW2": 18436,
+  "A_quant_retrain": 1256,
+  "B": 942,
+  "C_origW2": 18436,
+  "C_retrain": 1256,
+  "C_full": 1180,
+  "C_nolimit": 3,
+  "chance": 47100
+}

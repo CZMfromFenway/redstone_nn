@@ -1,0 +1,5 @@
+{"step": 30, "loss_d": 0.861, "loss_g": 1.5728, "sec": 0.8}
+{"step": 30, "d_acc": 0.8252, "d_logit_std_real": 0.7404, "d_logit_std_fake": 0.2522, "d_real_mean": 0.3137, "d_fake_mean": -1.308, "levels_per_sample": 13.990234375, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 1.0, "rows_with_content": 8}
+{"step": 60, "loss_d": 0.8234, "loss_g": 1.4155, "sec": 1.5}
+{"step": 60, "d_acc": 0.916, "d_logit_std_real": 0.6989, "d_logit_std_fake": 0.2496, "d_real_mean": 0.704, "d_fake_mean": -1.1274, "levels_per_sample": 13.95703125, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 1.0, "rows_with_content": 8}
+{"step": 60, "frozen_G_scores": [{"snap_step": 60, "d_acc_on_this_G": 0.0}]}

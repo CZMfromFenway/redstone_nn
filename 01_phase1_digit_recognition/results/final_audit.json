@@ -1,0 +1,50 @@
+{
+  "closed_comp": 0,
+  "closed_dust": 0,
+  "step_comp": 0,
+  "step_dust": 0,
+  "window_comp_forward": [
+    -882,
+    29,
+    912
+  ],
+  "window_comp_reverse": [
+    -29,
+    882,
+    912
+  ],
+  "window_dust_forward": [
+    -882,
+    15,
+    898
+  ],
+  "window_dust_reverse": [
+    -15,
+    882,
+    898
+  ],
+  "span_comp": {
+    "bad": 0,
+    "max": 10306
+  },
+  "span_dust": {
+    "bad": 0,
+    "max": 10050
+  },
+  "b0_comp": [
+    5996
+  ],
+  "b0_dust": [
+    5943
+  ],
+  "invert_comp": 0,
+  "invert_dust": 0,
+  "bounds_comp": [
+    1227,
+    14352
+  ],
+  "bounds_dust": [
+    1122,
+    14352
+  ]
+}

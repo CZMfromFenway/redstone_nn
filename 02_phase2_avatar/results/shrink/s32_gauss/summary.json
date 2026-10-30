@@ -1,0 +1,108 @@
+{
+  "args": {
+    "tag": "s32_gauss",
+    "mode": "gray32",
+    "steps": 12000,
+    "batch": 256,
+    "hid": 256,
+    "layers": 2,
+    "lam": 5.0,
+    "gauss_target": true,
+    "sigma": 0.35,
+    "adv_weight": 1.0,
+    "eval_every": 2000,
+    "threads": 5
+  },
+  "n_params": 79904,
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 2000,
+      "acc": 0.6304,
+      "mae_levels": 0.5,
+      "d_acc": 0.8687,
+      "agree": 0.4297,
+      "iso": 14.36,
+      "blobs": 24.89,
+      "sec": 322.6,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 4000,
+      "acc": 0.6836,
+      "mae_levels": 0.429,
+      "d_acc": 0.8587,
+      "agree": 0.4475,
+      "iso": 13.835,
+      "blobs": 23.85,
+      "sec": 903.7,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 6000,
+      "acc": 0.7076,
+      "mae_levels": 0.398,
+      "d_acc": 0.865,
+      "agree": 0.4596,
+      "iso": 13.02,
+      "blobs": 22.89,
+      "sec": 1406.8,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 8000,
+      "acc": 0.7309,
+      "mae_levels": 0.367,
+      "d_acc": 0.8462,
+      "agree": 0.4707,
+      "iso": 12.6,
+      "blobs": 22.32,
+      "sec": 1840.0,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 10000,
+      "acc": 0.7384,
+      "mae_levels": 0.356,
+      "d_acc": 0.8438,
+      "agree": 0.4753,
+      "iso": 12.105,
+      "blobs": 21.77,
+      "sec": 2173.5,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 12000,
+      "acc": 0.7377,
+      "mae_levels": 0.351,
+      "d_acc": 0.8625,
+      "agree": 0.4756,
+      "iso": 12.03,
+      "blobs": 21.72,
+      "sec": 2477.1,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    }
+  ]
+}

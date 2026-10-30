@@ -1,0 +1,146 @@
+{
+  "coherence_long.py|--lam,2.0,--lam-final,10.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.3375276267528534,
+    "measured_at": "2026-10-16 23:02:25",
+    "pilot_steps": 40,
+    "tag": "n_ramp_2_10"
+  },
+  "coherence_long.py|--lam,5.0,--lam-final,20.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.32651991844177247,
+    "measured_at": "2026-10-16 23:15:46",
+    "pilot_steps": 40,
+    "tag": "n_ramp_5_20"
+  },
+  "coherence_long.py|--lam,5.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.3277686059474945,
+    "measured_at": "2026-10-16 23:28:42",
+    "pilot_steps": 40,
+    "tag": "n_const_lam5"
+  },
+  "coherence_long.py|--lam,2.0,--lam-final,10.0,--adv-weight,0.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.32953033447265623,
+    "measured_at": "2026-10-16 23:41:44",
+    "pilot_steps": 40,
+    "tag": "n_noadv_ramp"
+  },
+  "coherence_long.py|--lam,1.0,--lam-final,5.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.3341176092624664,
+    "measured_at": "2026-10-16 23:54:44",
+    "pilot_steps": 40,
+    "tag": "n_ramp_1_5"
+  },
+  "coherence_lam.py|--lams,3.0,5.0,7.0,--penalty,tv_probs,--decode,mode,--tag,n_lam_fine_hi": {
+    "seconds_per_step": 0.48737350702285764,
+    "measured_at": "2026-10-17 00:08:02",
+    "pilot_steps": 40,
+    "tag": "n_lam_fine_hi"
+  },
+  "coherence_lam.py|--lams,1.0,1.5,2.5,--penalty,tv_probs,--decode,mode,--tag,n_lam_fine_lo": {
+    "seconds_per_step": 0.4819249868392944,
+    "measured_at": "2026-10-17 00:13:03",
+    "pilot_steps": 40,
+    "tag": "n_lam_fine_lo"
+  },
+  "coherence_lam.py|--lams,1.0,3.0,10.0,--penalty,ce_smooth,--decode,mode,--tag,n_ce_smooth_hi": {
+    "seconds_per_step": 0.48327242732048037,
+    "measured_at": "2026-10-17 00:18:04",
+    "pilot_steps": 40,
+    "tag": "n_ce_smooth_hi"
+  },
+  "coherence_lam.py|--lams,1.0,5.0,20.0,--penalty,comp,--decode,mode,--tag,n_comp_hi": {
+    "seconds_per_step": 0.479834657907486,
+    "measured_at": "2026-10-17 00:23:03",
+    "pilot_steps": 40,
+    "tag": "n_comp_hi"
+  },
+  "coherence_long.py|--lam,2.0,--lam-final,12.0,--decode,mode,--eval-every,1500": {
+    "seconds_per_step": 0.32745432257652285,
+    "measured_at": "2026-10-17 00:27:56",
+    "pilot_steps": 40,
+    "tag": "n_ramp_long_15k"
+  },
+  "coherence_long.py|--lam,2.0,--lam-final,12.0,--adv-weight,0.3,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.329655784368515,
+    "measured_at": "2026-10-17 00:47:16",
+    "pilot_steps": 40,
+    "tag": "n_ramp_adv03"
+  },
+  "style_conditional.py|--k,3,--lam,2.0,--lam-final,8.0": {
+    "seconds_per_step": 0.31919449269771577,
+    "measured_at": "2026-10-17 01:14:17",
+    "pilot_steps": 40,
+    "tag": "s_k3_8k"
+  },
+  "style_conditional.py|--k,4,--lam,2.0,--lam-final,8.0": {
+    "seconds_per_step": 0.3517434924840927,
+    "measured_at": "2026-10-17 01:56:19",
+    "pilot_steps": 40,
+    "tag": "s_k4_8k"
+  },
+  "style_conditional.py|--k,6,--lam,1.0,--lam-final,4.0": {
+    "seconds_per_step": 0.49281721413135526,
+    "measured_at": "2026-10-17 02:46:40",
+    "pilot_steps": 40,
+    "tag": "s_k6_8k"
+  },
+  "coherence_long.py|--lam,2.0,--lam-final,14.0,--decode,mode,--eval-every,1500": {
+    "seconds_per_step": 0.4735026955604553,
+    "measured_at": "2026-10-17 03:55:01",
+    "pilot_steps": 40,
+    "tag": "n_ramp_2_14_12k"
+  },
+  "coherence_long.py|--lam,3.0,--lam-final,20.0,--decode,mode,--eval-every,1500": {
+    "seconds_per_step": 0.06151819825172424,
+    "measured_at": "2026-10-17 04:09:33",
+    "pilot_steps": 40,
+    "tag": "n_ramp_3_20_12k"
+  },
+  "coherence_long.py|--lam,2.0,--lam-final,12.0,--adv-weight,0.0,--decode,mode,--eval-every,1500": {
+    "seconds_per_step": 0.05894806683063507,
+    "measured_at": "2026-10-17 04:24:03",
+    "pilot_steps": 40,
+    "tag": "n_ramp_noadv_15k"
+  },
+  "coherence_long.py|--lam,2.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.05695663690567017,
+    "measured_at": "2026-10-17 04:42:03",
+    "pilot_steps": 40,
+    "tag": "long_lam2_mode_s2"
+  },
+  "coherence_long.py|--lam,2.0,--decode,sample,--eval-every,1000": {
+    "seconds_per_step": 0.06569785177707672,
+    "measured_at": "2026-10-17 04:53:16",
+    "pilot_steps": 40,
+    "tag": "long_lam2_sample"
+  },
+  "coherence_lam.py|--lams,0.75,1.25,1.75,--penalty,tv_probs,--decode,mode,--tag,lam_fine_1": {
+    "seconds_per_step": 0.19991723001003264,
+    "measured_at": "2026-10-17 05:05:28",
+    "pilot_steps": 40,
+    "tag": "lam_fine_1"
+  },
+  "coherence_lam.py|--lams,2.5,3.5,5.0,--penalty,tv_probs,--decode,mode,--tag,lam_fine_2": {
+    "seconds_per_step": 0.2013396292924881,
+    "measured_at": "2026-10-17 05:09:34",
+    "pilot_steps": 40,
+    "tag": "lam_fine_2"
+  },
+  "coherence_lam.py|--lams,0.5,2.0,8.0,--penalty,ce_smooth,--decode,mode,--tag,lam_ce_smooth": {
+    "seconds_per_step": 0.20186167061328888,
+    "measured_at": "2026-10-17 05:13:39",
+    "pilot_steps": 40,
+    "tag": "lam_ce_smooth"
+  },
+  "coherence_long.py|--lam,1.75,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.060139575600624086,
+    "measured_at": "2026-10-17 05:17:24",
+    "pilot_steps": 40,
+    "tag": "long_lam175"
+  },
+  "coherence_long.py|--lam,3.0,--decode,mode,--eval-every,1000": {
+    "seconds_per_step": 0.06309861242771149,
+    "measured_at": "2026-10-17 05:28:39",
+    "pilot_steps": 40,
+    "tag": "long_lam3"
+  }
+}

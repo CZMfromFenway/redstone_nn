@@ -1,0 +1,50 @@
+[
+  {
+    "tag": "s_k3_8k",
+    "script": "style_conditional.py",
+    "args": ["--k", "3", "--lam", "2.0", "--lam-final", "8.0"],
+    "steps_arg": "--steps",
+    "steps": 8000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "s_k4_8k",
+    "script": "style_conditional.py",
+    "args": ["--k", "4", "--lam", "2.0", "--lam-final", "8.0"],
+    "steps_arg": "--steps",
+    "steps": 8000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "s_k6_8k",
+    "script": "style_conditional.py",
+    "args": ["--k", "6", "--lam", "1.0", "--lam-final", "4.0"],
+    "steps_arg": "--steps",
+    "steps": 8000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_2_14_12k",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "14.0", "--decode", "mode", "--eval-every", "1500"],
+    "steps_arg": "--steps",
+    "steps": 12000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_3_20_12k",
+    "script": "coherence_long.py",
+    "args": ["--lam", "3.0", "--lam-final", "20.0", "--decode", "mode", "--eval-every", "1500"],
+    "steps_arg": "--steps",
+    "steps": 12000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_noadv_15k",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "12.0", "--adv-weight", "0.0", "--decode", "mode", "--eval-every", "1500"],
+    "steps_arg": "--steps",
+    "steps": 15000,
+    "pilot_steps": 40
+  }
+]

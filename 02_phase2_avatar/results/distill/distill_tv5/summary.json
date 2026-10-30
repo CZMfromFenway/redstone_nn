@@ -1,0 +1,79 @@
+{
+  "args": {
+    "mode": "distill_tv",
+    "steps": 14000,
+    "lam": 5.0,
+    "threads": 4,
+    "tag": "distill_tv5"
+  },
+  "history": [
+    {
+      "step": 2333,
+      "acc": 0.2216,
+      "mae": 2.128,
+      "agree": 0.8061,
+      "agrees_with_teacher": 0.2354,
+      "sec": 5.6,
+      "loss": 16.4848
+    },
+    {
+      "step": 4666,
+      "acc": 0.2097,
+      "mae": 2.065,
+      "agree": 0.8478,
+      "agrees_with_teacher": 0.2172,
+      "sec": 12.0,
+      "loss": 12.254
+    },
+    {
+      "step": 6999,
+      "acc": 0.2029,
+      "mae": 2.046,
+      "agree": 0.856,
+      "agrees_with_teacher": 0.2107,
+      "sec": 17.3,
+      "loss": 11.6825
+    },
+    {
+      "step": 9332,
+      "acc": 0.2042,
+      "mae": 2.029,
+      "agree": 0.8602,
+      "agrees_with_teacher": 0.2112,
+      "sec": 21.4,
+      "loss": 11.1847
+    },
+    {
+      "step": 11665,
+      "acc": 0.206,
+      "mae": 2.016,
+      "agree": 0.8663,
+      "agrees_with_teacher": 0.2123,
+      "sec": 25.4,
+      "loss": 11.362
+    },
+    {
+      "step": 13998,
+      "acc": 0.2062,
+      "mae": 2.006,
+      "agree": 0.8676,
+      "agrees_with_teacher": 0.212,
+      "sec": 28.6,
+      "loss": 11.307
+    },
+    {
+      "step": 14000,
+      "acc": 0.2071,
+      "mae": 2.008,
+      "agree": 0.8682,
+      "agrees_with_teacher": 0.2137,
+      "sec": 28.7,
+      "loss": 11.2384
+    }
+  ],
+  "teacher": {
+    "acc_argmax": 0.7122812271118164,
+    "acc_expected_round": 0.7316250205039978,
+    "same": 0.8784999847412109
+  }
+}

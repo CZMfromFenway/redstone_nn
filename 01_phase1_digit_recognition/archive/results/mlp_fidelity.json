@@ -1,0 +1,33 @@
+{
+  "N4_MLP_T1": {
+    "family": "MLP-tanh",
+    "seed": 71000,
+    "positives": 18436,
+    "L0_rerun_agreement": 0.64520263671875,
+    "integer_multiple": 16,
+    "L1_int_x16_agreement": 0.3459930419921875,
+    "L1_max_abs_weight": 41,
+    "L2_monotone_step_agreement": 0.71868896484375
+  },
+  "N4_MLP_T2": {
+    "family": "MLP-tanh",
+    "seed": 71317,
+    "positives": 42244,
+    "L0_rerun_agreement": 0.647491455078125,
+    "integer_multiple": 128,
+    "L1_int_x128_agreement": 0.64459228515625,
+    "L1_max_abs_weight": 386,
+    "L1_int_x16_agreement": 0.64459228515625,
+    "L2_monotone_step_agreement": 0.35540771484375
+  },
+  "N4_COUNT_T1": {
+    "family": "Count-DT-K4",
+    "seed": 72000,
+    "positives": 39056
+  },
+  "N4_COUNT_T2": {
+    "family": "Count-DT-K4",
+    "seed": 72317,
+    "positives": 19086
+  }
+}

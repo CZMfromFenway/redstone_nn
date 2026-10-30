@@ -1,0 +1,48 @@
+{
+  "reference": {
+    "agree": 0.5971130952380952,
+    "iso": 7.053333333333334,
+    "blobs": 14.2
+  },
+  "rows": [
+    {
+      "lam": 0.5,
+      "agree_sample": 0.18209821428571427,
+      "iso_sample": 32.515,
+      "blobs_sample": 44.72,
+      "agree_mode": 0.6394196428571429,
+      "iso_mode": 7.085,
+      "blobs_mode": 13.3375,
+      "acc_mode": 0.23085936903953552,
+      "acc_sample": 0.14726562798023224,
+      "seconds": 7.5
+    },
+    {
+      "lam": 2.0,
+      "agree_sample": 0.1857142857142857,
+      "iso_sample": 32.035,
+      "blobs_sample": 44.3975,
+      "agree_mode": 0.7236160714285714,
+      "iso_mode": 4.545,
+      "blobs_mode": 9.485,
+      "acc_mode": 0.22312499582767487,
+      "acc_sample": 0.14210937917232513,
+      "seconds": 8.3
+    },
+    {
+      "lam": 8.0,
+      "agree_sample": 0.17441964285714284,
+      "iso_sample": 32.985,
+      "blobs_sample": 45.3575,
+      "agree_mode": 0.8986160714285714,
+      "iso_mode": 1.115,
+      "blobs_mode": 3.355,
+      "acc_mode": 0.18937499821186066,
+      "acc_sample": 0.12414062768220901,
+      "seconds": 8.2
+    }
+  ],
+  "steps": 120,
+  "decode": "mode",
+  "penalty": "ce_smooth"
+}

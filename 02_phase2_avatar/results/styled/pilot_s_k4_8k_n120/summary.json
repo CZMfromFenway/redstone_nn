@@ -1,0 +1,336 @@
+{
+  "args": {
+    "tag": "pilot_s_k4_8k_n120",
+    "steps": 120,
+    "batch": 256,
+    "k": 4,
+    "lam": 2.0,
+    "lam_final": 8.0,
+    "hid": 256,
+    "threads": 10,
+    "seed": 0
+  },
+  "cluster_sizes_train": [
+    97212,
+    43634,
+    101734,
+    69003
+  ],
+  "cluster_sizes_val": [
+    3028,
+    1334,
+    3129,
+    2145
+  ],
+  "results": {
+    "global": {
+      "history": [
+        {
+          "step": 30,
+          "acc_mode": 0.1628,
+          "agree_mode": 0.5764,
+          "iso_mode": 5.84,
+          "blobs_mode": 13.74,
+          "lam_now": 3.5
+        },
+        {
+          "step": 60,
+          "acc_mode": 0.1867,
+          "agree_mode": 0.798,
+          "iso_mode": 2.667,
+          "blobs_mode": 6.24,
+          "lam_now": 5.0
+        },
+        {
+          "step": 90,
+          "acc_mode": 0.2016,
+          "agree_mode": 0.8376,
+          "iso_mode": 2.06,
+          "blobs_mode": 5.39,
+          "lam_now": 6.5
+        },
+        {
+          "step": 120,
+          "acc_mode": 0.209,
+          "agree_mode": 0.8436,
+          "iso_mode": 2.293,
+          "blobs_mode": 5.25,
+          "lam_now": 8.0
+        }
+      ],
+      "seconds": 7.7,
+      "acc_all": 0.200328125,
+      "per_cluster": {
+        "0": {
+          "n": 626,
+          "acc": 0.17382188498402557
+        },
+        "1": {
+          "n": 281,
+          "acc": 0.22620106761565836
+        },
+        "2": {
+          "n": 635,
+          "acc": 0.18016732283464568
+        },
+        "3": {
+          "n": 458,
+          "acc": 0.2486353711790393
+        }
+      },
+      "agree": 0.846625,
+      "iso": 2.156,
+      "blobs": 5.1035
+    },
+    "per_cluster": {
+      "0": {
+        "n_train": 97212,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1234,
+            "agree_mode": 0.5126,
+            "iso_mode": 10.457,
+            "blobs_mode": 18.67,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1444,
+            "agree_mode": 0.4969,
+            "iso_mode": 9.397,
+            "blobs_mode": 18.86,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1599,
+            "agree_mode": 0.5689,
+            "iso_mode": 8.183,
+            "blobs_mode": 15.82,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.1655,
+            "agree_mode": 0.6327,
+            "iso_mode": 6.063,
+            "blobs_mode": 12.57,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 8.5,
+        "acc_all": 0.164046875,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.22159544728434505
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.1768238434163701
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.1457185039370079
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.10296124454148471
+          }
+        },
+        "agree": 0.6311428571428571,
+        "iso": 5.881,
+        "blobs": 12.5355,
+        "global_on_this_cluster": 0.17382188498402557,
+        "specialist_gain": -0.009775009984025557
+      },
+      "1": {
+        "n_train": 43634,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1391,
+            "agree_mode": 0.4354,
+            "iso_mode": 10.453,
+            "blobs_mode": 22.36,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1677,
+            "agree_mode": 0.4832,
+            "iso_mode": 9.193,
+            "blobs_mode": 19.98,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1802,
+            "agree_mode": 0.5642,
+            "iso_mode": 7.843,
+            "blobs_mode": 16.34,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.196,
+            "agree_mode": 0.598,
+            "iso_mode": 7.087,
+            "blobs_mode": 14.66,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 8.8,
+        "acc_all": 0.195265625,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.18525359424920126
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.3019350533807829
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.16058070866141733
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.19159388646288208
+          }
+        },
+        "agree": 0.5958482142857142,
+        "iso": 7.333,
+        "blobs": 14.8705,
+        "global_on_this_cluster": 0.22620106761565836,
+        "specialist_gain": -0.030935442615658365
+      },
+      "2": {
+        "n_train": 101734,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1039,
+            "agree_mode": 0.4582,
+            "iso_mode": 9.527,
+            "blobs_mode": 20.01,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1331,
+            "agree_mode": 0.6609,
+            "iso_mode": 5.813,
+            "blobs_mode": 11.8,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1499,
+            "agree_mode": 0.6813,
+            "iso_mode": 6.427,
+            "blobs_mode": 11.41,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.1587,
+            "agree_mode": 0.6952,
+            "iso_mode": 5.843,
+            "blobs_mode": 11.06,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 8.7,
+        "acc_all": 0.1544375,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.1125199680511182
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.17037366548042704
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.19409448818897637
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.14697052401746724
+          }
+        },
+        "agree": 0.6996071428571429,
+        "iso": 5.753,
+        "blobs": 10.8785,
+        "global_on_this_cluster": 0.18016732283464568,
+        "specialist_gain": -0.02572982283464567
+      },
+      "3": {
+        "n_train": 69003,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1104,
+            "agree_mode": 0.9977,
+            "iso_mode": 0.11,
+            "blobs_mode": 1.11,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1142,
+            "agree_mode": 0.9522,
+            "iso_mode": 1.21,
+            "blobs_mode": 2.84,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1336,
+            "agree_mode": 0.8461,
+            "iso_mode": 2.743,
+            "blobs_mode": 6.44,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.1379,
+            "agree_mode": 0.7984,
+            "iso_mode": 3.26,
+            "blobs_mode": 7.54,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 8.8,
+        "acc_all": 0.13265625,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.07208466453674121
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.1103202846975089
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.11486220472440944
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.25382096069869
+          }
+        },
+        "agree": 0.786625,
+        "iso": 3.47,
+        "blobs": 7.955,
+        "global_on_this_cluster": 0.2486353711790393,
+        "specialist_gain": -0.1159791211790393
+      }
+    }
+  }
+}

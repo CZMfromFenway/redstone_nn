@@ -1,0 +1,98 @@
+[
+  {
+    "tag": "n_ramp_2_10",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "10.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_5_20",
+    "script": "coherence_long.py",
+    "args": ["--lam", "5.0", "--lam-final", "20.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_const_lam5",
+    "script": "coherence_long.py",
+    "args": ["--lam", "5.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_noadv_ramp",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "10.0", "--adv-weight", "0.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_1_5",
+    "script": "coherence_long.py",
+    "args": ["--lam", "1.0", "--lam-final", "5.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_lam_fine_hi",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "3.0,5.0,7.0", "--penalty", "tv_probs", "--decode", "mode", "--tag", "n_lam_fine_hi"],
+    "steps_arg": "--steps",
+    "steps": 1200,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_lam_fine_lo",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "1.0,1.5,2.5", "--penalty", "tv_probs", "--decode", "mode", "--tag", "n_lam_fine_lo"],
+    "steps_arg": "--steps",
+    "steps": 1200,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ce_smooth_hi",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "1.0,3.0,10.0", "--penalty", "ce_smooth", "--decode", "mode", "--tag", "n_ce_smooth_hi"],
+    "steps_arg": "--steps",
+    "steps": 1200,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_comp_hi",
+    "script": "coherence_lam.py",
+    "args": ["--lams", "1.0,5.0,20.0", "--penalty", "comp", "--decode", "mode", "--tag", "n_comp_hi"],
+    "steps_arg": "--steps",
+    "steps": 1200,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_long_15k",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "12.0", "--decode", "mode", "--eval-every", "1500"],
+    "steps_arg": "--steps",
+    "steps": 15000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_adv03",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "12.0", "--adv-weight", "0.3", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  },
+  {
+    "tag": "n_ramp_seed2",
+    "script": "coherence_long.py",
+    "args": ["--lam", "2.0", "--lam-final", "10.0", "--decode", "mode", "--eval-every", "1000"],
+    "steps_arg": "--steps",
+    "steps": 10000,
+    "pilot_steps": 40
+  }
+]

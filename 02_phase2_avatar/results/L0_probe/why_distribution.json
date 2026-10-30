@@ -1,0 +1,9 @@
+{
+  "subset_n": 321219,
+  "H_position_mean_bits": 2.6101673271230803,
+  "H_position_min": 1.170877417506871,
+  "H_position_max": 3.5713591787632613,
+  "H_marginal_bits": 3.935391359569519,
+  "multimodal_share": 0.28143221602707186,
+  "note": "context is deliberately coarse (sum of 8 neighbours, 16 bins), so these entropies are UPPER bounds on the true conditional entropy"
+}

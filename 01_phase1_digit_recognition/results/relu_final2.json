@@ -1,0 +1,28 @@
+{
+  "relu_teacher": 2344,
+  "N": 65536,
+  "4bit": {
+    "real": 13828,
+    "int": 13831,
+    "channels": 8,
+    "wmax": 1000
+  },
+  "8bit": {
+    "real": 13482,
+    "int": 13477,
+    "channels": 16,
+    "wmax": 1000
+  },
+  "12bit": {
+    "real": 13446,
+    "int": 13452,
+    "channels": 24,
+    "wmax": 1000
+  },
+  "16bit": {
+    "real": 13420,
+    "int": 13429,
+    "channels": 32,
+    "wmax": 1000
+  }
+}

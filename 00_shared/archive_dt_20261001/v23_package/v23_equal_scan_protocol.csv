@@ -1,0 +1,5 @@
+family,mixed_pool,full_pool,mixed_equal_time_passes,mixed_scan_units,closest_full_passes,full_scan_units,scan_diff_pct
+DD,5250,5250,4,21000,4,21000,0.0
+DT,11415,12170,2,22830,2,24340,6.614104248795445
+TD,4412,5904,4,17648,3,17712,0.3626473254759746
+TT,4945,6612,4,19780,3,19836,0.28311425682507585

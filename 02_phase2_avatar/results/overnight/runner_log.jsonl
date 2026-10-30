@@ -1,0 +1,131 @@
+{"clock": "2026-10-16 22:36:19", "t": 1792161379.16073, "event": "selftest", "detail": "infrastructure clock check"}
+{"clock": "2026-10-16 22:45:02", "t": 1792161902.926987, "event": "selftest", "detail": "infrastructure clock check"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3100317, "event": "start", "detail": "7 tasks queued, deadline 07:00, reserve 25 min, threads 10"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3100317, "event": "clock", "detail": "now 2026-10-16 22:50:27, 8.16 h until 07:00, disk free 96.4 GB"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3100317, "event": "launch", "detail": "long_lam2_mode_s2: 9000 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3139865, "event": "launch", "detail": "long_lam2_sample: 9000 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3145597, "event": "launch", "detail": "lam_fine_1: 900 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3145597, "event": "launch", "detail": "lam_fine_2: 900 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3145597, "event": "launch", "detail": "lam_ce_smooth: 900 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3145597, "event": "launch", "detail": "long_lam175: 9000 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3145597, "event": "launch", "detail": "long_lam3: 9000 steps, measured 0.0000 s/step -> 0.0 min"}
+{"clock": "2026-10-16 22:50:27", "t": 1792162227.3145597, "event": "finish", "detail": "ran 7, skipped 0"}
+{"clock": "2026-10-16 23:02:11", "t": 1792162931.8524032, "event": "start", "detail": "12 tasks queued, deadline 07:00, reserve 25 min, threads 10"}
+{"clock": "2026-10-16 23:02:11", "t": 1792162931.8524032, "event": "clock", "detail": "now 2026-10-16 23:02:11, 7.96 h until 07:00, disk free 96.4 GB"}
+{"clock": "2026-10-16 23:02:25", "t": 1792162945.3535082, "event": "pilot", "detail": "n_ramp_2_10: 13.5s / 40 steps = 0.3375 s/step"}
+{"clock": "2026-10-16 23:02:25", "t": 1792162945.355156, "event": "launch", "detail": "n_ramp_2_10: 10000 steps, measured 0.3375 s/step -> 70.3 min"}
+{"clock": "2026-10-16 23:14:29", "t": 1792163669.0491364, "event": "selftest", "detail": "infrastructure clock check"}
+{"clock": "2026-10-16 23:15:33", "t": 1792163733.9159102, "event": "done", "detail": "n_ramp_2_10: ok=True actual 13.1 min (predicted 70.3 min, ratio 0.19)"}
+{"clock": "2026-10-16 23:15:46", "t": 1792163746.976707, "event": "pilot", "detail": "n_ramp_5_20: 13.1s / 40 steps = 0.3265 s/step"}
+{"clock": "2026-10-16 23:15:46", "t": 1792163746.976707, "event": "launch", "detail": "n_ramp_5_20: 10000 steps, measured 0.3265 s/step -> 68.0 min"}
+{"clock": "2026-10-16 23:28:29", "t": 1792164509.3161147, "event": "done", "detail": "n_ramp_5_20: ok=True actual 12.7 min (predicted 68.0 min, ratio 0.19)"}
+{"clock": "2026-10-16 23:28:42", "t": 1792164522.426859, "event": "pilot", "detail": "n_const_lam5: 13.1s / 40 steps = 0.3278 s/step"}
+{"clock": "2026-10-16 23:28:42", "t": 1792164522.426859, "event": "launch", "detail": "n_const_lam5: 10000 steps, measured 0.3278 s/step -> 68.3 min"}
+{"clock": "2026-10-16 23:41:31", "t": 1792165291.6657841, "event": "done", "detail": "n_const_lam5: ok=True actual 12.8 min (predicted 68.3 min, ratio 0.19)"}
+{"clock": "2026-10-16 23:41:44", "t": 1792165304.8469975, "event": "pilot", "detail": "n_noadv_ramp: 13.2s / 40 steps = 0.3295 s/step"}
+{"clock": "2026-10-16 23:41:44", "t": 1792165304.8469975, "event": "launch", "detail": "n_noadv_ramp: 10000 steps, measured 0.3295 s/step -> 68.7 min"}
+{"clock": "2026-10-16 23:54:31", "t": 1792166071.5026896, "event": "done", "detail": "n_noadv_ramp: ok=True actual 12.8 min (predicted 68.7 min, ratio 0.19)"}
+{"clock": "2026-10-16 23:54:44", "t": 1792166084.867394, "event": "pilot", "detail": "n_ramp_1_5: 13.4s / 40 steps = 0.3341 s/step"}
+{"clock": "2026-10-16 23:54:44", "t": 1792166084.8720086, "event": "launch", "detail": "n_ramp_1_5: 10000 steps, measured 0.3341 s/step -> 69.6 min"}
+{"clock": "2026-10-17 00:07:42", "t": 1792166862.8094602, "event": "done", "detail": "n_ramp_1_5: ok=True actual 13.0 min (predicted 69.6 min, ratio 0.19)"}
+{"clock": "2026-10-17 00:08:02", "t": 1792166882.3044004, "event": "pilot", "detail": "n_lam_fine_hi: 19.5s / 40 steps = 0.4874 s/step"}
+{"clock": "2026-10-17 00:08:02", "t": 1792166882.3044004, "event": "launch", "detail": "n_lam_fine_hi: 1200 steps, measured 0.4874 s/step -> 12.2 min"}
+{"clock": "2026-10-17 00:12:43", "t": 1792167163.9868677, "event": "done", "detail": "n_lam_fine_hi: ok=True actual 4.7 min (predicted 12.2 min, ratio 0.39)"}
+{"clock": "2026-10-17 00:13:03", "t": 1792167183.2638671, "event": "pilot", "detail": "n_lam_fine_lo: 19.3s / 40 steps = 0.4819 s/step"}
+{"clock": "2026-10-17 00:13:03", "t": 1792167183.2638671, "event": "launch", "detail": "n_lam_fine_lo: 1200 steps, measured 0.4819 s/step -> 12.0 min"}
+{"clock": "2026-10-17 00:17:44", "t": 1792167464.785648, "event": "done", "detail": "n_lam_fine_lo: ok=True actual 4.7 min (predicted 12.0 min, ratio 0.39)"}
+{"clock": "2026-10-17 00:18:04", "t": 1792167484.1204796, "event": "pilot", "detail": "n_ce_smooth_hi: 19.3s / 40 steps = 0.4833 s/step"}
+{"clock": "2026-10-17 00:18:04", "t": 1792167484.1207876, "event": "launch", "detail": "n_ce_smooth_hi: 1200 steps, measured 0.4833 s/step -> 12.1 min"}
+{"clock": "2026-10-17 00:22:44", "t": 1792167764.355435, "event": "done", "detail": "n_ce_smooth_hi: ok=True actual 4.7 min (predicted 12.1 min, ratio 0.39)"}
+{"clock": "2026-10-17 00:23:03", "t": 1792167783.5488212, "event": "pilot", "detail": "n_comp_hi: 19.2s / 40 steps = 0.4798 s/step"}
+{"clock": "2026-10-17 00:23:03", "t": 1792167783.5488212, "event": "launch", "detail": "n_comp_hi: 1200 steps, measured 0.4798 s/step -> 12.0 min"}
+{"clock": "2026-10-17 00:27:43", "t": 1792168063.3212473, "event": "done", "detail": "n_comp_hi: ok=True actual 4.7 min (predicted 12.0 min, ratio 0.39)"}
+{"clock": "2026-10-17 00:27:56", "t": 1792168076.4194202, "event": "pilot", "detail": "n_ramp_long_15k: 13.1s / 40 steps = 0.3275 s/step"}
+{"clock": "2026-10-17 00:27:56", "t": 1792168076.4194202, "event": "launch", "detail": "n_ramp_long_15k: 15000 steps, measured 0.3275 s/step -> 102.3 min"}
+{"clock": "2026-10-17 00:47:02", "t": 1792169222.8760974, "event": "done", "detail": "n_ramp_long_15k: ok=True actual 19.1 min (predicted 102.3 min, ratio 0.19)"}
+{"clock": "2026-10-17 00:47:16", "t": 1792169236.0623288, "event": "pilot", "detail": "n_ramp_adv03: 13.2s / 40 steps = 0.3297 s/step"}
+{"clock": "2026-10-17 00:47:16", "t": 1792169236.0623288, "event": "launch", "detail": "n_ramp_adv03: 10000 steps, measured 0.3297 s/step -> 68.7 min"}
+{"clock": "2026-10-17 01:00:02", "t": 1792170002.2049294, "event": "done", "detail": "n_ramp_adv03: ok=True actual 12.8 min (predicted 68.7 min, ratio 0.19)"}
+{"clock": "2026-10-17 01:00:02", "t": 1792170002.2086403, "event": "launch", "detail": "n_ramp_seed2: 10000 steps, measured 0.3375 s/step -> 70.3 min"}
+{"clock": "2026-10-17 01:12:47", "t": 1792170767.7772288, "event": "done", "detail": "n_ramp_seed2: ok=True actual 12.8 min (predicted 70.3 min, ratio 0.18)"}
+{"clock": "2026-10-17 01:12:47", "t": 1792170767.7772288, "event": "finish", "detail": "ran 12, skipped 0"}
+{"clock": "2026-10-17 01:12:54", "t": 1792170774.32223, "event": "chain", "detail": "2 queue files: ['queue_night3.json', 'queue_night1.json']; deadline 07:00"}
+{"clock": "2026-10-17 01:12:54", "t": 1792170774.32223, "event": "clock", "detail": "now 2026-10-17 01:12:54, 5.79 h left, disk 96.3 GB"}
+{"clock": "2026-10-17 01:12:54", "t": 1792170774.32223, "event": "chain", "detail": "starting queue_night3.json with 347.1 min left"}
+{"clock": "2026-10-17 01:12:54", "t": 1792170774.422614, "event": "start", "detail": "6 tasks queued, deadline 07:00, reserve 30 min, threads 10"}
+{"clock": "2026-10-17 01:12:54", "t": 1792170774.422614, "event": "clock", "detail": "now 2026-10-17 01:12:54, 5.79 h until 07:00, disk free 96.3 GB"}
+{"clock": "2026-10-17 01:13:23", "t": 1792170803.071327, "event": "pilot", "detail": "s_k3_8k n=40: 28.6s"}
+{"clock": "2026-10-17 01:14:17", "t": 1792170857.2555993, "event": "pilot", "detail": "s_k3_8k n=120: 54.2s"}
+{"clock": "2026-10-17 01:14:17", "t": 1792170857.2555993, "event": "pilot", "detail": "s_k3_8k: slope 0.3192 s/step, fixed startup 15.9s (single-pilot estimate would have been 0.7162, 2.2x too high)"}
+{"clock": "2026-10-17 01:14:17", "t": 1792170857.2576795, "event": "launch", "detail": "s_k3_8k: 8000 steps, measured 0.3192 s/step -> 42.6 min"}
+{"clock": "2026-10-17 01:54:41", "t": 1792173281.6136737, "event": "done", "detail": "s_k3_8k: ok=True actual 40.4 min (predicted 42.6 min, ratio 0.95)"}
+{"clock": "2026-10-17 01:55:16", "t": 1792173316.6737998, "event": "pilot", "detail": "s_k4_8k n=40: 35.1s"}
+{"clock": "2026-10-17 01:56:19", "t": 1792173379.8727348, "event": "pilot", "detail": "s_k4_8k n=120: 63.2s"}
+{"clock": "2026-10-17 01:56:19", "t": 1792173379.8727348, "event": "pilot", "detail": "s_k4_8k: slope 0.3517 s/step, fixed startup 21.0s (single-pilot estimate would have been 0.8765, 2.5x too high)"}
+{"clock": "2026-10-17 01:56:19", "t": 1792173379.8888624, "event": "launch", "detail": "s_k4_8k: 8000 steps, measured 0.3517 s/step -> 46.9 min"}
+{"clock": "2026-10-17 02:44:29", "t": 1792176269.9574955, "event": "done", "detail": "s_k4_8k: ok=True actual 48.2 min (predicted 46.9 min, ratio 1.03)"}
+{"clock": "2026-10-17 02:45:15", "t": 1792176315.4196618, "event": "pilot", "detail": "s_k6_8k n=40: 45.5s"}
+{"clock": "2026-10-17 02:46:40", "t": 1792176400.3072052, "event": "pilot", "detail": "s_k6_8k n=120: 84.9s"}
+{"clock": "2026-10-17 02:46:40", "t": 1792176400.3072052, "event": "pilot", "detail": "s_k6_8k: slope 0.4928 s/step, fixed startup 25.7s (single-pilot estimate would have been 1.1366, 2.3x too high)"}
+{"clock": "2026-10-17 02:46:40", "t": 1792176400.3072052, "event": "launch", "detail": "s_k6_8k: 8000 steps, measured 0.4928 s/step -> 65.7 min"}
+{"clock": "2026-10-17 03:54:25", "t": 1792180465.615815, "event": "done", "detail": "s_k6_8k: ok=True actual 67.8 min (predicted 65.7 min, ratio 1.03)"}
+{"clock": "2026-10-17 03:54:44", "t": 1792180484.5559227, "event": "pilot", "detail": "n_ramp_2_14_12k n=40: 18.9s"}
+{"clock": "2026-10-17 03:55:01", "t": 1792180501.692221, "event": "pilot", "detail": "n_ramp_2_14_12k n=120: 17.1s"}
+{"clock": "2026-10-17 03:55:01", "t": 1792180501.695219, "event": "pilot", "detail": "n_ramp_2_14_12k: non-positive slope (-0.0225); using single-pilot estimate 0.4735 s/step"}
+{"clock": "2026-10-17 03:55:01", "t": 1792180501.695219, "event": "launch", "detail": "n_ramp_2_14_12k: 12000 steps, measured 0.4735 s/step -> 94.7 min"}
+{"clock": "2026-10-17 04:09:04", "t": 1792181344.3197212, "event": "done", "detail": "n_ramp_2_14_12k: ok=True actual 14.0 min (predicted 94.7 min, ratio 0.15)"}
+{"clock": "2026-10-17 04:09:16", "t": 1792181356.5375178, "event": "pilot", "detail": "n_ramp_3_20_12k n=40: 12.2s"}
+{"clock": "2026-10-17 04:09:33", "t": 1792181373.6767702, "event": "pilot", "detail": "n_ramp_3_20_12k n=120: 17.1s"}
+{"clock": "2026-10-17 04:09:33", "t": 1792181373.6767702, "event": "pilot", "detail": "n_ramp_3_20_12k: slope 0.0615 s/step, fixed startup 9.8s (single-pilot estimate would have been 0.3054, 5.0x too high)"}
+{"clock": "2026-10-17 04:09:33", "t": 1792181373.6767702, "event": "launch", "detail": "n_ramp_3_20_12k: 12000 steps, measured 0.0615 s/step -> 12.3 min"}
+{"clock": "2026-10-17 04:23:34", "t": 1792182214.560501, "event": "done", "detail": "n_ramp_3_20_12k: ok=True actual 14.0 min (predicted 12.3 min, ratio 1.14)"}
+{"clock": "2026-10-17 04:23:46", "t": 1792182226.8723254, "event": "pilot", "detail": "n_ramp_noadv_15k n=40: 12.3s"}
+{"clock": "2026-10-17 04:24:03", "t": 1792182243.899995, "event": "pilot", "detail": "n_ramp_noadv_15k n=120: 17.0s"}
+{"clock": "2026-10-17 04:24:03", "t": 1792182243.899995, "event": "pilot", "detail": "n_ramp_noadv_15k: slope 0.0589 s/step, fixed startup 10.0s (single-pilot estimate would have been 0.3078, 5.2x too high)"}
+{"clock": "2026-10-17 04:24:03", "t": 1792182243.9017372, "event": "launch", "detail": "n_ramp_noadv_15k: 15000 steps, measured 0.0589 s/step -> 14.7 min"}
+{"clock": "2026-10-17 04:41:33", "t": 1792183293.6284726, "event": "done", "detail": "n_ramp_noadv_15k: ok=True actual 17.5 min (predicted 14.7 min, ratio 1.19)"}
+{"clock": "2026-10-17 04:41:33", "t": 1792183293.6284726, "event": "finish", "detail": "ran 6, skipped 0"}
+{"clock": "2026-10-17 04:41:33", "t": 1792183293.6472616, "event": "chain", "detail": "queue_night3.json finished rc=0 at 2026-10-17 04:41:33"}
+{"clock": "2026-10-17 04:41:33", "t": 1792183293.6472616, "event": "chain", "detail": "starting queue_night1.json with 138.4 min left"}
+{"clock": "2026-10-17 04:41:33", "t": 1792183293.7936156, "event": "start", "detail": "7 tasks queued, deadline 07:00, reserve 30 min, threads 10"}
+{"clock": "2026-10-17 04:41:33", "t": 1792183293.7936156, "event": "clock", "detail": "now 2026-10-17 04:41:33, 2.31 h until 07:00, disk free 96.3 GB"}
+{"clock": "2026-10-17 04:41:46", "t": 1792183306.1566327, "event": "pilot", "detail": "long_lam2_mode_s2 n=40: 12.4s"}
+{"clock": "2026-10-17 04:42:03", "t": 1792183323.0761807, "event": "pilot", "detail": "long_lam2_mode_s2 n=120: 16.9s"}
+{"clock": "2026-10-17 04:42:03", "t": 1792183323.0761807, "event": "pilot", "detail": "long_lam2_mode_s2: slope 0.0570 s/step, fixed startup 10.1s (single-pilot estimate would have been 0.3091, 5.4x too high)"}
+{"clock": "2026-10-17 04:42:03", "t": 1792183323.0761807, "event": "launch", "detail": "long_lam2_mode_s2: 9000 steps, measured 0.0570 s/step -> 8.5 min"}
+{"clock": "2026-10-17 04:52:46", "t": 1792183966.6657977, "event": "done", "detail": "long_lam2_mode_s2: ok=True actual 10.7 min (predicted 8.5 min, ratio 1.26)"}
+{"clock": "2026-10-17 04:52:58", "t": 1792183978.9234414, "event": "pilot", "detail": "long_lam2_sample n=40: 12.3s"}
+{"clock": "2026-10-17 04:53:16", "t": 1792183996.4369133, "event": "pilot", "detail": "long_lam2_sample n=120: 17.5s"}
+{"clock": "2026-10-17 04:53:16", "t": 1792183996.4369133, "event": "pilot", "detail": "long_lam2_sample: slope 0.0657 s/step, fixed startup 9.6s (single-pilot estimate would have been 0.3064, 4.7x too high)"}
+{"clock": "2026-10-17 04:53:16", "t": 1792183996.4369133, "event": "launch", "detail": "long_lam2_sample: 9000 steps, measured 0.0657 s/step -> 9.9 min"}
+{"clock": "2026-10-17 05:04:37", "t": 1792184677.169232, "event": "done", "detail": "long_lam2_sample: ok=True actual 11.3 min (predicted 9.9 min, ratio 1.15)"}
+{"clock": "2026-10-17 05:04:54", "t": 1792184694.7191744, "event": "pilot", "detail": "lam_fine_1 n=40: 17.5s"}
+{"clock": "2026-10-17 05:05:28", "t": 1792184728.2624953, "event": "pilot", "detail": "lam_fine_1 n=120: 33.5s"}
+{"clock": "2026-10-17 05:05:28", "t": 1792184728.2630777, "event": "pilot", "detail": "lam_fine_1: slope 0.1999 s/step, fixed startup 9.6s (single-pilot estimate would have been 0.4387, 2.2x too high)"}
+{"clock": "2026-10-17 05:05:28", "t": 1792184728.2641335, "event": "launch", "detail": "lam_fine_1: 900 steps, measured 0.1999 s/step -> 3.0 min"}
+{"clock": "2026-10-17 05:08:43", "t": 1792184923.375899, "event": "done", "detail": "lam_fine_1: ok=True actual 3.3 min (predicted 3.0 min, ratio 1.08)"}
+{"clock": "2026-10-17 05:09:00", "t": 1792184940.8809762, "event": "pilot", "detail": "lam_fine_2 n=40: 17.5s"}
+{"clock": "2026-10-17 05:09:34", "t": 1792184974.5046716, "event": "pilot", "detail": "lam_fine_2 n=120: 33.6s"}
+{"clock": "2026-10-17 05:09:34", "t": 1792184974.5046716, "event": "pilot", "detail": "lam_fine_2: slope 0.2013 s/step, fixed startup 9.5s (single-pilot estimate would have been 0.4376, 2.2x too high)"}
+{"clock": "2026-10-17 05:09:34", "t": 1792184974.5046716, "event": "launch", "detail": "lam_fine_2: 900 steps, measured 0.2013 s/step -> 3.0 min"}
+{"clock": "2026-10-17 05:12:48", "t": 1792185168.9332936, "event": "done", "detail": "lam_fine_2: ok=True actual 3.2 min (predicted 3.0 min, ratio 1.07)"}
+{"clock": "2026-10-17 05:13:06", "t": 1792185186.369519, "event": "pilot", "detail": "lam_ce_smooth n=40: 17.4s"}
+{"clock": "2026-10-17 05:13:39", "t": 1792185219.96022, "event": "pilot", "detail": "lam_ce_smooth n=120: 33.6s"}
+{"clock": "2026-10-17 05:13:39", "t": 1792185219.96022, "event": "pilot", "detail": "lam_ce_smooth: slope 0.2019 s/step, fixed startup 9.4s (single-pilot estimate would have been 0.4359, 2.2x too high)"}
+{"clock": "2026-10-17 05:13:39", "t": 1792185219.96022, "event": "launch", "detail": "lam_ce_smooth: 900 steps, measured 0.2019 s/step -> 3.0 min"}
+{"clock": "2026-10-17 05:16:55", "t": 1792185415.0960906, "event": "done", "detail": "lam_ce_smooth: ok=True actual 3.3 min (predicted 3.0 min, ratio 1.07)"}
+{"clock": "2026-10-17 05:17:07", "t": 1792185427.1802676, "event": "pilot", "detail": "long_lam175 n=40: 12.1s"}
+{"clock": "2026-10-17 05:17:24", "t": 1792185444.0736074, "event": "pilot", "detail": "long_lam175 n=120: 16.9s"}
+{"clock": "2026-10-17 05:17:24", "t": 1792185444.0736074, "event": "pilot", "detail": "long_lam175: slope 0.0601 s/step, fixed startup 9.7s (single-pilot estimate would have been 0.3021, 5.0x too high)"}
+{"clock": "2026-10-17 05:17:24", "t": 1792185444.0756106, "event": "launch", "detail": "long_lam175: 9000 steps, measured 0.0601 s/step -> 9.0 min"}
+{"clock": "2026-10-17 05:28:10", "t": 1792186090.0489573, "event": "done", "detail": "long_lam175: ok=True actual 10.8 min (predicted 9.0 min, ratio 1.19)"}
+{"clock": "2026-10-17 05:28:22", "t": 1792186102.106025, "event": "pilot", "detail": "long_lam3 n=40: 12.1s"}
+{"clock": "2026-10-17 05:28:39", "t": 1792186119.208189, "event": "pilot", "detail": "long_lam3 n=120: 17.1s"}
+{"clock": "2026-10-17 05:28:39", "t": 1792186119.208189, "event": "pilot", "detail": "long_lam3: slope 0.0631 s/step, fixed startup 9.5s (single-pilot estimate would have been 0.3014, 4.8x too high)"}
+{"clock": "2026-10-17 05:28:39", "t": 1792186119.208189, "event": "launch", "detail": "long_lam3: 9000 steps, measured 0.0631 s/step -> 9.5 min"}
+{"clock": "2026-10-17 05:39:19", "t": 1792186759.9816196, "event": "done", "detail": "long_lam3: ok=True actual 10.7 min (predicted 9.5 min, ratio 1.13)"}
+{"clock": "2026-10-17 05:39:19", "t": 1792186759.9836287, "event": "finish", "detail": "ran 7, skipped 0"}
+{"clock": "2026-10-17 05:39:19", "t": 1792186759.9886124, "event": "chain", "detail": "queue_night1.json finished rc=0 at 2026-10-17 05:39:19"}
+{"clock": "2026-10-17 05:39:19", "t": 1792186759.9886124, "event": "chain", "detail": "generating the morning report"}
+{"clock": "2026-10-17 05:39:21", "t": 1792186761.124244, "event": "chain", "detail": "morning report written"}
+{"clock": "2026-10-17 05:39:21", "t": 1792186761.124244, "event": "chain", "detail": "done at 2026-10-17 05:39:21"}

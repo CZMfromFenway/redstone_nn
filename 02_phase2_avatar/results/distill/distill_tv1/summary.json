@@ -1,0 +1,79 @@
+{
+  "args": {
+    "mode": "distill_tv",
+    "steps": 14000,
+    "lam": 1.0,
+    "threads": 4,
+    "tag": "distill_tv1"
+  },
+  "history": [
+    {
+      "step": 2333,
+      "acc": 0.5016,
+      "mae": 0.738,
+      "agree": 0.7163,
+      "agrees_with_teacher": 0.5008,
+      "sec": 4.3,
+      "loss": 4.3751
+    },
+    {
+      "step": 4666,
+      "acc": 0.5117,
+      "mae": 0.707,
+      "agree": 0.7305,
+      "agrees_with_teacher": 0.5185,
+      "sec": 9.8,
+      "loss": 4.4699
+    },
+    {
+      "step": 6999,
+      "acc": 0.5102,
+      "mae": 0.706,
+      "agree": 0.745,
+      "agrees_with_teacher": 0.5232,
+      "sec": 16.4,
+      "loss": 4.2486
+    },
+    {
+      "step": 9332,
+      "acc": 0.5071,
+      "mae": 0.704,
+      "agree": 0.7543,
+      "agrees_with_teacher": 0.528,
+      "sec": 21.8,
+      "loss": 4.0594
+    },
+    {
+      "step": 11665,
+      "acc": 0.5037,
+      "mae": 0.706,
+      "agree": 0.7662,
+      "agrees_with_teacher": 0.5271,
+      "sec": 26.1,
+      "loss": 4.0605
+    },
+    {
+      "step": 13998,
+      "acc": 0.5029,
+      "mae": 0.704,
+      "agree": 0.7728,
+      "agrees_with_teacher": 0.5297,
+      "sec": 30.1,
+      "loss": 4.0717
+    },
+    {
+      "step": 14000,
+      "acc": 0.5024,
+      "mae": 0.704,
+      "agree": 0.7723,
+      "agrees_with_teacher": 0.5295,
+      "sec": 30.2,
+      "loss": 4.0815
+    }
+  ],
+  "teacher": {
+    "acc_argmax": 0.7122812271118164,
+    "acc_expected_round": 0.7316250205039978,
+    "same": 0.8784999847412109
+  }
+}

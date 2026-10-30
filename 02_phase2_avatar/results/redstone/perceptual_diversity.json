@@ -1,0 +1,70 @@
+{
+  "real_spread": 12.697117794486216,
+  "real_distinct": 348,
+  "rows": [
+    {
+      "k": 1,
+      "distinct_coarse": 37,
+      "coarse_distance": 11.752932330827068,
+      "ratio_vs_real": 0.9256378117505404,
+      "agree": 0.564375,
+      "verdict": "close to real variety"
+    },
+    {
+      "k": 2,
+      "distinct_coarse": 107,
+      "coarse_distance": 12.201954887218045,
+      "ratio_vs_real": 0.9610019442772125,
+      "agree": 0.6183928571428572,
+      "verdict": "as varied as real"
+    },
+    {
+      "k": 3,
+      "distinct_coarse": 190,
+      "coarse_distance": 12.334110275689223,
+      "ratio_vs_real": 0.971410242491833,
+      "agree": 0.559419642857143,
+      "verdict": "as varied as real"
+    },
+    {
+      "k": 5,
+      "distinct_coarse": 245,
+      "coarse_distance": 12.08250626566416,
+      "ratio_vs_real": 0.9515944060085073,
+      "agree": 0.5249553571428571,
+      "verdict": "as varied as real"
+    },
+    {
+      "k": 8,
+      "distinct_coarse": 330,
+      "coarse_distance": 12.306741854636591,
+      "ratio_vs_real": 0.9692547595313995,
+      "agree": 0.4915625,
+      "verdict": "as varied as real"
+    },
+    {
+      "k": 12,
+      "distinct_coarse": 354,
+      "coarse_distance": 12.476917293233083,
+      "ratio_vs_real": 0.9826574420417871,
+      "agree": 0.4653571428571429,
+      "verdict": "as varied as real"
+    },
+    {
+      "k": 16,
+      "distinct_coarse": 377,
+      "coarse_distance": 12.401779448621554,
+      "ratio_vs_real": 0.9767397333280696,
+      "agree": 0.44263392857142864,
+      "verdict": "as varied as real"
+    },
+    {
+      "k": 22,
+      "distinct_coarse": 380,
+      "coarse_distance": 12.355538847117794,
+      "ratio_vs_real": 0.9730979145899745,
+      "agree": 0.4248214285714286,
+      "verdict": "as varied as real"
+    }
+  ]
+}

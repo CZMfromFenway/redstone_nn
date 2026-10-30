@@ -1,0 +1,65 @@
+{
+  "args": {
+    "tag": "cond_gan_fixed",
+    "steps": 6000,
+    "batch": 256,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "hid": 256,
+    "zdim": 64,
+    "d_c": 64,
+    "d_embed": 8,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "ce_weight": 1.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8
+  },
+  "history": [
+    {
+      "step": 1000,
+      "ce": 0.4543958902359009,
+      "acc": 0.8629608154296875,
+      "d_acc": 0.775634765625
+    },
+    {
+      "step": 2000,
+      "ce": 0.2365172654390335,
+      "acc": 0.93310546875,
+      "d_acc": 0.556884765625
+    },
+    {
+      "step": 3000,
+      "ce": 0.1596543788909912,
+      "acc": 0.9580078125,
+      "d_acc": 0.62939453125
+    },
+    {
+      "step": 4000,
+      "ce": 0.12379121780395508,
+      "acc": 0.9694061279296875,
+      "d_acc": 0.603759765625
+    },
+    {
+      "step": 5000,
+      "ce": 0.1032651960849762,
+      "acc": 0.976531982421875,
+      "d_acc": 0.558349609375
+    },
+    {
+      "step": 6000,
+      "ce": 0.09269020706415176,
+      "acc": 0.97991943359375,
+      "d_acc": 0.5
+    }
+  ],
+  "seconds": 481.7,
+  "layout": "canonical p = col*8 + row (src/layout.py)",
+  "condition": "observed left half (32 of 64 gray levels)",
+  "rendering": {
+    "top_band": "real faces, forced symmetric",
+    "bottom_band": "generated right half + real left half, forced symmetric",
+    "third": "generated right half mirrored on both sides"
+  }
+}

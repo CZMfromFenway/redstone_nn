@@ -1,0 +1,13 @@
+{
+  "_note": "16 grey levels merged onto the 11 near-grey colours of the HIGH column, per the user's scheme. Values are the luminance of each map colour in 0..15 units.",
+  "_scheme": {
+    "0,1,2": "BLACK", "3,4": "GRAY", "5": "TERRACOTTA_CYAN", "6": "DEEPSLATE",
+    "7": "STONE", "8": "LIGHT_GRAY", "9": "METAL", "10,11": "CLAY",
+    "12,13": "WOOL", "14": "QUARTZ", "15": "SNOW"
+  },
+  "_warning": "METAL 9.82 and CLAY 9.92 differ by 0.10; QUARTZ 14.83 and SNOW 15.00 differ by 0.17. Those pairs are not visually separable, so this is effectively 9 levels, not 11.",
+  "_lut": [1.47, 1.47, 1.47, 4.47, 4.47, 5.32, 5.88, 6.59,
+           9.00, 9.82, 9.92, 9.92, 11.71, 11.71, 14.83, 15.00],
+  "_names": ["BLACK", "BLACK", "BLACK", "GRAY", "GRAY", "TERRACOTTA_CYAN", "DEEPSLATE",
+             "STONE", "LIGHT_GRAY", "METAL", "CLAY", "CLAY", "WOOL", "WOOL", "QUARTZ", "SNOW"]
+}

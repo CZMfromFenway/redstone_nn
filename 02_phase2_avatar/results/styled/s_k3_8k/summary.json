@@ -1,0 +1,256 @@
+{
+  "args": {
+    "tag": "s_k3_8k",
+    "steps": 8000,
+    "batch": 256,
+    "k": 3,
+    "lam": 2.0,
+    "lam_final": 8.0,
+    "hid": 256,
+    "threads": 10,
+    "seed": 0
+  },
+  "cluster_sizes_train": [
+    211764,
+    75052,
+    24767
+  ],
+  "cluster_sizes_val": [
+    6567,
+    2345,
+    724
+  ],
+  "results": {
+    "global": {
+      "history": [
+        {
+          "step": 2000,
+          "acc_mode": 0.5522,
+          "agree_mode": 0.5597,
+          "iso_mode": 8.863,
+          "blobs_mode": 16.73,
+          "lam_now": 3.5
+        },
+        {
+          "step": 4000,
+          "acc_mode": 0.6099,
+          "agree_mode": 0.5621,
+          "iso_mode": 8.987,
+          "blobs_mode": 16.79,
+          "lam_now": 5.0
+        },
+        {
+          "step": 6000,
+          "acc_mode": 0.6238,
+          "agree_mode": 0.5874,
+          "iso_mode": 7.95,
+          "blobs_mode": 15.34,
+          "lam_now": 6.5
+        },
+        {
+          "step": 8000,
+          "acc_mode": 0.6378,
+          "agree_mode": 0.5998,
+          "iso_mode": 7.567,
+          "blobs_mode": 14.6,
+          "lam_now": 8.0
+        }
+      ],
+      "seconds": 631.8,
+      "acc_all": 0.6374375,
+      "per_cluster": {
+        "0": {
+          "n": 1341,
+          "acc": 0.6577880313199105
+        },
+        "1": {
+          "n": 506,
+          "acc": 0.602149209486166
+        },
+        "2": {
+          "n": 153,
+          "acc": 0.5757761437908496
+        }
+      },
+      "agree": 0.5994464285714287,
+      "iso": 7.576,
+      "blobs": 14.5325
+    },
+    "per_cluster": {
+      "0": {
+        "n_train": 211764,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.4835,
+            "agree_mode": 0.542,
+            "iso_mode": 9.207,
+            "blobs_mode": 17.18,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.5221,
+            "agree_mode": 0.5549,
+            "iso_mode": 8.703,
+            "blobs_mode": 16.61,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.5557,
+            "agree_mode": 0.5652,
+            "iso_mode": 8.677,
+            "blobs_mode": 16.26,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.5618,
+            "agree_mode": 0.5821,
+            "iso_mode": 8.227,
+            "blobs_mode": 15.25,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 624.2,
+        "acc_all": 0.573453125,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.6815576062639821
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.3327569169960474
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.42197712418300654
+          }
+        },
+        "agree": 0.5798392857142858,
+        "iso": 8.174,
+        "blobs": 15.329,
+        "global_on_this_cluster": 0.6577880313199105,
+        "specialist_gain": -0.08433490631991047
+      },
+      "1": {
+        "n_train": 75052,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.3216,
+            "agree_mode": 0.5918,
+            "iso_mode": 7.677,
+            "blobs_mode": 14.68,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.3593,
+            "agree_mode": 0.5761,
+            "iso_mode": 7.973,
+            "blobs_mode": 15.52,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.3855,
+            "agree_mode": 0.5752,
+            "iso_mode": 7.98,
+            "blobs_mode": 15.42,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.3871,
+            "agree_mode": 0.5992,
+            "iso_mode": 7.303,
+            "blobs_mode": 14.33,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 581.6,
+        "acc_all": 0.379734375,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.2721849366144668
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.6715662055335968
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.35723039215686275
+          }
+        },
+        "agree": 0.6045803571428572,
+        "iso": 7.117,
+        "blobs": 14.0345,
+        "global_on_this_cluster": 0.602149209486166,
+        "specialist_gain": -0.222414834486166
+      },
+      "2": {
+        "n_train": 24767,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.3568,
+            "agree_mode": 0.5115,
+            "iso_mode": 9.893,
+            "blobs_mode": 18.77,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.3811,
+            "agree_mode": 0.527,
+            "iso_mode": 9.167,
+            "blobs_mode": 17.98,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.404,
+            "agree_mode": 0.5487,
+            "iso_mode": 8.63,
+            "blobs_mode": 17.03,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.4164,
+            "agree_mode": 0.5717,
+            "iso_mode": 8.05,
+            "blobs_mode": 15.91,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 571.6,
+        "acc_all": 0.405390625,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.3866284489187174
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.3926012845849802
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.6121323529411765
+          }
+        },
+        "agree": 0.5731071428571429,
+        "iso": 7.949,
+        "blobs": 15.8245,
+        "global_on_this_cluster": 0.5757761437908496,
+        "specialist_gain": -0.17038551879084962
+      }
+    }
+  }
+}

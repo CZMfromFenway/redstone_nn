@@ -1,0 +1,55 @@
+{
+  "protocol": {
+    "pool": 20000,
+    "nimg": 64,
+    "k": 30,
+    "real_symmetry": 0.8592
+  },
+  "results": {
+    "real_holdout": {
+      "colors": 5.188,
+      "diversity": 57.78,
+      "sym": 0.867,
+      "near_real": 15.3,
+      "nn_gen_median": 34,
+      "nn_gen_min": 17,
+      "uniq_exact": 64
+    },
+    "mixture_sym_T30": {
+      "colors": 5.438,
+      "diversity": 56.49,
+      "sym": 1.0,
+      "near_real": 13.2,
+      "nn_gen_median": 30,
+      "nn_gen_min": 10,
+      "uniq_exact": 64
+    },
+    "mixture_sym_T1": {
+      "colors": 4.953,
+      "diversity": 56.78,
+      "sym": 1.0,
+      "near_real": 4.1,
+      "nn_gen_median": 32,
+      "nn_gen_min": 18,
+      "uniq_exact": 64
+    },
+    "mode_permposition": {
+      "colors": 3.469,
+      "diversity": 55.91,
+      "sym": 0.948,
+      "near_real": 5.1,
+      "nn_gen_median": 20,
+      "nn_gen_min": 0,
+      "uniq_exact": 62
+    },
+    "mode_pairmirror": {
+      "colors": 3.375,
+      "diversity": 55.83,
+      "sym": 1.0,
+      "near_real": 5.2,
+      "nn_gen_median": 19,
+      "nn_gen_min": 0,
+      "uniq_exact": 62
+    }
+  }
+}

@@ -1,0 +1,2197 @@
+{
+  "jar": "1.21.11-Fabric 0.19.5.jar",
+  "weights": {
+    "sat": 75.0,
+    "face_var": 8.0,
+    "approved_bonus": 10.0
+  },
+  "levels": [
+    0.0,
+    17.0,
+    34.0,
+    51.0,
+    68.0,
+    85.0,
+    102.0,
+    119.0,
+    136.0,
+    153.0,
+    170.0,
+    187.0,
+    204.0,
+    221.0,
+    238.0,
+    255.0
+  ],
+  "recommended": [
+    {
+      "level": 0,
+      "target_grey": 0.0,
+      "id": "black_concrete",
+      "name": "Black Concrete",
+      "grey": 11.40234375,
+      "sat": 0.4544762870910474,
+      "eff_sat": 0.14410198266473723,
+      "face_var": 0.0,
+      "face_means": [
+        11.4
+      ],
+      "std": 0.9952202051987982,
+      "rgb": [
+        8.4,
+        10.4,
+        15.4
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/black_concrete.png"
+      ]
+    },
+    {
+      "level": 1,
+      "target_grey": 17.0,
+      "id": "coal_block",
+      "name": "Block of Coal",
+      "grey": 15.953125,
+      "sat": 0.006582155046318869,
+      "eff_sat": 0.0022632207746579864,
+      "face_var": 0.0,
+      "face_means": [
+        16.0
+      ],
+      "std": 8.548740099057566,
+      "rgb": [
+        16.0,
+        15.9,
+        15.9
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/coal_block.png"
+      ]
+    },
+    {
+      "level": 2,
+      "target_grey": 34.0,
+      "id": "black_wool",
+      "name": "Black Wool",
+      "grey": 22.510416666666668,
+      "sat": 0.19628162145687292,
+      "eff_sat": 0.0750608823230603,
+      "face_var": 0.0,
+      "face_means": [
+        22.5
+      ],
+      "std": 7.659460481688278,
+      "rgb": [
+        20.6,
+        21.3,
+        25.6
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/black_wool.png"
+      ]
+    },
+    {
+      "level": 3,
+      "target_grey": 51.0,
+      "id": "cracked_deepslate_tiles",
+      "name": "Cracked Deepslate Tiles",
+      "grey": 52.62890625,
+      "sat": 0.004443457009553432,
+      "eff_sat": 0.0024864776781630222,
+      "face_var": 0.0,
+      "face_means": [
+        52.6
+      ],
+      "std": 14.725919821634253,
+      "rgb": [
+        52.6,
+        52.5,
+        52.7
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/cracked_deepslate_tiles.png"
+      ]
+    },
+    {
+      "level": 4,
+      "target_grey": 68.0,
+      "id": "gray_wool",
+      "name": "Gray Wool",
+      "grey": 67.51171875,
+      "sat": 0.12310295883830112,
+      "eff_sat": 0.07966334167654124,
+      "face_var": 0.0,
+      "face_means": [
+        67.5
+      ],
+      "std": 6.031001230022474,
+      "rgb": [
+        62.7,
+        68.2,
+        71.6
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/gray_wool.png"
+      ]
+    },
+    {
+      "level": 5,
+      "target_grey": 85.0,
+      "id": "cyan_terracotta",
+      "name": "Cyan Terracotta",
+      "grey": 89.57682291666667,
+      "sat": 0.047212326709300825,
+      "eff_sat": 0.03668031831922434,
+      "face_var": 0.0,
+      "face_means": [
+        89.6
+      ],
+      "std": 1.890059722312036,
+      "rgb": [
+        86.7,
+        91.0,
+        91.0
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/cyan_terracotta.png"
+      ]
+    },
+    {
+      "level": 6,
+      "target_grey": 102.0,
+      "id": "polished_tuff",
+      "name": "Polished Tuff",
+      "grey": 100.55208333333333,
+      "sat": 0.062415603900975246,
+      "eff_sat": 0.052521659826721384,
+      "face_var": 0.0,
+      "face_means": [
+        100.6
+      ],
+      "std": 12.696640226070574,
+      "rgb": [
+        97.6,
+        104.1,
+        99.9
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/polished_tuff.png"
+      ]
+    },
+    {
+      "level": 7,
+      "target_grey": 119.0,
+      "id": "cracked_stone_bricks",
+      "name": "Cracked Stone Bricks",
+      "grey": 118.10286458333333,
+      "sat": 0.005612228054537652,
+      "eff_sat": 0.005301999425021733,
+      "face_var": 0.0,
+      "face_means": [
+        118.1
+      ],
+      "std": 18.738805337298775,
+      "rgb": [
+        118.3,
+        117.7,
+        118.3
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/cracked_stone_bricks.png"
+      ]
+    },
+    {
+      "level": 8,
+      "target_grey": 136.0,
+      "id": "andesite",
+      "name": "Andesite",
+      "grey": 136.39713541666666,
+      "sat": 0.004569470227045552,
+      "eff_sat": 0.0043303220188546645,
+      "face_var": 0.0,
+      "face_means": [
+        136.4
+      ],
+      "std": 15.933825527082005,
+      "rgb": [
+        136.2,
+        136.3,
+        136.8
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/andesite.png"
+      ]
+    },
+    {
+      "level": 9,
+      "target_grey": 153.0,
+      "id": "light_gray_concrete_powder",
+      "name": "Light Gray Concrete Powder",
+      "grey": 152.67838541666666,
+      "sat": 0.04368650583579117,
+      "eff_sat": 0.0372161782979029,
+      "face_var": 0.0,
+      "face_means": [
+        152.7
+      ],
+      "std": 9.693142365171564,
+      "rgb": [
+        154.9,
+        155.0,
+        148.2
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/light_gray_concrete_powder.png"
+      ]
+    },
+    {
+      "level": 10,
+      "target_grey": 170.0,
+      "id": "clay",
+      "name": "Clay",
+      "grey": 168.86197916666666,
+      "sat": 0.10457573250903392,
+      "eff_sat": 0.07913185445387177,
+      "face_var": 0.0,
+      "face_means": [
+        168.9
+      ],
+      "std": 6.811149845278963,
+      "rgb": [
+        160.7,
+        166.5,
+        179.4
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/clay.png"
+      ]
+    },
+    {
+      "level": 11,
+      "target_grey": 187.0,
+      "id": "mushroom_stem",
+      "name": "Mushroom Stem",
+      "grey": 195.14713541666666,
+      "sat": 0.0866029719910033,
+      "eff_sat": 0.05214154273358453,
+      "face_var": 0.0,
+      "face_means": [
+        195.1
+      ],
+      "std": 6.334225368120776,
+      "rgb": [
+        203.2,
+        196.6,
+        185.6
+      ],
+      "approved": false,
+      "paths": [
+        "assets/minecraft/textures/block/mushroom_stem.png"
+      ]
+    },
+    {
+      "level": 12,
+      "target_grey": 204.0,
+      "id": "white_concrete",
+      "name": "White Concrete",
+      "grey": 211.42057291666666,
+      "sat": 0.03253471525281463,
+      "eff_sat": 0.016473939113421588,
+      "face_var": 0.0,
+      "face_means": [
+        211.4
+      ],
+      "std": 0.8106071602204622,
+      "rgb": [
+        207.1,
+        213.1,
+        214.1
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/white_concrete.png"
+      ]
+    },
+    {
+      "level": 13,
+      "target_grey": 221.0,
+      "id": "iron_block",
+      "name": "Block of Iron",
+      "grey": 220.04427083333334,
+      "sat": 0.0004968944099378882,
+      "eff_sat": 0.00022639599317988063,
+      "face_var": 0.0,
+      "face_means": [
+        220.0
+      ],
+      "std": 17.958056059095888,
+      "rgb": [
+        220.1,
+        220.0,
+        220.0
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/iron_block.png"
+      ]
+    },
+    {
+      "level": 14,
+      "target_grey": 238.0,
+      "id": "white_wool",
+      "name": "White Wool",
+      "grey": 235.55338541666666,
+      "sat": 0.01344573860824232,
+      "eff_sat": 0.004899517572664894,
+      "face_var": 0.0,
+      "face_means": [
+        235.6
+      ],
+      "std": 12.605704123474938,
+      "rgb": [
+        233.6,
+        236.3,
+        236.8
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/white_wool.png"
+      ]
+    },
+    {
+      "level": 15,
+      "target_grey": 255.0,
+      "id": "snow",
+      "name": "Snow",
+      "grey": 252.48828125,
+      "sat": 0.02046680290714648,
+      "eff_sat": 0.005419093977459762,
+      "face_var": 0.0,
+      "face_means": [
+        252.5
+      ],
+      "std": 2.3858485587855336,
+      "rgb": [
+        249.0,
+        254.2,
+        254.2
+      ],
+      "approved": true,
+      "paths": [
+        "assets/minecraft/textures/block/snow.png"
+      ]
+    }
+  ],
+  "shortlist": [
+    {
+      "level": 0,
+      "target": 0.0,
+      "candidates": [
+        {
+          "id": "coal_block",
+          "name": "Block of Coal",
+          "grey": 15.953125,
+          "sat": 0.006582155046318869,
+          "eff_sat": 0.0022632207746579864,
+          "face_var": 0.0,
+          "face_means": [
+            16.0
+          ],
+          "std": 8.548740099057566,
+          "rgb": [
+            16.0,
+            15.9,
+            15.9
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/coal_block.png"
+          ]
+        },
+        {
+          "id": "black_concrete",
+          "name": "Black Concrete",
+          "grey": 11.40234375,
+          "sat": 0.4544762870910474,
+          "eff_sat": 0.14410198266473723,
+          "face_var": 0.0,
+          "face_means": [
+            11.4
+          ],
+          "std": 0.9952202051987982,
+          "rgb": [
+            8.4,
+            10.4,
+            15.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_concrete.png"
+          ]
+        },
+        {
+          "id": "black_wool",
+          "name": "Black Wool",
+          "grey": 22.510416666666668,
+          "sat": 0.19628162145687292,
+          "eff_sat": 0.0750608823230603,
+          "face_var": 0.0,
+          "face_means": [
+            22.5
+          ],
+          "std": 7.659460481688278,
+          "rgb": [
+            20.6,
+            21.3,
+            25.6
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/black_wool.png"
+          ]
+        },
+        {
+          "id": "black_concrete_powder",
+          "name": "Black Concrete Powder",
+          "grey": 28.005208333333332,
+          "sat": 0.20889323234791107,
+          "eff_sat": 0.08663565215360515,
+          "face_var": 0.0,
+          "face_means": [
+            28.0
+          ],
+          "std": 7.911419352791269,
+          "rgb": [
+            25.3,
+            26.7,
+            32.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_concrete_powder.png"
+          ]
+        },
+        {
+          "id": "black_terracotta",
+          "name": "Black Terracotta",
+          "grey": 25.477864583333332,
+          "sat": 0.559718723761545,
+          "eff_sat": 0.22381460946246148,
+          "face_var": 0.0,
+          "face_means": [
+            25.5
+          ],
+          "std": 0.9085972562472647,
+          "rgb": [
+            37.2,
+            22.8,
+            16.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_terracotta.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "target": 17.0,
+      "candidates": [
+        {
+          "id": "coal_block",
+          "name": "Block of Coal",
+          "grey": 15.953125,
+          "sat": 0.006582155046318869,
+          "eff_sat": 0.0022632207746579864,
+          "face_var": 0.0,
+          "face_means": [
+            16.0
+          ],
+          "std": 8.548740099057566,
+          "rgb": [
+            16.0,
+            15.9,
+            15.9
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/coal_block.png"
+          ]
+        },
+        {
+          "id": "black_wool",
+          "name": "Black Wool",
+          "grey": 22.510416666666668,
+          "sat": 0.19628162145687292,
+          "eff_sat": 0.0750608823230603,
+          "face_var": 0.0,
+          "face_means": [
+            22.5
+          ],
+          "std": 7.659460481688278,
+          "rgb": [
+            20.6,
+            21.3,
+            25.6
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/black_wool.png"
+          ]
+        },
+        {
+          "id": "black_concrete",
+          "name": "Black Concrete",
+          "grey": 11.40234375,
+          "sat": 0.4544762870910474,
+          "eff_sat": 0.14410198266473723,
+          "face_var": 0.0,
+          "face_means": [
+            11.4
+          ],
+          "std": 0.9952202051987982,
+          "rgb": [
+            8.4,
+            10.4,
+            15.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_concrete.png"
+          ]
+        },
+        {
+          "id": "black_concrete_powder",
+          "name": "Black Concrete Powder",
+          "grey": 28.005208333333332,
+          "sat": 0.20889323234791107,
+          "eff_sat": 0.08663565215360515,
+          "face_var": 0.0,
+          "face_means": [
+            28.0
+          ],
+          "std": 7.911419352791269,
+          "rgb": [
+            25.3,
+            26.7,
+            32.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_concrete_powder.png"
+          ]
+        },
+        {
+          "id": "black_terracotta",
+          "name": "Black Terracotta",
+          "grey": 25.477864583333332,
+          "sat": 0.559718723761545,
+          "eff_sat": 0.22381460946246148,
+          "face_var": 0.0,
+          "face_means": [
+            25.5
+          ],
+          "std": 0.9085972562472647,
+          "rgb": [
+            37.2,
+            22.8,
+            16.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_terracotta.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "target": 34.0,
+      "candidates": [
+        {
+          "id": "black_wool",
+          "name": "Black Wool",
+          "grey": 22.510416666666668,
+          "sat": 0.19628162145687292,
+          "eff_sat": 0.0750608823230603,
+          "face_var": 0.0,
+          "face_means": [
+            22.5
+          ],
+          "std": 7.659460481688278,
+          "rgb": [
+            20.6,
+            21.3,
+            25.6
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/black_wool.png"
+          ]
+        },
+        {
+          "id": "coal_block",
+          "name": "Block of Coal",
+          "grey": 15.953125,
+          "sat": 0.006582155046318869,
+          "eff_sat": 0.0022632207746579864,
+          "face_var": 0.0,
+          "face_means": [
+            16.0
+          ],
+          "std": 8.548740099057566,
+          "rgb": [
+            16.0,
+            15.9,
+            15.9
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/coal_block.png"
+          ]
+        },
+        {
+          "id": "black_concrete_powder",
+          "name": "Black Concrete Powder",
+          "grey": 28.005208333333332,
+          "sat": 0.20889323234791107,
+          "eff_sat": 0.08663565215360515,
+          "face_var": 0.0,
+          "face_means": [
+            28.0
+          ],
+          "std": 7.911419352791269,
+          "rgb": [
+            25.3,
+            26.7,
+            32.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_concrete_powder.png"
+          ]
+        },
+        {
+          "id": "cracked_deepslate_tiles",
+          "name": "Cracked Deepslate Tiles",
+          "grey": 52.62890625,
+          "sat": 0.004443457009553432,
+          "eff_sat": 0.0024864776781630222,
+          "face_var": 0.0,
+          "face_means": [
+            52.6
+          ],
+          "std": 14.725919821634253,
+          "rgb": [
+            52.6,
+            52.5,
+            52.7
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/cracked_deepslate_tiles.png"
+          ]
+        },
+        {
+          "id": "black_terracotta",
+          "name": "Black Terracotta",
+          "grey": 25.477864583333332,
+          "sat": 0.559718723761545,
+          "eff_sat": 0.22381460946246148,
+          "face_var": 0.0,
+          "face_means": [
+            25.5
+          ],
+          "std": 0.9085972562472647,
+          "rgb": [
+            37.2,
+            22.8,
+            16.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/black_terracotta.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "target": 51.0,
+      "candidates": [
+        {
+          "id": "cracked_deepslate_tiles",
+          "name": "Cracked Deepslate Tiles",
+          "grey": 52.62890625,
+          "sat": 0.004443457009553432,
+          "eff_sat": 0.0024864776781630222,
+          "face_var": 0.0,
+          "face_means": [
+            52.6
+          ],
+          "std": 14.725919821634253,
+          "rgb": [
+            52.6,
+            52.5,
+            52.7
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/cracked_deepslate_tiles.png"
+          ]
+        },
+        {
+          "id": "gray_concrete",
+          "name": "Gray Concrete",
+          "grey": 57.950520833333336,
+          "sat": 0.11360466590592114,
+          "eff_sat": 0.06712734034909767,
+          "face_var": 0.0,
+          "face_means": [
+            58.0
+          ],
+          "std": 0.532110975120557,
+          "rgb": [
+            54.6,
+            57.6,
+            61.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/gray_concrete.png"
+          ]
+        },
+        {
+          "id": "deepslate_tiles",
+          "name": "Deepslate Tiles",
+          "grey": 54.928385416666664,
+          "sat": 0.00489431124982267,
+          "eff_sat": 0.002804969663510885,
+          "face_var": 0.0,
+          "face_means": [
+            54.9
+          ],
+          "std": 14.87402700760074,
+          "rgb": [
+            54.9,
+            54.8,
+            55.1
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/deepslate_tiles.png"
+          ]
+        },
+        {
+          "id": "mud",
+          "name": "Mud",
+          "grey": 59.40625,
+          "sat": 0.05180078603182785,
+          "eff_sat": 0.031051905009152687,
+          "face_var": 0.0,
+          "face_means": [
+            59.4
+          ],
+          "std": 6.852219033074674,
+          "rgb": [
+            60.1,
+            57.5,
+            60.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/mud.png"
+          ]
+        },
+        {
+          "id": "chiseled_deepslate",
+          "name": "Chiseled Deepslate",
+          "grey": 54.5,
+          "sat": 0.010676156583629894,
+          "eff_sat": 0.006091689344777057,
+          "face_var": 0.0,
+          "face_means": [
+            54.5
+          ],
+          "std": 15.932634990642823,
+          "rgb": [
+            54.3,
+            54.3,
+            54.9
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/chiseled_deepslate.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "target": 68.0,
+      "candidates": [
+        {
+          "id": "gray_wool",
+          "name": "Gray Wool",
+          "grey": 67.51171875,
+          "sat": 0.12310295883830112,
+          "eff_sat": 0.07966334167654124,
+          "face_var": 0.0,
+          "face_means": [
+            67.5
+          ],
+          "std": 6.031001230022474,
+          "rgb": [
+            62.7,
+            68.2,
+            71.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/gray_wool.png"
+          ]
+        },
+        {
+          "id": "cracked_deepslate_bricks",
+          "name": "Cracked Deepslate Bricks",
+          "grey": 65.04296875,
+          "sat": 0.005387931034482759,
+          "eff_sat": 0.0034084358756972617,
+          "face_var": 0.0,
+          "face_means": [
+            65.0
+          ],
+          "std": 22.603379281934753,
+          "rgb": [
+            65.0,
+            64.9,
+            65.2
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/cracked_deepslate_bricks.png"
+          ]
+        },
+        {
+          "id": "gray_concrete",
+          "name": "Gray Concrete",
+          "grey": 57.950520833333336,
+          "sat": 0.11360466590592114,
+          "eff_sat": 0.06712734034909767,
+          "face_var": 0.0,
+          "face_means": [
+            58.0
+          ],
+          "std": 0.532110975120557,
+          "rgb": [
+            54.6,
+            57.6,
+            61.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/gray_concrete.png"
+          ]
+        },
+        {
+          "id": "mud",
+          "name": "Mud",
+          "grey": 59.40625,
+          "sat": 0.05180078603182785,
+          "eff_sat": 0.031051905009152687,
+          "face_var": 0.0,
+          "face_means": [
+            59.4
+          ],
+          "std": 6.852219033074674,
+          "rgb": [
+            60.1,
+            57.5,
+            60.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/mud.png"
+          ]
+        },
+        {
+          "id": "cracked_deepslate_tiles",
+          "name": "Cracked Deepslate Tiles",
+          "grey": 52.62890625,
+          "sat": 0.004443457009553432,
+          "eff_sat": 0.0024864776781630222,
+          "face_var": 0.0,
+          "face_means": [
+            52.6
+          ],
+          "std": 14.725919821634253,
+          "rgb": [
+            52.6,
+            52.5,
+            52.7
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/cracked_deepslate_tiles.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "target": 85.0,
+      "candidates": [
+        {
+          "id": "cyan_terracotta",
+          "name": "Cyan Terracotta",
+          "grey": 89.57682291666667,
+          "sat": 0.047212326709300825,
+          "eff_sat": 0.03668031831922434,
+          "face_var": 0.0,
+          "face_means": [
+            89.6
+          ],
+          "std": 1.890059722312036,
+          "rgb": [
+            86.7,
+            91.0,
+            91.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/cyan_terracotta.png"
+          ]
+        },
+        {
+          "id": "gray_concrete_powder",
+          "name": "Gray Concrete Powder",
+          "grey": 80.98828125,
+          "sat": 0.09384487993375655,
+          "eff_sat": 0.06816907604195419,
+          "face_var": 0.0,
+          "face_means": [
+            81.0
+          ],
+          "std": 5.653533490100753,
+          "rgb": [
+            76.9,
+            81.1,
+            84.9
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/gray_concrete_powder.png"
+          ]
+        },
+        {
+          "id": "cobbled_deepslate",
+          "name": "Cobbled Deepslate",
+          "grey": 78.38541666666667,
+          "sat": 0.041383989145183174,
+          "eff_sat": 0.02942776924202517,
+          "face_var": 0.0,
+          "face_means": [
+            78.4
+          ],
+          "std": 20.831794166866505,
+          "rgb": [
+            77.3,
+            77.3,
+            80.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/cobbled_deepslate.png"
+          ]
+        },
+        {
+          "id": "smooth_basalt",
+          "name": "Smooth Basalt",
+          "grey": 74.39192708333333,
+          "sat": 0.0756205983717097,
+          "eff_sat": 0.05199669100508191,
+          "face_var": 0.0,
+          "face_means": [
+            74.4
+          ],
+          "std": 16.756186959444587,
+          "rgb": [
+            72.7,
+            72.3,
+            78.2
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/smooth_basalt.png"
+          ]
+        },
+        {
+          "id": "gray_wool",
+          "name": "Gray Wool",
+          "grey": 67.51171875,
+          "sat": 0.12310295883830112,
+          "eff_sat": 0.07966334167654124,
+          "face_var": 0.0,
+          "face_means": [
+            67.5
+          ],
+          "std": 6.031001230022474,
+          "rgb": [
+            62.7,
+            68.2,
+            71.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/gray_wool.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "target": 102.0,
+      "candidates": [
+        {
+          "id": "polished_tuff",
+          "name": "Polished Tuff",
+          "grey": 100.55208333333333,
+          "sat": 0.062415603900975246,
+          "eff_sat": 0.052521659826721384,
+          "face_var": 0.0,
+          "face_means": [
+            100.6
+          ],
+          "std": 12.696640226070574,
+          "rgb": [
+            97.6,
+            104.1,
+            99.9
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/polished_tuff.png"
+          ]
+        },
+        {
+          "id": "cyan_terracotta",
+          "name": "Cyan Terracotta",
+          "grey": 89.57682291666667,
+          "sat": 0.047212326709300825,
+          "eff_sat": 0.03668031831922434,
+          "face_var": 0.0,
+          "face_means": [
+            89.6
+          ],
+          "std": 1.890059722312036,
+          "rgb": [
+            86.7,
+            91.0,
+            91.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/cyan_terracotta.png"
+          ]
+        },
+        {
+          "id": "cracked_stone_bricks",
+          "name": "Cracked Stone Bricks",
+          "grey": 118.10286458333333,
+          "sat": 0.005612228054537652,
+          "eff_sat": 0.005301999425021733,
+          "face_var": 0.0,
+          "face_means": [
+            118.1
+          ],
+          "std": 18.738805337298775,
+          "rgb": [
+            118.3,
+            117.7,
+            118.3
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/cracked_stone_bricks.png"
+          ]
+        },
+        {
+          "id": "pale_moss_block",
+          "name": "Pale Moss Block",
+          "grey": 107.95052083333333,
+          "sat": 0.06602461581253043,
+          "eff_sat": 0.05843198727538787,
+          "face_var": 0.0,
+          "face_means": [
+            108.0
+          ],
+          "std": 17.57152093777415,
+          "rgb": [
+            106.6,
+            112.4,
+            104.9
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/pale_moss_block.png"
+          ]
+        },
+        {
+          "id": "tuff",
+          "name": "Tuff",
+          "grey": 106.61067708333333,
+          "sat": 0.05962777380100215,
+          "eff_sat": 0.05230081014376044,
+          "face_var": 0.0,
+          "face_means": [
+            106.6
+          ],
+          "std": 20.42277971389532,
+          "rgb": [
+            108.1,
+            109.1,
+            102.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/tuff.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 7,
+      "target": 119.0,
+      "candidates": [
+        {
+          "id": "cracked_stone_bricks",
+          "name": "Cracked Stone Bricks",
+          "grey": 118.10286458333333,
+          "sat": 0.005612228054537652,
+          "eff_sat": 0.005301999425021733,
+          "face_var": 0.0,
+          "face_means": [
+            118.1
+          ],
+          "std": 18.738805337298775,
+          "rgb": [
+            118.3,
+            117.7,
+            118.3
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/cracked_stone_bricks.png"
+          ]
+        },
+        {
+          "id": "stone_bricks",
+          "name": "Stone Bricks",
+          "grey": 122.24348958333333,
+          "sat": 0.005231426839771604,
+          "eff_sat": 0.005069667724022845,
+          "face_var": 0.0,
+          "face_means": [
+            122.2
+          ],
+          "std": 18.637792987294812,
+          "rgb": [
+            122.5,
+            121.8,
+            122.5
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/stone_bricks.png"
+          ]
+        },
+        {
+          "id": "chiseled_stone_bricks",
+          "name": "Chiseled Stone Bricks",
+          "grey": 119.48958333333333,
+          "sat": 0.007304983042003652,
+          "eff_sat": 0.006960771524889632,
+          "face_var": 0.0,
+          "face_means": [
+            119.5
+          ],
+          "std": 22.35928542015598,
+          "rgb": [
+            119.8,
+            118.9,
+            119.8
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/chiseled_stone_bricks.png"
+          ]
+        },
+        {
+          "id": "light_gray_concrete",
+          "name": "Light Gray Concrete",
+          "grey": 121.69791666666667,
+          "sat": 0.07998000499875031,
+          "eff_sat": 0.07725029526931992,
+          "face_var": 0.0,
+          "face_means": [
+            121.7
+          ],
+          "std": 0.7281987623581903,
+          "rgb": [
+            125.0,
+            125.0,
+            115.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/light_gray_concrete.png"
+          ]
+        },
+        {
+          "id": "stone",
+          "name": "Stone",
+          "grey": 125.546875,
+          "sat": 0.0,
+          "eff_sat": 0.0,
+          "face_var": 0.0,
+          "face_means": [
+            125.5
+          ],
+          "std": 10.797033283933825,
+          "rgb": [
+            125.5,
+            125.5,
+            125.5
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/stone.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "target": 136.0,
+      "candidates": [
+        {
+          "id": "andesite",
+          "name": "Andesite",
+          "grey": 136.39713541666666,
+          "sat": 0.004569470227045552,
+          "eff_sat": 0.0043303220188546645,
+          "face_var": 0.0,
+          "face_means": [
+            136.4
+          ],
+          "std": 15.933825527082005,
+          "rgb": [
+            136.2,
+            136.3,
+            136.8
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/andesite.png"
+          ]
+        },
+        {
+          "id": "light_gray_wool",
+          "name": "Light Gray Wool",
+          "grey": 139.59895833333334,
+          "sat": 0.053195581689289444,
+          "eff_sat": 0.04940963388707684,
+          "face_var": 0.0,
+          "face_means": [
+            139.6
+          ],
+          "std": 9.694079498925202,
+          "rgb": [
+            142.0,
+            142.2,
+            134.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/light_gray_wool.png"
+          ]
+        },
+        {
+          "id": "stone_bricks",
+          "name": "Stone Bricks",
+          "grey": 122.24348958333333,
+          "sat": 0.005231426839771604,
+          "eff_sat": 0.005069667724022845,
+          "face_var": 0.0,
+          "face_means": [
+            122.2
+          ],
+          "std": 18.637792987294812,
+          "rgb": [
+            122.5,
+            121.8,
+            122.5
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/stone_bricks.png"
+          ]
+        },
+        {
+          "id": "stone",
+          "name": "Stone",
+          "grey": 125.546875,
+          "sat": 0.0,
+          "eff_sat": 0.0,
+          "face_var": 0.0,
+          "face_means": [
+            125.5
+          ],
+          "std": 10.797033283933825,
+          "rgb": [
+            125.5,
+            125.5,
+            125.5
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/stone.png"
+          ]
+        },
+        {
+          "id": "polished_andesite",
+          "name": "Polished Andesite",
+          "grey": 133.66927083333334,
+          "sat": 0.01852334985650926,
+          "eff_sat": 0.017851140668242248,
+          "face_var": 0.0,
+          "face_means": [
+            133.7
+          ],
+          "std": 21.06289337228831,
+          "rgb": [
+            132.3,
+            134.8,
+            134.0
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/polished_andesite.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 9,
+      "target": 153.0,
+      "candidates": [
+        {
+          "id": "light_gray_concrete_powder",
+          "name": "Light Gray Concrete Powder",
+          "grey": 152.67838541666666,
+          "sat": 0.04368650583579117,
+          "eff_sat": 0.0372161782979029,
+          "face_var": 0.0,
+          "face_means": [
+            152.7
+          ],
+          "std": 9.693142365171564,
+          "rgb": [
+            154.9,
+            155.0,
+            148.2
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/light_gray_concrete_powder.png"
+          ]
+        },
+        {
+          "id": "andesite",
+          "name": "Andesite",
+          "grey": 136.39713541666666,
+          "sat": 0.004569470227045552,
+          "eff_sat": 0.0043303220188546645,
+          "face_var": 0.0,
+          "face_means": [
+            136.4
+          ],
+          "std": 15.933825527082005,
+          "rgb": [
+            136.2,
+            136.3,
+            136.8
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/andesite.png"
+          ]
+        },
+        {
+          "id": "smooth_stone",
+          "name": "Smooth Stone",
+          "grey": 158.6796875,
+          "sat": 0.0,
+          "eff_sat": 0.0,
+          "face_var": 0.0,
+          "face_means": [
+            158.7
+          ],
+          "std": 18.02079250206116,
+          "rgb": [
+            158.7,
+            158.7,
+            158.7
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/smooth_stone.png"
+          ]
+        },
+        {
+          "id": "light_gray_wool",
+          "name": "Light Gray Wool",
+          "grey": 139.59895833333334,
+          "sat": 0.053195581689289444,
+          "eff_sat": 0.04940963388707684,
+          "face_var": 0.0,
+          "face_means": [
+            139.6
+          ],
+          "std": 9.694079498925202,
+          "rgb": [
+            142.0,
+            142.2,
+            134.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/light_gray_wool.png"
+          ]
+        },
+        {
+          "id": "clay",
+          "name": "Clay",
+          "grey": 168.86197916666666,
+          "sat": 0.10457573250903392,
+          "eff_sat": 0.07913185445387177,
+          "face_var": 0.0,
+          "face_means": [
+            168.9
+          ],
+          "std": 6.811149845278963,
+          "rgb": [
+            160.7,
+            166.5,
+            179.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/clay.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 10,
+      "target": 170.0,
+      "candidates": [
+        {
+          "id": "clay",
+          "name": "Clay",
+          "grey": 168.86197916666666,
+          "sat": 0.10457573250903392,
+          "eff_sat": 0.07913185445387177,
+          "face_var": 0.0,
+          "face_means": [
+            168.9
+          ],
+          "std": 6.811149845278963,
+          "rgb": [
+            160.7,
+            166.5,
+            179.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/clay.png"
+          ]
+        },
+        {
+          "id": "smooth_stone_slab",
+          "name": "Smooth Stone Slab",
+          "grey": 167.546875,
+          "sat": 0.0,
+          "eff_sat": 0.0,
+          "face_var": 0.0,
+          "face_means": [
+            167.5
+          ],
+          "std": 21.300623294504202,
+          "rgb": [
+            167.5,
+            167.5,
+            167.5
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/smooth_stone_slab_side.png"
+          ]
+        },
+        {
+          "id": "smooth_stone",
+          "name": "Smooth Stone",
+          "grey": 158.6796875,
+          "sat": 0.0,
+          "eff_sat": 0.0,
+          "face_var": 0.0,
+          "face_means": [
+            158.7
+          ],
+          "std": 18.02079250206116,
+          "rgb": [
+            158.7,
+            158.7,
+            158.7
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/smooth_stone.png"
+          ]
+        },
+        {
+          "id": "white_terracotta",
+          "name": "White Terracotta",
+          "grey": 183.00651041666666,
+          "sat": 0.23034639536400395,
+          "eff_sat": 0.15513625069509984,
+          "face_var": 0.0,
+          "face_means": [
+            183.0
+          ],
+          "std": 2.1007149065475996,
+          "rgb": [
+            209.6,
+            178.0,
+            161.3
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/white_terracotta.png"
+          ]
+        },
+        {
+          "id": "light_gray_concrete_powder",
+          "name": "Light Gray Concrete Powder",
+          "grey": 152.67838541666666,
+          "sat": 0.04368650583579117,
+          "eff_sat": 0.0372161782979029,
+          "face_var": 0.0,
+          "face_means": [
+            152.7
+          ],
+          "std": 9.693142365171564,
+          "rgb": [
+            154.9,
+            155.0,
+            148.2
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/light_gray_concrete_powder.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 11,
+      "target": 187.0,
+      "candidates": [
+        {
+          "id": "white_concrete",
+          "name": "White Concrete",
+          "grey": 211.42057291666666,
+          "sat": 0.03253471525281463,
+          "eff_sat": 0.016473939113421588,
+          "face_var": 0.0,
+          "face_means": [
+            211.4
+          ],
+          "std": 0.8106071602204622,
+          "rgb": [
+            207.1,
+            213.1,
+            214.1
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/white_concrete.png"
+          ]
+        },
+        {
+          "id": "mushroom_stem",
+          "name": "Mushroom Stem",
+          "grey": 195.14713541666666,
+          "sat": 0.0866029719910033,
+          "eff_sat": 0.05214154273358453,
+          "face_var": 0.0,
+          "face_means": [
+            195.1
+          ],
+          "std": 6.334225368120776,
+          "rgb": [
+            203.2,
+            196.6,
+            185.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/mushroom_stem.png"
+          ]
+        },
+        {
+          "id": "white_terracotta",
+          "name": "White Terracotta",
+          "grey": 183.00651041666666,
+          "sat": 0.23034639536400395,
+          "eff_sat": 0.15513625069509984,
+          "face_var": 0.0,
+          "face_means": [
+            183.0
+          ],
+          "std": 2.1007149065475996,
+          "rgb": [
+            209.6,
+            178.0,
+            161.3
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/white_terracotta.png"
+          ]
+        },
+        {
+          "id": "diorite",
+          "name": "Diorite",
+          "grey": 188.71744791666666,
+          "sat": 0.0027904669381343143,
+          "eff_sat": 0.001785612441378916,
+          "face_var": 0.0,
+          "face_means": [
+            188.7
+          ],
+          "std": 34.65530946475711,
+          "rgb": [
+            188.7,
+            188.5,
+            189.0
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/diorite.png"
+          ]
+        },
+        {
+          "id": "pink_concrete_powder",
+          "name": "Pink Concrete Powder",
+          "grey": 187.74739583333334,
+          "sat": 0.33003345394961425,
+          "eff_sat": 0.21307077078288128,
+          "face_var": 0.0,
+          "face_means": [
+            187.7
+          ],
+          "std": 13.21546154921349,
+          "rgb": [
+            228.9,
+            153.3,
+            181.1
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/pink_concrete_powder.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 12,
+      "target": 204.0,
+      "candidates": [
+        {
+          "id": "white_concrete",
+          "name": "White Concrete",
+          "grey": 211.42057291666666,
+          "sat": 0.03253471525281463,
+          "eff_sat": 0.016473939113421588,
+          "face_var": 0.0,
+          "face_means": [
+            211.4
+          ],
+          "std": 0.8106071602204622,
+          "rgb": [
+            207.1,
+            213.1,
+            214.1
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/white_concrete.png"
+          ]
+        },
+        {
+          "id": "mushroom_stem",
+          "name": "Mushroom Stem",
+          "grey": 195.14713541666666,
+          "sat": 0.0866029719910033,
+          "eff_sat": 0.05214154273358453,
+          "face_var": 0.0,
+          "face_means": [
+            195.1
+          ],
+          "std": 6.334225368120776,
+          "rgb": [
+            203.2,
+            196.6,
+            185.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/mushroom_stem.png"
+          ]
+        },
+        {
+          "id": "iron_block",
+          "name": "Block of Iron",
+          "grey": 220.04427083333334,
+          "sat": 0.0004968944099378882,
+          "eff_sat": 0.00022639599317988063,
+          "face_var": 0.0,
+          "face_means": [
+            220.0
+          ],
+          "std": 17.958056059095888,
+          "rgb": [
+            220.1,
+            220.0,
+            220.0
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/iron_block.png"
+          ]
+        },
+        {
+          "id": "sand",
+          "name": "Sand",
+          "grey": 196.4921875,
+          "sat": 0.25579281334664195,
+          "eff_sat": 0.15198277958450063,
+          "face_var": 0.0,
+          "face_means": [
+            196.5
+          ],
+          "std": 9.442171903085715,
+          "rgb": [
+            219.2,
+            207.2,
+            163.1
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/sand.png"
+          ]
+        },
+        {
+          "id": "end_stone",
+          "name": "End Stone",
+          "grey": 200.26041666666666,
+          "sat": 0.28975679843005325,
+          "eff_sat": 0.16574017851375902,
+          "face_var": 0.0,
+          "face_means": [
+            200.3
+          ],
+          "std": 17.195251379526603,
+          "rgb": [
+            219.5,
+            222.9,
+            158.3
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/end_stone.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 13,
+      "target": 221.0,
+      "candidates": [
+        {
+          "id": "white_concrete",
+          "name": "White Concrete",
+          "grey": 211.42057291666666,
+          "sat": 0.03253471525281463,
+          "eff_sat": 0.016473939113421588,
+          "face_var": 0.0,
+          "face_means": [
+            211.4
+          ],
+          "std": 0.8106071602204622,
+          "rgb": [
+            207.1,
+            213.1,
+            214.1
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/white_concrete.png"
+          ]
+        },
+        {
+          "id": "iron_block",
+          "name": "Block of Iron",
+          "grey": 220.04427083333334,
+          "sat": 0.0004968944099378882,
+          "eff_sat": 0.00022639599317988063,
+          "face_var": 0.0,
+          "face_means": [
+            220.0
+          ],
+          "std": 17.958056059095888,
+          "rgb": [
+            220.1,
+            220.0,
+            220.0
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/iron_block.png"
+          ]
+        },
+        {
+          "id": "white_concrete_powder",
+          "name": "White Concrete Powder",
+          "grey": 227.01953125,
+          "sat": 0.009275292746069573,
+          "eff_sat": 0.0038454528266850486,
+          "face_var": 0.0,
+          "face_means": [
+            227.0
+          ],
+          "std": 8.280503255803511,
+          "rgb": [
+            225.7,
+            227.5,
+            227.8
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/white_concrete_powder.png"
+          ]
+        },
+        {
+          "id": "chiseled_quartz_block",
+          "name": "Chiseled Quartz Block",
+          "grey": 225.34114583333334,
+          "sat": 0.06092585724400688,
+          "eff_sat": 0.025860823810879077,
+          "face_var": 0.2356770833333286,
+          "face_means": [
+            225.1,
+            225.6
+          ],
+          "std": 8.024455505028289,
+          "rgb": [
+            231.7,
+            226.7,
+            217.6
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/chiseled_quartz_block.png",
+            "assets/minecraft/textures/block/chiseled_quartz_block_top.png"
+          ]
+        },
+        {
+          "id": "quartz_bricks",
+          "name": "Quartz Bricks",
+          "grey": 228.54947916666666,
+          "sat": 0.05517092167892687,
+          "eff_sat": 0.022376845791864997,
+          "face_var": 0.0,
+          "face_means": [
+            228.5
+          ],
+          "std": 6.941534896439738,
+          "rgb": [
+            234.7,
+            229.2,
+            221.8
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/quartz_bricks.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 14,
+      "target": 238.0,
+      "candidates": [
+        {
+          "id": "white_wool",
+          "name": "White Wool",
+          "grey": 235.55338541666666,
+          "sat": 0.01344573860824232,
+          "eff_sat": 0.004899517572664894,
+          "face_var": 0.0,
+          "face_means": [
+            235.6
+          ],
+          "std": 12.605704123474938,
+          "rgb": [
+            233.6,
+            236.3,
+            236.8
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/white_wool.png"
+          ]
+        },
+        {
+          "id": "snow",
+          "name": "Snow",
+          "grey": 252.48828125,
+          "sat": 0.02046680290714648,
+          "eff_sat": 0.005419093977459762,
+          "face_var": 0.0,
+          "face_means": [
+            252.5
+          ],
+          "std": 2.3858485587855336,
+          "rgb": [
+            249.0,
+            254.2,
+            254.2
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/snow.png"
+          ]
+        },
+        {
+          "id": "quartz_bricks",
+          "name": "Quartz Bricks",
+          "grey": 228.54947916666666,
+          "sat": 0.05517092167892687,
+          "eff_sat": 0.022376845791864997,
+          "face_var": 0.0,
+          "face_means": [
+            228.5
+          ],
+          "std": 6.941534896439738,
+          "rgb": [
+            234.7,
+            229.2,
+            221.8
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/quartz_bricks.png"
+          ]
+        },
+        {
+          "id": "quartz_block",
+          "name": "Block of Quartz",
+          "grey": 229.82291666666666,
+          "sat": 0.054468657638184266,
+          "eff_sat": 0.021683999306083532,
+          "face_var": 0.39038186878007314,
+          "face_means": [
+            229.5,
+            229.5,
+            230.4
+          ],
+          "std": 4.7859553970988795,
+          "rgb": [
+            236.1,
+            230.1,
+            223.3
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/quartz_block_side.png",
+            "assets/minecraft/textures/block/quartz_block_top.png",
+            "assets/minecraft/textures/block/quartz_block_bottom.png"
+          ]
+        },
+        {
+          "id": "powder_snow",
+          "name": "Powder Snow",
+          "grey": 251.6171875,
+          "sat": 0.02058311105629134,
+          "eff_sat": 0.005555358972132309,
+          "face_var": 0.0,
+          "face_means": [
+            251.6
+          ],
+          "std": 3.4689871469624136,
+          "rgb": [
+            248.1,
+            253.4,
+            253.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/powder_snow.png"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 15,
+      "target": 255.0,
+      "candidates": [
+        {
+          "id": "snow",
+          "name": "Snow",
+          "grey": 252.48828125,
+          "sat": 0.02046680290714648,
+          "eff_sat": 0.005419093977459762,
+          "face_var": 0.0,
+          "face_means": [
+            252.5
+          ],
+          "std": 2.3858485587855336,
+          "rgb": [
+            249.0,
+            254.2,
+            254.2
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/snow.png"
+          ]
+        },
+        {
+          "id": "powder_snow",
+          "name": "Powder Snow",
+          "grey": 251.6171875,
+          "sat": 0.02058311105629134,
+          "eff_sat": 0.005555358972132309,
+          "face_var": 0.0,
+          "face_means": [
+            251.6
+          ],
+          "std": 3.4689871469624136,
+          "rgb": [
+            248.1,
+            253.4,
+            253.4
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/powder_snow.png"
+          ]
+        },
+        {
+          "id": "white_wool",
+          "name": "White Wool",
+          "grey": 235.55338541666666,
+          "sat": 0.01344573860824232,
+          "eff_sat": 0.004899517572664894,
+          "face_var": 0.0,
+          "face_means": [
+            235.6
+          ],
+          "std": 12.605704123474938,
+          "rgb": [
+            233.6,
+            236.3,
+            236.8
+          ],
+          "approved": true,
+          "paths": [
+            "assets/minecraft/textures/block/white_wool.png"
+          ]
+        },
+        {
+          "id": "quartz_bricks",
+          "name": "Quartz Bricks",
+          "grey": 228.54947916666666,
+          "sat": 0.05517092167892687,
+          "eff_sat": 0.022376845791864997,
+          "face_var": 0.0,
+          "face_means": [
+            228.5
+          ],
+          "std": 6.941534896439738,
+          "rgb": [
+            234.7,
+            229.2,
+            221.8
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/quartz_bricks.png"
+          ]
+        },
+        {
+          "id": "quartz_block",
+          "name": "Block of Quartz",
+          "grey": 229.82291666666666,
+          "sat": 0.054468657638184266,
+          "eff_sat": 0.021683999306083532,
+          "face_var": 0.39038186878007314,
+          "face_means": [
+            229.5,
+            229.5,
+            230.4
+          ],
+          "std": 4.7859553970988795,
+          "rgb": [
+            236.1,
+            230.1,
+            223.3
+          ],
+          "approved": false,
+          "paths": [
+            "assets/minecraft/textures/block/quartz_block_side.png",
+            "assets/minecraft/textures/block/quartz_block_top.png",
+            "assets/minecraft/textures/block/quartz_block_bottom.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "mean_abs_error": 3.519775390625,
+  "mean_sat": 0.07540659186549517,
+  "max_face_var": 0.0,
+  "approved_used": 9,
+  "filters": {
+    "piston_immovable": "excluded (bedrock cannot be pushed; in Java anything with a block entity cannot either, which removes blast_furnace, furnaces, chests, hoppers, shulker boxes)",
+    "slabs": "allowed -- two stack into a full cube",
+    "doors_trapdoors_fences_panes": "excluded, never fill the cell",
+    "face_var": "<= 3.0: every face must look the same",
+    "within_texture_std": "reported only, NOT a filter -- diorite is approved and is mottled (std 34.7)",
+    "max_sat": 0.6
+  },
+  "method": "lightness-discounted saturation + inter-face uniformity + approved bonus + optimal ordered assignment"
+}

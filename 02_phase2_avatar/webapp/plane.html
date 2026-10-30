@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>4-PCA 平面标注</title>
+<style>
+  :root { color-scheme: dark; --bg:#0f1116; --pan:#141821; --line:#232734;
+          --ink:#dfe6f0; --dim:#7f8b9d; --acc:#2a3a55; --acc2:#3c5480; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:"Microsoft YaHei",system-ui,sans-serif; }
+  .wrap { display:flex; min-height:100vh; }
+  aside { width:290px; flex:0 0 290px; padding:14px 14px 40px; background:var(--pan);
+          border-right:1px solid var(--line); }
+  main { flex:1; padding:14px 20px 40px; min-width:0; }
+  h1 { font-size:16px; margin:0 0 2px; }
+  .sub { font-size:11px; color:var(--dim); line-height:1.6; margin-bottom:12px; }
+  h2 { font-size:11px; color:#8fa3bd; margin:14px 0 6px; letter-spacing:.6px;
+       text-transform:uppercase; }
+  select, input[type=text] { background:#1b2029; color:var(--ink); border:1px solid #2b3240;
+           border-radius:6px; padding:6px 8px; font-size:12px; width:100%; }
+  .row { display:flex; gap:6px; align-items:center; margin:5px 0; font-size:12px; }
+  .row label { flex:0 0 46px; color:#a7b4c6; }
+  .row .grow { flex:1; min-width:0; }
+  .nav { display:flex; gap:4px; align-items:center; }
+  .nav button { width:26px; padding:4px 0; font-size:13px; cursor:pointer; border-radius:5px;
+                background:#1d2430; color:#c6d2e2; border:1px solid #2b3240; }
+  .nav button:hover { background:#28313f; }
+  .val { flex:1; text-align:center; font-size:12px; font-variant-numeric:tabular-nums;
+         background:#0f131a; border:1px solid #232b38; border-radius:5px; padding:5px 0; }
+  .note { font-size:10px; color:#6f7b8d; line-height:1.65; margin-top:4px; }
+  .cats { display:flex; flex-direction:column; gap:4px; }
+  .cat { display:flex; align-items:center; gap:7px; padding:6px 8px; border-radius:6px;
+         cursor:pointer; border:1px solid transparent; font-size:12px; }
+  .cat:hover { background:#1b2029; }
+  .cat.on { border-color:var(--acc2); background:var(--acc); }
+  .sw { width:14px; height:14px; border-radius:3px; flex:0 0 14px; border:1px solid #0006; }
+  .cat .n { flex:1; }
+  .cat .c { font-size:10px; color:var(--dim); font-variant-numeric:tabular-nums; }
+  .cat .x { font-size:11px; color:#667; padding:0 2px; }
+  .cat .x:hover { color:#ff8b73; }
+  .tools { display:flex; gap:6px; margin-top:6px; }
+  .tools button { flex:1; padding:7px; font-size:12px; cursor:pointer; border-radius:6px;
+          background:#1d2430; color:#c6d2e2; border:1px solid #2b3240; }
+  .tools button.on { background:var(--acc); border-color:var(--acc2); color:#dceaff; }
+  .big { width:100%; margin-top:10px; padding:10px; font-size:13px; cursor:pointer;
+         border-radius:6px; background:var(--acc); border:1px solid var(--acc2); color:#dceaff; }
+  .big:hover { background:#33466a; }
+  .board { display:grid; grid-template-columns:30px 1fr; grid-template-rows:1fr 24px;
+           gap:4px; width:max-content; }
+  .ylab { display:grid; grid-template-rows:repeat(8,64px); gap:4px; align-items:center;
+          justify-items:end; font-size:10px; color:var(--dim);
+          font-variant-numeric:tabular-nums; padding-right:4px; }
+  .xlab { grid-column:2; display:grid; grid-template-columns:repeat(8,64px); gap:4px;
+          justify-items:center; font-size:10px; color:var(--dim);
+          font-variant-numeric:tabular-nums; padding-top:4px; }
+  #grid { display:grid; grid-template-columns:repeat(8,64px); grid-template-rows:repeat(8,64px);
+          gap:4px; position:relative; touch-action:none; user-select:none; }
+  .cell { position:relative; border-radius:6px; overflow:hidden; cursor:pointer;
+          background:#0b0d12; border:2px solid #1d222c; }
+  .cell canvas, .cell .tag { pointer-events:none; }
+  .cell canvas { width:100%; height:100%; display:block; image-rendering:pixelated; }
+  .cell .tag { position:absolute; inset:0; display:flex; align-items:center;
+               justify-content:center; font-size:11px; font-weight:700; }
+  .hint { font-size:11px; color:var(--dim); margin-top:10px; line-height:1.8; }
+  .hint b { color:#b9c8dd; }
+  .bad { color:#ff8b73; }
+  .counts { font-size:11px; color:var(--dim); margin-top:8px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <h1>4-PCA 平面标注</h1>
+    <div class="sub">一次看 64 张。单击＝标记/取消，按住左键滑过＝连续标记。</div>
+
+    <h2>模型</h2>
+    <select id="model"></select>
+
+    <h2>平面</h2>
+    <div class="row"><label>横轴</label><select id="xAxis" class="grow"></select></div>
+    <div class="row"><label>纵轴</label><select id="yAxis" class="grow"></select></div>
+
+    <h2>另外两轴（← → 与 ↑ ↓）</h2>
+    <div id="fixedBox"></div>
+
+    <h2>类别</h2>
+    <div class="cats" id="cats"></div>
+    <div class="tools">
+      <input type="text" id="newName" placeholder="新类别，如 少女">
+    </div>
+    <div class="tools">
+      <button id="addCat">新建类别</button>
+    </div>
+    <div class="note">数字键 1~9 切换类别。同一格再点一次就取消。</div>
+
+    <button class="big" id="exportBtn">导出标注（JSON）</button>
+    <div class="counts" id="counts"></div>
+  </aside>
+
+  <main>
+    <div class="board">
+      <div class="ylab" id="ylab"></div>
+      <div id="grid"></div>
+      <div class="xlab" id="xlab"></div>
+    </div>
+    <div class="hint">
+      <b>单击</b> 标记，再点同格取消　·　<b>按住左键拖过</b> 连续标记　·　
+      <b>按住右键拖过</b> 连续擦除　·　<b>← →</b> 调第一个固定轴，<b>↑ ↓</b> 调第二个
+    </div>
+    <div class="hint" id="planeInfo"></div>
+  </main>
+</div>
+
+<script>
+'use strict';
+
+const POS_ROW = [], POS_COL = [], MIRROR_COL = [];
+for (let p = 0; p < 32; p++) { POS_ROW.push(p % 8); POS_COL.push(Math.floor(p / 8)); }
+for (let p = 0; p < 32; p++) MIRROR_COL.push(7 - POS_COL[p]);
+
+const LEVELS = [-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5];
+const PCN = ['PC0 明度', 'PC1 发肤', 'PC2 眼型', 'PC3 脸型'];
+
+const FAM = [], MODELS = {};
+const st = {
+  key: null, xA: 1, yA: 2, fixed: {0: 1.5, 3: -0.5},
+  // one negative category only. Splitting 中 and 差 doubled the work for no extra signal:
+  // both mean "not acceptable", and the scorer is a binary classifier.
+  cats: [{id: 'mid', name: '中', color: '#e0c05a'}],
+  cur: 'mid',
+  marks: {}
+};
+
+// ---------------------------------------------------------------- model
+function toLayers(j){
+  const Ls = j.gen.layers;
+  return Ls.map((L, i) => ({W: L['W'], b: L.b, relu: i !== Ls.length - 1,
+                            nin: L['W'][0].length, nout: L['W'].length}));
+}
+function forward(layers, x){
+  let v = x;
+  for (const L of layers){
+    const out = new Float32Array(L.nout);
+    for (let o = 0; o < L.nout; o++){
+      const W = L['W'][o]; let s = L.b[o];
+      for (let i = 0; i < L.nin; i++) s += W[i] * v[i];
+      out[o] = L.relu && s < 0 ? 0 : s;
+    }
+    v = out;
+  }
+  return v;
+}
+function levelsFor(seed){
+  const raw = forward(MODELS[st.key].layers, seed);
+  let v = Array.from(raw).map(z => Math.max(0, Math.min(15, z)));
+  let lo = Infinity, hi = -Infinity;
+  for (const q of v){ if (q < lo) lo = q; if (q > hi) hi = q; }
+  const k = 15 / Math.max(hi - lo, 1e-6);
+  return v.map(q => Math.round(Math.max(0, Math.min(15, (q - lo) * k))));
+}
+function paint(cv, lv){
+  const c = cv.getContext('2d');
+  const img = c.createImageData(8, 8);
+  for (let p = 0; p < 32; p++){
+    const g = Math.round(Math.max(0, Math.min(15, lv[p])) / 15 * 255);
+    for (const col of [POS_COL[p], MIRROR_COL[p]]){
+      const i = (POS_ROW[p]*8 + col) * 4;
+      img.data[i] = g; img.data[i+1] = g; img.data[i+2] = g; img.data[i+3] = 255;
+    }
+  }
+  c.putImageData(img, 0, 0);
+}
+
+// ---------------------------------------------------------------- plane
+function otherAxes(){
+  return [0,1,2,3].filter(i => i !== st.xA && i !== st.yA);
+}
+function planeKey(){
+  const o = otherAxes();
+  return [st.key, st.xA, st.yA, st.fixed[o[0]], st.fixed[o[1]]].join('|');
+}
+function seedAt(xi, yi){
+  const s = [0, 0, 0, 0];
+  s[st.xA] = LEVELS[xi];
+  s[st.yA] = LEVELS[yi];
+  for (const i of otherAxes()) s[i] = st.fixed[i];
+  return s;
+}
+function cellKey(xi, yi){ return yi * 8 + xi; }
+
+function ensureFixed(){
+  for (const i of otherAxes()) if (st.fixed[i] === undefined) st.fixed[i] = 0.5;
+}
+function buildFixed(){
+  const box = document.getElementById('fixedBox');
+  if (!box) return;
+  box.innerHTML = '';
+  otherAxes().forEach((i, idx) => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = '<label>PC' + i + '</label>';
+    const nav = document.createElement('div');
+    nav.className = 'nav grow';
+    const minus = document.createElement('button');
+    minus.textContent = idx === 0 ? '←' : '↓';
+    const val = document.createElement('div');
+    val.className = 'val';
+    val.textContent = st.fixed[i].toFixed(1);
+    const plus = document.createElement('button');
+    plus.textContent = idx === 0 ? '→' : '↑';
+    const step = d => {
+      const j = LEVELS.indexOf(st.fixed[i]);
+      const k = Math.max(0, Math.min(LEVELS.length - 1, j + d));
+      if (k === j) return;
+      st.fixed[i] = LEVELS[k];
+      rebuild();
+    };
+    minus.onclick = () => step(-1);
+    plus.onclick = () => step(+1);
+    nav.appendChild(minus); nav.appendChild(val); nav.appendChild(plus);
+    row.appendChild(nav);
+    box.appendChild(row);
+  });
+}
+
+let CELLS = [];
+function rebuild(){
+  ensureFixed();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  CELLS = [];
+  for (let row = 0; row < 8; row++){
+    const yi = 7 - row;          // top row carries +3.5 so the label matches the data
+    for (let xi = 0; xi < 8; xi++){
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.xi = xi; cell.dataset.yi = yi;
+      const cv = document.createElement('canvas');
+      cv.width = 8; cv.height = 8;
+      paint(cv, levelsFor(seedAt(xi, yi)));
+      cell.appendChild(cv);
+      const tag = document.createElement('div');
+      tag.className = 'tag';
+      cell.appendChild(tag);
+      grid.appendChild(cell);
+      CELLS.push({xi, yi, el: cell, tag});
+    }
+  }
+  const yl = document.getElementById('ylab'), xl = document.getElementById('xlab');
+  yl.innerHTML = ''; xl.innerHTML = '';
+  for (let row = 0; row < 8; row++){
+    const d = document.createElement('div');
+    d.textContent = LEVELS[7 - row].toFixed(1);
+    yl.appendChild(d);
+  }
+  for (let xi = 0; xi < 8; xi++){
+    const d = document.createElement('div');
+    d.textContent = LEVELS[xi].toFixed(1);
+    xl.appendChild(d);
+  }
+  buildFixed();
+  refreshMarks();
+  const o = otherAxes();
+  document.getElementById('planeInfo').textContent =
+    '横轴 ' + PCN[st.xA] + '　纵轴 ' + PCN[st.yA] +
+    '　固定 ' + o.map(i => PCN[i] + '=' + st.fixed[i].toFixed(1)).join('，');
+}
+
+function refreshMarks(){
+  const mk = st.marks[planeKey()] || {};
+  let n = 0;
+  for (const c of CELLS){
+    const cat = mk[cellKey(c.xi, c.yi)];
+    const def = cat ? st.cats.find(k => k.id === cat) : null;
+    c.el.style.borderColor = def ? def.color : '';
+    c.el.style.background = def ? def.color + '22' : '#0b0d12';
+    c.tag.textContent = def ? def.name : '';
+    c.tag.style.color = def ? def.color : '';
+    if (def) n++;
+  }
+  const per = st.cats.map(k =>
+    k.name + ' ' + Object.values(mk).filter(v => v === k.id).length).join('　');
+  document.getElementById('counts').textContent =
+    '本平面已标 ' + n + ' / 64　·　' + per;
+}
+
+function setMark(xi, yi, catId){
+  const k = planeKey();
+  const mk = st.marks[k] || (st.marks[k] = {});
+  const ck = cellKey(xi, yi);
+  if (catId === null) delete mk[ck];
+  else mk[ck] = catId;
+  refreshMarks();
+  save();
+}
+function getMark(xi, yi){
+  return (st.marks[planeKey()] || {})[cellKey(xi, yi)] || null;
+}
+
+// ---------------------------------------------------------------- interactions
+// The canvas inside each cell used to swallow the pointer, so elementFromPoint never found a
+// .cell and every click was silently dropped. CSS now sets pointer-events:none on the canvas and
+// the tag, and the hit test walks up from e.target instead of sampling the document.
+const grid = document.getElementById('grid');
+let press = null;
+
+function cellOf(el){
+  while (el && el !== grid){
+    if (el.classList && el.classList.contains('cell')) return el;
+    el = el.parentNode;
+  }
+  return null;
+}
+function paintAt(el, erase){
+  const c = cellOf(el);
+  if (!c) return;
+  const xi = +c.dataset.xi, yi = +c.dataset.yi;
+  if (erase){
+    if (getMark(xi, yi)) setMark(xi, yi, null);
+  } else if (getMark(xi, yi) !== st.cur){
+    setMark(xi, yi, st.cur);
+  }
+}
+
+grid.addEventListener('contextmenu', e => e.preventDefault());
+
+grid.addEventListener('pointerdown', e => {
+  const c = cellOf(e.target);
+  if (!c) return;
+  e.preventDefault();
+  const xi = +c.dataset.xi, yi = +c.dataset.yi;
+  press = {xi, yi, el: c, x0: e.clientX, y0: e.clientY, moved: false,
+           erase: (e.button === 2)};
+  try { grid.setPointerCapture(e.pointerId); } catch(_){}
+});
+
+grid.addEventListener('pointermove', e => {
+  if (!press) return;                       // nothing happens without the button held
+  if (!press.moved && Math.hypot(e.clientX - press.x0, e.clientY - press.y0) > 4){
+    press.moved = true;
+    paintAt(press.el, press.erase);         // the cell the press started on counts too
+  }
+  if (!press.moved) return;
+  paintAt(e.target, press.erase);           // hold and sweep
+});
+
+grid.addEventListener('pointerup', e => {
+  if (!press) return;
+  const p = press; press = null;
+  try { grid.releasePointerCapture(e.pointerId); } catch(_){}
+  if (!p.moved){                            // a plain click toggles that one cell
+    const cur = getMark(p.xi, p.yi);
+    if (p.erase || cur === st.cur) setMark(p.xi, p.yi, null);
+    else setMark(p.xi, p.yi, st.cur);
+  }
+});
+grid.addEventListener('pointercancel', () => { press = null; });
+
+// ---------------------------------------------------------------- categories
+function renderCats(){
+  const box = document.getElementById('cats');
+  box.innerHTML = '';
+  st.cats.forEach((k, i) => {
+    const d = document.createElement('div');
+    d.className = 'cat' + (k.id === st.cur ? ' on' : '');
+    d.innerHTML = '<div class="sw" style="background:' + k.color + '"></div>' +
+                  '<div class="n">' + (i + 1) + '. ' + k.name + '</div>' +
+                  '<div class="c">' + Object.values(st.marks[planeKey()] || {})
+                      .filter(v => v === k.id).length + '</div>';
+    d.onclick = () => { st.cur = k.id; renderCats(); };
+    if (st.cats.length > 1){
+      const x = document.createElement('div');
+      x.className = 'x'; x.textContent = '×';
+      x.onclick = ev => {
+        ev.stopPropagation();
+        if (!confirm('删除类别「' + k.name + '」？它的标记会一并清除。')) return;
+        for (const pk of Object.keys(st.marks))
+          for (const ck of Object.keys(st.marks[pk]))
+            if (st.marks[pk][ck] === k.id) delete st.marks[pk][ck];
+        st.cats = st.cats.filter(q => q.id !== k.id);
+        if (st.cur === k.id) st.cur = st.cats[0].id;
+        renderCats(); refreshMarks(); save();
+      };
+      d.appendChild(x);
+    }
+    box.appendChild(d);
+  });
+}
+const PALETTE = ['#8fd3ff', '#5fd68a', '#c0b0ff', '#ff9ecb', '#8ee6d0',
+                 '#ffd479', '#b9a4ff', '#9fe07a'];
+document.getElementById('addCat').onclick = () => {
+  const el = document.getElementById('newName');
+  const nm = (el.value || '').trim();
+  if (!nm) return;
+  if (st.cats.some(k => k.name === nm)) { alert('已存在同名类别'); return; }
+  st.cats.push({id: 'c' + Date.now(), name: nm,
+                color: PALETTE[(st.cats.length - 1) % PALETTE.length]});
+  el.value = '';
+  st.cur = st.cats[st.cats.length - 1].id;
+  renderCats(); refreshMarks(); save();
+};
+document.getElementById('newName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('addCat').click();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  if (e.key >= '1' && e.key <= '9'){
+    const i = +e.key - 1;
+    if (st.cats[i]){ st.cur = st.cats[i].id; renderCats(); }
+    return;
+  }
+  // arrows step the two fixed axes: left/right the first, up/down the second
+  const o = otherAxes();
+  const dirs = {ArrowLeft: [0, -1], ArrowRight: [0, +1], ArrowDown: [1, -1], ArrowUp: [1, +1]};
+  const d = dirs[e.key];
+  if (!d) return;
+  e.preventDefault();
+  const which = o[d[0]];
+  if (which === undefined) return;
+  const j = LEVELS.indexOf(st.fixed[which]);
+  const k = Math.max(0, Math.min(LEVELS.length - 1, j + d[1]));
+  if (k === j) return;
+  st.fixed[which] = LEVELS[k];
+  rebuild();
+});
+
+// ---------------------------------------------------------------- persistence
+const SKEY = 'pca4plane_v2';
+function save(){
+  try { localStorage.setItem(SKEY, JSON.stringify({marks: st.marks, cats: st.cats})); } catch(_){}
+}
+function load(){
+  try {
+    const s = localStorage.getItem(SKEY);
+    if (!s) return;
+    const j = JSON.parse(s);
+    if (j.marks) st.marks = j.marks;
+    if (j.cats && j.cats.length){ st.cats = j.cats; st.cur = j.cats[0].id; }
+  } catch(_){}
+}
+
+// ---------------------------------------------------------------- export
+document.getElementById('exportBtn').onclick = () => {
+  const rows = [];
+  for (const pk of Object.keys(st.marks)){
+    const [key, xA, yA, f0, f1] = pk.split('|');
+    const o = [0,1,2,3].filter(i => i !== +xA && i !== +yA);
+    for (const ck of Object.keys(st.marks[pk])){
+      const cat = st.marks[pk][ck];
+      const ci = +ck, xi = ci % 8, yi = Math.floor(ci / 8);
+      const pca = [0, 0, 0, 0];
+      pca[+xA] = LEVELS[xi];
+      pca[+yA] = LEVELS[yi];
+      pca[o[0]] = +f0;
+      pca[o[1]] = +f1;
+      const def = st.cats.find(k => k.id === cat);
+      rows.push({model: key, pca, cat: def ? def.name : cat, catId: cat,
+                 plane: {xAxis: +xA, yAxis: +yA, fixed: [+f0, +f1]}});
+    }
+  }
+  if (!rows.length){ alert('还没有任何标注'); return; }
+  const blob = new Blob([JSON.stringify({
+    exported: new Date().toISOString(),
+    categories: st.cats.map(k => ({id: k.id, name: k.name, color: k.color})),
+    marks: rows
+  }, null, 1)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'pca4_plane_marks.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+
+// ---------------------------------------------------------------- init
+(async function(){
+  load();
+  try {
+    const fr = await fetch('grayscale_family.json');
+    if (!fr.ok) throw new Error('缺少 grayscale_family.json');
+    (await fr.json()).models.forEach(m => FAM.push(m));
+    for (const m of FAM){
+      const r = await fetch(m.file);
+      if (!r.ok) continue;
+      MODELS[m.key] = {layers: toLayers(await r.json())};
+    }
+  } catch(e){
+    document.getElementById('planeInfo').innerHTML =
+      '<span class="bad">加载失败：' + e.message + '</span>';
+    return;
+  }
+
+  const avail = FAM.filter(m => MODELS[m.key]);
+  const sel = document.getElementById('model');
+  avail.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.key; o.textContent = m.name + ' (' + m.mults + ')';
+    sel.appendChild(o);
+  });
+  st.key = (avail.find(m => m.key === 'w64l1') || avail[0]).key;
+  sel.value = st.key;
+  sel.onchange = () => { st.key = sel.value; rebuild(); };
+
+  const xs = document.getElementById('xAxis'), ys = document.getElementById('yAxis');
+  for (const s of [xs, ys]) PCN.forEach((n, i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = n; s.appendChild(o);
+  });
+  xs.value = st.xA; ys.value = st.yA;
+  xs.onchange = () => {
+    st.xA = +xs.value;
+    if (st.xA === st.yA){ st.yA = (st.yA + 1) % 4; ys.value = st.yA; }
+    ensureFixed(); rebuild();
+  };
+  ys.onchange = () => {
+    st.yA = +ys.value;
+    if (st.xA === st.yA){ st.xA = (st.xA + 1) % 4; xs.value = st.xA; }
+    ensureFixed(); rebuild();
+  };
+
+  ensureFixed();
+  renderCats();
+  rebuild();
+
+  window.PLANE = {
+    state: st, models: Object.keys(MODELS), levels: LEVELS,
+    planeKey, seedAt, levelsFor, rebuild, setMark, getMark, refreshMarks,
+    otherAxes, cells: () => CELLS.map(c => ({xi: c.xi, yi: c.yi})),
+    stepFixed: (which, d) => {
+      const o = otherAxes(); const t = o[which];
+      const j = LEVELS.indexOf(st.fixed[t]);
+      const k = Math.max(0, Math.min(LEVELS.length - 1, j + d));
+      if (k !== j){ st.fixed[t] = LEVELS[k]; rebuild(); }
+    }
+  };
+})();
+</script>
+</body>
+</html>

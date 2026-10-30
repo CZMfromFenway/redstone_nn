@@ -1,0 +1,5 @@
+sequence,mixed_size,full_size,added_by_fullT,lost,mixed_subset_full,gain_pct
+DD,5250,5250,0,0,True,0.0
+DT,11415,12170,755,0,True,6.614104248795445
+TD,4412,5904,1492,0,True,33.816863100634635
+TT,4945,6612,1667,0,True,33.7108190091001

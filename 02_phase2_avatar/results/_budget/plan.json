@@ -1,0 +1,57 @@
+{
+  "clock_at_plan": "2026-10-16 19:46:14",
+  "deadline": "21:00",
+  "seconds_left": 4426,
+  "reserve": 150,
+  "safety": 1.0,
+  "source": "timings.json (real pilot measurements)",
+  "plan": [
+    {
+      "label": "sweep_uncond",
+      "cost_seconds": 185.3,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_pca4",
+      "cost_seconds": 301.4,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_pca8",
+      "cost_seconds": 301.1,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_pca16",
+      "cost_seconds": 307.5,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_pca22",
+      "cost_seconds": 319.9,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_half",
+      "cost_seconds": 214.8,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_code3",
+      "cost_seconds": 419.8,
+      "steps": 1500
+    },
+    {
+      "label": "sweep_code5",
+      "cost_seconds": 658.3,
+      "steps": 1500
+    },
+    {
+      "label": "kernel_style",
+      "cost_seconds": 766.8,
+      "steps": 4000
+    }
+  ],
+  "skipped": [],
+  "predicted_finish_seconds_after_midnight": 74648
+}

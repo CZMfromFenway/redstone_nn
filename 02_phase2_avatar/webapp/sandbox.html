@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>灰度模型沙盒</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#0f1116; color:#dfe6f0;
+         font-family:"Microsoft YaHei",system-ui,sans-serif; }
+  .wrap { display:flex; min-height:100vh; }
+  aside { width:320px; flex:0 0 320px; padding:16px 16px 30px;
+          background:#141821; border-right:1px solid #232734; }
+  main { flex:1; padding:20px 24px 50px; min-width:0; }
+  h1 { font-size:17px; margin:0 0 3px; font-weight:600; }
+  .sub { font-size:11px; color:#7f8b9d; margin-bottom:16px; line-height:1.6; }
+  h2 { font-size:11px; color:#8fa3bd; margin:18px 0 7px; font-weight:600;
+       letter-spacing:.6px; text-transform:uppercase; }
+  select { width:100%; background:#1b2029; color:#dfe6f0; border:1px solid #2b3240;
+           border-radius:7px; padding:8px 9px; font-size:13px; }
+  .seg { display:flex; border:1px solid #2b3240; border-radius:7px; overflow:hidden; }
+  .seg button { flex:1; background:#181d26; color:#93a0b4; border:0; padding:8px 4px;
+                font-size:12px; cursor:pointer; }
+  .seg button.on { background:#2a3a55; color:#cfe4ff; }
+  .chk { display:flex; align-items:center; gap:8px; font-size:13px; margin:9px 0;
+         cursor:pointer; color:#c6d2e2; }
+  .chk input { width:16px; height:16px; accent-color:#4d7fd6; }
+  .hint { font-size:11px; color:#6f7b8d; line-height:1.65; margin-top:6px; }
+  button.go { width:100%; margin-top:16px; padding:11px; font-size:14px; cursor:pointer;
+              background:#2a3a55; color:#dceaff; border:1px solid #3c5480;
+              border-radius:9px; }
+  button.go:hover { background:#33466a; }
+  .tabs { display:flex; gap:8px; margin-bottom:16px; }
+  .tabs button { padding:9px 20px; font-size:14px; cursor:pointer; border-radius:9px;
+                 background:#181d26; color:#93a0b4; border:1px solid #2b3240; }
+  .tabs button.on { background:#2a3a55; color:#e6f1ff; border-color:#3c5480; }
+  .stage { display:flex; gap:34px; align-items:flex-start; flex-wrap:wrap; }
+  canvas#single { width:300px; height:300px; image-rendering:pixelated;
+                  border-radius:12px; background:#0b0d12; border:1px solid #232734; }
+  .knobs { flex:1; min-width:340px; }
+  .knob { margin-bottom:13px; }
+  .knob .top { display:flex; justify-content:space-between; font-size:12px;
+               color:#a7b4c6; margin-bottom:3px; }
+  .knob .top b { color:#dfe6f0; font-variant-numeric:tabular-nums; }
+  .knob input[type=range] { width:100%; accent-color:#4d7fd6; }
+  .knob .desc { font-size:10px; color:#6f7b8d; margin-top:1px; }
+  .scores { display:flex; gap:22px; margin-top:14px; font-size:12px; color:#8fa3bd; }
+  .scores b { color:#cfe4ff; font-variant-numeric:tabular-nums; }
+  .row2 { display:flex; gap:9px; margin-top:10px; }
+  .row2 button { flex:1; padding:9px; font-size:13px; cursor:pointer; border-radius:8px;
+                 background:#1d2430; color:#c6d2e2; border:1px solid #2b3240; }
+  #grid { display:grid; gap:8px; }
+  .tile { background:#0b0d12; border-radius:8px; padding:5px; cursor:zoom-in;
+          border:1px solid #1d222c; }
+  .tile canvas { width:100%; image-rendering:pixelated; display:block; border-radius:5px; }
+  .stat { font-size:11px; color:#8494aa; margin-top:14px; line-height:1.8; }
+  .stat b { color:#dfe6f0; }
+  #big { position:fixed; inset:0; background:#05070acc; display:none;
+         align-items:center; justify-content:center; cursor:zoom-out; z-index:50; }
+  #big canvas { width:min(76vh,76vw); image-rendering:pixelated; border-radius:12px;
+                box-shadow:0 0 60px #000; }
+  #bigInfo { position:absolute; bottom:26px; font-size:13px; color:#c6d2e2;
+             background:#0b0d12cc; padding:8px 14px; border-radius:8px; }
+  .bad { color:#ff8b73; }
+  .hide { display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <h1>灰度模型沙盒</h1>
+    <div class="sub">先选模型和配色，再决定单张调旋钮还是批量看整批。</div>
+
+    <h2>模型</h2>
+    <select id="model"></select>
+    <div class="hint" id="modelInfo"></div>
+
+    <h2>配色方案</h2>
+    <div class="seg" id="scheme">
+      <button data-v="16" class="on">16 级自由灰度</button>
+      <button data-v="mc11">11 档 MC 灰</button>
+    </div>
+    <div class="hint">11 档归并后每像素只需 4 bit 索引，但可分辨档位只有 9 个。</div>
+
+    <div id="batchOnly">
+      <h2>风格抽样（只影响批量）</h2>
+      <select id="style">
+        <option value="">自由：整个立方体里随机</option>
+      </select>
+      <div class="hint" id="styleInfo">
+        默认是自由的。没有任何打分器和约束的试错最容易碰到意外的设计，风格只是把它缩小到一片已知区域。
+      </div>
+
+      <h2>打分器（只影响批量）</h2>
+      <select id="scorer">
+        <option value="quad">二次打分器（新，AUC 0.853）</option>
+        <option value="">不筛选</option>
+        <option value="accept">可接受·线性（旧）</option>
+        <option value="anime">类二次元·线性</option>
+      </select>
+      <div style="margin-top:9px">
+        <div class="hint" style="margin:0 0 5px">抽取倍数</div>
+        <div class="seg" id="times">
+          <button data-v="2" class="on">2 选 1</button>
+          <button data-v="4">4 选 1</button>
+          <button data-v="8">8 选 1</button>
+        </div>
+      </div>
+
+      <h2>风格限制（矩形夹取）</h2>
+      <div class="row" style="margin-top:2px">
+        <label>PC1 上限</label>
+        <select id="pc1max"></select>
+      </div>
+      <div class="row">
+        <label>PC2 下限</label>
+        <select id="pc2min"></select>
+      </div>
+      <div class="hint">
+        实测：PC1 ≤ −1.5 且 PC2 ≥ −0.5 时坏率从 33.5% 降到 10.9%，保留 23% 的多样性。
+        默认不限制。
+      </div>
+      <h2>数量</h2>
+      <div class="seg" id="count">
+        <button data-v="16">16</button>
+        <button data-v="32" class="on">32</button>
+        <button data-v="64">64</button>
+      </div>
+      <button class="go" id="regen">生成一批</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="tabs">
+      <button id="tabSingle" class="on">单张 · 调旋钮</button>
+      <button id="tabBatch">批量 · 一个模型</button>
+    </div>
+
+    <div id="viewSingle">
+      <div class="stage">
+        <canvas id="single" width="8" height="8"></canvas>
+        <div class="knobs">
+          <div id="knobBox"></div>
+          <div class="scores">
+            <span>可接受分 <b id="sAcc">—</b></span>
+            <span>类二次元分 <b id="sAnime">—</b></span>
+          </div>
+          <div class="row2">
+            <button id="rand">随机四个旋钮</button>
+            <button id="zero">全部归零</button>
+          </div>
+          <div class="hint" style="margin-top:10px">
+            拖动滑块就是直接给模型一个 4 维坐标。分数是筛选器对当前坐标的判断，
+            批量模式的筛选就是在这四个数上取最高分。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="viewBatch" class="hide">
+      <div id="grid"></div>
+      <div class="stat" id="stat"></div>
+    </div>
+  </main>
+</div>
+
+<div id="big"><canvas width="8" height="8"></canvas><div id="bigInfo"></div></div>
+
+<script>
+'use strict';
+
+const POS_ROW = [], POS_COL = [], MIRROR_COL = [];
+for (let p = 0; p < 32; p++) { POS_ROW.push(p % 8); POS_COL.push(Math.floor(p / 8)); }
+for (let p = 0; p < 32; p++) MIRROR_COL.push(7 - POS_COL[p]);
+
+const KNOB = [
+  {name: 'PC0 明度', desc: '整体亮度，越大越亮'},
+  {name: 'PC1 发肤', desc: '上下对比：负值＝深发亮脸，正值相反'},
+  {name: 'PC2 眼型', desc: '眼部与头发的形状'},
+  {name: 'PC3 脸型', desc: '中心与边缘的关系'},
+];
+
+const FAM = [], MODELS = {};
+let SC_ACC = null, SC_ANIME = null, MC11 = null, SC_QUAD = null;
+let STYLES = [];          // [{name, mu, chol, sd, bad1, bad2}]
+const st = { key: null, scheme: '16', scorer: 'quad', times: 2,
+             count: 32, mode: 'single', knob: [0, 0, 0, 0],
+             pc1Max: null, pc2Min: null, style: '' };
+
+// ---------------------------------------------------------------- model plumbing
+function toLayers(j){
+  const Ls = j.gen.layers;
+  return Ls.map((L, i) => ({W: L.W, b: L.b, relu: i !== Ls.length - 1,
+                            nin: L.W[0].length, nout: L.W.length}));
+}
+function forward(layers, x){
+  let v = x;
+  for (const L of layers){
+    const out = new Float32Array(L.nout);
+    for (let o = 0; o < L.nout; o++){
+      const W = L.W[o]; let s = L.b[o];
+      for (let i = 0; i < L.nin; i++) s += W[i] * v[i];
+      out[o] = L.relu && s < 0 ? 0 : s;
+    }
+    v = out;
+  }
+  return v;
+}
+function scoreOf(scorer, x){
+  let v = x;
+  for (const L of scorer.layers){
+    const out = new Float32Array(L.W.length);
+    for (let o = 0; o < L.W.length; o++){
+      const W = L.W[o]; let s = L.b[o];
+      for (let i = 0; i < W.length; i++) s += W[i] * v[i];
+      out[o] = L.relu && s < 0 ? 0 : s;
+    }
+    v = out;
+  }
+  return v[0];
+}
+
+// The quadratic scorer predicts BADNESS, so it is negated when a high score should mean good.
+// It is a direct polynomial in the four knobs: 4 squares, 6 products, 14 multiply-accumulates.
+function badnessQuad(x){
+  const c = SC_QUAD.coef;
+  let v = c.c;
+  for (let i = 0; i < 4; i++) v += c.linear[i] * x[i] + c.square[i] * x[i] * x[i];
+  for (const key in c.cross){
+    const i = +key[0], k = +key[1];
+    v += c.cross[key] * x[i] * x[k];
+  }
+  return v;
+}
+function quadScore(x){ return SC_QUAD ? -badnessQuad(x) : 0; }
+
+// clip -> per-face min-max stretch -> round -> optional MC merge. Identical to the deployed
+// recipe, so what this page shows is what the hardware would print.
+function levelsFor(seed, scheme){
+  const L = MODELS[st.key].layers;
+  const raw = forward(L, seed);
+  let v = Array.from(raw).map(z => Math.max(0, Math.min(15, z)));
+  let lo = Infinity, hi = -Infinity;
+  for (const q of v){ if (q < lo) lo = q; if (q > hi) hi = q; }
+  const k = 15 / Math.max(hi - lo, 1e-6);
+  v = v.map(q => Math.round(Math.max(0, Math.min(15, (q - lo) * k))));
+  if (scheme === 'mc11' && MC11) v = v.map(q => MC11._lut[Math.max(0, Math.min(15, q))]);
+  return v;
+}
+function paint(cv, lv){
+  const c = cv.getContext('2d');
+  const img = c.createImageData(8, 8);
+  for (let p = 0; p < 32; p++){
+    const g = Math.round(Math.max(0, Math.min(15, lv[p])) / 15 * 255);
+    for (const col of [POS_COL[p], MIRROR_COL[p]]){
+      const i = (POS_ROW[p]*8 + col) * 4;
+      img.data[i] = g; img.data[i+1] = g; img.data[i+2] = g; img.data[i+3] = 255;
+    }
+  }
+  c.putImageData(img, 0, 0);
+}
+
+// ---------------------------------------------------------------- single mode
+function drawSingle(){
+  const seed = new Float32Array(st.knob);
+  const lv = levelsFor(seed, st.scheme);
+  paint(document.getElementById('single'), lv);
+  document.getElementById('sAcc').textContent =
+    SC_ACC ? scoreOf(SC_ACC, seed).toFixed(3) : '—';
+  document.getElementById('sAnime').textContent =
+    SC_ANIME ? scoreOf(SC_ANIME, seed).toFixed(3) : '—';
+}
+function buildKnobs(){
+  const box = document.getElementById('knobBox');
+  box.innerHTML = '';
+  KNOB.forEach((k, i) => {
+    const d = document.createElement('div');
+    d.className = 'knob';
+    d.innerHTML = '<div class="top"><span>' + k.name + '</span><b id="kv' + i + '">' +
+                  st.knob[i].toFixed(2) + '</b></div>';
+    const r = document.createElement('input');
+    r.type = 'range'; r.min = -3.5; r.max = 3.5; r.step = 0.05;
+    r.value = st.knob[i];
+    r.oninput = () => {
+      st.knob[i] = +r.value;
+      document.getElementById('kv' + i).textContent = st.knob[i].toFixed(2);
+      drawSingle();
+    };
+    d.appendChild(r);
+    const de = document.createElement('div');
+    de.className = 'desc';
+    de.textContent = k.desc;
+    d.appendChild(de);
+    box.appendChild(d);
+  });
+}
+
+// ---------------------------------------------------------------- batch mode
+function insideBox(c){
+  if (st.pc1Max !== null && c[1] > st.pc1Max) return false;
+  if (st.pc2Min !== null && c[2] < st.pc2Min) return false;
+  return true;
+}
+function norm(){
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+}
+// Free sampling clamps each component to the cube. Style sampling transforms a standard normal
+// through the style's Cholesky factor, so the result is a correlated Gaussian with the fitted
+// centre and spread; anything that lands outside the cube is redrawn, not clamped, because
+// clamping a correlated cloud would pile mass on the boundary faces.
+function oneGauss(){
+  const c = new Float32Array(4);
+  for (let k = 0; k < 4; k++) c[k] = Math.max(-3.5, Math.min(3.5, norm()));
+  return c;
+}
+function styleSample(s){
+  for (let tries = 0; tries < 200; tries++){
+    const z = [norm(), norm(), norm(), norm()];
+    const c = new Float32Array(4);
+    for (let i = 0; i < 4; i++){
+      let v = s.mu[i];
+      for (let k = 0; k <= i; k++) v += s.chol[i][k] * z[k];
+      c[i] = v;
+    }
+    if (Math.abs(c[0]) <= 3.5 && Math.abs(c[1]) <= 3.5 &&
+        Math.abs(c[2]) <= 3.5 && Math.abs(c[3]) <= 3.5) return c;
+  }
+  const c = new Float32Array(4);
+  for (let i = 0; i < 4; i++) c[i] = Math.max(-3.5, Math.min(3.5, s.mu[i]));
+  return c;
+}
+function currentStyle(){
+  return st.style ? STYLES.find(t => t.name === st.style) : null;
+}
+function drawSeed(){
+  const useFilter = st.scorer !== '';
+  const n = useFilter ? st.times : 1;
+  let best = null, bs = -Infinity;
+  for (let i = 0; i < n; i++){
+    // rejection sampling keeps the Gaussian shape inside the box instead of piling mass on the edge
+    const sty = currentStyle();
+    let c, tries = 0;
+    do { c = sty ? styleSample(sty) : oneGauss(); tries++; }
+    while (!insideBox(c) && tries < 400);
+    if (!insideBox(c)){                 // extremely tight box: clamp rather than loop forever
+      c[1] = Math.min(c[1], st.pc1Max !== null ? st.pc1Max : 3.5);
+      c[2] = Math.max(c[2], st.pc2Min !== null ? st.pc2Min : -3.5);
+    }
+    let s = 0;
+    if (st.scorer === 'quad') s = quadScore(c);
+    else if (st.scorer === 'accept' && SC_ACC) s = scoreOf(SC_ACC, c);
+    else if (st.scorer === 'anime' && SC_ANIME) s = scoreOf(SC_ANIME, c);
+    if (s > bs){ bs = s; best = c; }
+  }
+  return best;
+}
+function renderBatch(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const n = st.count;
+  const cols = Math.max(6, Math.min(12, Math.round(Math.sqrt(n * 1.8))));
+  grid.style.gridTemplateColumns = 'repeat(' + cols + ', minmax(0,1fr))';
+  const t0 = performance.now();
+  for (let i = 0; i < n; i++){
+    const seed = drawSeed();
+    const lv = levelsFor(seed, st.scheme);
+    const cell = document.createElement('div');
+    cell.className = 'tile';
+    const cv = document.createElement('canvas');
+    cv.width = 8; cv.height = 8;
+    paint(cv, lv);
+    cell.appendChild(cv);
+    cell.onclick = () => showBig(lv, i);
+    grid.appendChild(cell);
+  }
+  const nm = {'quad': '二次打分器', 'accept': '可接受·线性', 'anime': '类二次元·线性'};
+  const box = [];
+  if (st.pc1Max !== null) box.push('PC1 ≤ ' + st.pc1Max.toFixed(1));
+  if (st.pc2Min !== null) box.push('PC2 ≥ ' + st.pc2Min.toFixed(1));
+  const m = FAM.find(x => x.key === st.key);
+  document.getElementById('stat').innerHTML =
+    m.name + '（' + m.mults + ' 乘法）· ' +
+    (st.scheme === 'mc11' ? '11 档 MC 灰' : '16 级自由') + ' · ' +
+    (st.style ? '风格 ' + st.style + ' · ' : '') +
+    (st.scorer ? nm[st.scorer] + ' · ' + st.times + ' 选 1' : '无筛选') +
+    (box.length ? ' · ' + box.join(' · ') : '') +
+    '<br>生成 ' + n + ' 张，用时 ' + Math.round(performance.now() - t0) + ' ms';
+}
+function showBig(lv, i){
+  const big = document.getElementById('big');
+  paint(big.querySelector('canvas'), lv);
+  document.getElementById('bigInfo').textContent =
+    '第 ' + (i+1) + ' 张 · 亮度级数 ' + new Set(lv).size;
+  big.style.display = 'flex';
+}
+document.getElementById('big').onclick = () => {
+  document.getElementById('big').style.display = 'none';
+};
+
+// ---------------------------------------------------------------- UI wiring
+function seg(id, cb){
+  const box = document.getElementById(id);
+  box.querySelectorAll('button').forEach(b => {
+    b.onclick = () => {
+      box.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      cb(b.dataset.v);
+    };
+  });
+}
+function setMode(m){
+  st.mode = m;
+  document.getElementById('tabSingle').classList.toggle('on', m === 'single');
+  document.getElementById('tabBatch').classList.toggle('on', m === 'batch');
+  document.getElementById('viewSingle').classList.toggle('hide', m !== 'single');
+  document.getElementById('viewBatch').classList.toggle('hide', m !== 'batch');
+  document.getElementById('batchOnly').classList.toggle('hide', m !== 'batch');
+  if (m === 'single') drawSingle(); else renderBatch();
+}
+
+(async function(){
+  const fail = m => {
+    document.getElementById('stat').innerHTML = '<span class="bad">' + m + '</span>';
+  };
+  try {
+    const fr = await fetch('grayscale_family.json');
+    if (!fr.ok) return fail('缺少 grayscale_family.json');
+    (await fr.json()).models.forEach(m => FAM.push(m));
+    for (const m of FAM){
+      const r = await fetch(m.file);
+      if (!r.ok){ console.warn('missing', m.file); continue; }
+      MODELS[m.key] = {layers: toLayers(await r.json())};
+    }
+    const [ar, an, mr, qr, sr] = await Promise.all([
+      fetch('scorer_accept.json'), fetch('scorer_anime.json'),
+      fetch('merge_mc11.json'), fetch('scorer_quad.json'),
+      fetch('styles_gauss.json')
+    ]);
+    if (sr.ok) STYLES = (await sr.json()).styles || [];
+    if (ar.ok) SC_ACC = await ar.json();
+    if (an.ok) SC_ANIME = await an.json();
+    if (mr.ok) MC11 = await mr.json();
+    if (qr.ok) SC_QUAD = await qr.json();
+  } catch(e){ return fail('加载失败：' + e.message); }
+
+  const avail = FAM.filter(m => MODELS[m.key]);
+  if (!avail.length) return fail('没有模型加载成功');
+
+  const sel = document.getElementById('model');
+  avail.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m.key;
+    o.textContent = m.name + '  (' + Number(m.mults).toLocaleString() + ' 乘法)';
+    sel.appendChild(o);
+  });
+  // default to the cheapest single-layer model, since that is the current candidate
+  st.key = (avail.find(m => m.key === 'w64l1') || avail[0]).key;
+  sel.value = st.key;
+  const info = () => {
+    const m = FAM.find(x => x.key === st.key);
+    document.getElementById('modelInfo').textContent =
+      m.shape + ' · ' + Number(m.mults).toLocaleString() + ' 乘法 · ' + m.group;
+  };
+  info();
+  sel.onchange = () => { st.key = sel.value; info();
+    if (st.mode === 'single') drawSingle(); else renderBatch(); };
+
+  seg('scheme', v => { st.scheme = v;
+    if (st.mode === 'single') drawSingle(); else renderBatch(); });
+  seg('times', v => { st.times = +v; });
+  seg('count', v => { st.count = +v; });
+  document.getElementById('scorer').onchange = e => { st.scorer = e.target.value; };
+  const styleSel = document.getElementById('style');
+  for (const t of STYLES){
+    const o = document.createElement('option');
+    o.value = t.name;
+    o.textContent = t.name + '  (1σ坏率 ' + Math.round(100 * t.bad1) + '%)';
+    styleSel.appendChild(o);
+  }
+  styleSel.value = '';
+  styleSel.onchange = () => {
+    st.style = styleSel.value;
+    const info = document.getElementById('styleInfo');
+    const t = currentStyle();
+    info.textContent = t
+      ? t.name + '：中心 ' + t.mu.map(v => v.toFixed(1)).join(', ') +
+        '；1σ 坏率 ' + Math.round(100 * t.bad1) + '%，2σ ' + Math.round(100 * t.bad2) + '%。'
+      : '默认是自由的。没有任何打分器和约束的试错最容易碰到意外的设计，风格只是把它缩小到一片已知区域。';
+  };
+  for (const [id, key] of [['pc1max', 'pc1Max'], ['pc2min', 'pc2Min']]){
+    const sel = document.getElementById(id);
+    const none = document.createElement('option');
+    none.value = ''; none.textContent = '不限制';
+    sel.appendChild(none);
+    for (const v of [-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5]){
+      const o = document.createElement('option');
+      o.value = v; o.textContent = (id === 'pc1max' ? '≤ ' : '≥ ') + v.toFixed(1);
+      sel.appendChild(o);
+    }
+    sel.value = '';
+    sel.onchange = () => {
+      st[key] = sel.value === '' ? null : +sel.value;
+    };
+  }
+  document.getElementById('regen').onclick = () => { renderBatch(); };
+  document.getElementById('tabSingle').onclick = () => setMode('single');
+  document.getElementById('tabBatch').onclick = () => setMode('batch');
+  document.getElementById('rand').onclick = () => {
+    for (let i = 0; i < 4; i++) st.knob[i] = Math.round((Math.random()*7 - 3.5)*20)/20;
+    buildKnobs(); drawSingle();
+  };
+  document.getElementById('zero').onclick = () => {
+    st.knob = [0, 0, 0, 0]; buildKnobs(); drawSingle();
+  };
+
+  buildKnobs();
+  setMode('single');
+  window.SANDBOX = {
+    state: st, models: Object.keys(MODELS), fam: FAM,
+    hasAccept: !!SC_ACC, hasAnime: !!SC_ANIME, hasMerge: !!MC11,
+    levelsFor, drawSeed, paint, setMode, scoreOf,
+    scoreAcc: x => SC_ACC ? scoreOf(SC_ACC, x) : null,
+    scoreAnime: x => SC_ANIME ? scoreOf(SC_ANIME, x) : null,
+    hasQuad: !!SC_QUAD, badnessQuad, quadScore, drawSeed2: drawSeed, insideBox,
+    styles: STYLES, styleSample, currentStyle,
+    lut: MC11 ? MC11._lut : null
+  };
+})();
+</script>
+</body>
+</html>

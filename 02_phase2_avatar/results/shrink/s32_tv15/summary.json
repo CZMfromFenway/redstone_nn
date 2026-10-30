@@ -1,0 +1,81 @@
+{
+  "args": {
+    "tag": "s32_tv15",
+    "mode": "gray32",
+    "steps": 12000,
+    "batch": 256,
+    "hid": 256,
+    "layers": 2,
+    "lam": 15.0,
+    "gauss_target": false,
+    "tv32": true,
+    "sigma": 0.35,
+    "adv_weight": 1.0,
+    "eval_every": 3000,
+    "threads": 10
+  },
+  "n_params": 79904,
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 3000,
+      "acc": 0.6812,
+      "mae_levels": 0.448,
+      "d_acc": 0.8275,
+      "agree": 0.5106,
+      "iso": 10.38,
+      "blobs": 19.45,
+      "sec": 238.1,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 6000,
+      "acc": 0.7121,
+      "mae_levels": 0.405,
+      "d_acc": 0.8537,
+      "agree": 0.5303,
+      "iso": 9.74,
+      "blobs": 18.36,
+      "sec": 501.5,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 9000,
+      "acc": 0.717,
+      "mae_levels": 0.394,
+      "d_acc": 0.8487,
+      "agree": 0.5458,
+      "iso": 9.375,
+      "blobs": 17.66,
+      "sec": 832.9,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 12000,
+      "acc": 0.7318,
+      "mae_levels": 0.372,
+      "d_acc": 0.8537,
+      "agree": 0.5556,
+      "iso": 9.435,
+      "blobs": 17.32,
+      "sec": 1069.2,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    }
+  ]
+}

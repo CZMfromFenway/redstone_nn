@@ -1,0 +1,35 @@
+[
+  {
+    "h": 4,
+    "NC": 16,
+    "waste": 6,
+    "dmin": 1,
+    "sim_dist": 1.211764705882353,
+    "acc_linear": 0.1364,
+    "acc_hidden": 0.1135,
+    "param_linear": 904,
+    "param_hidden": 29444
+  },
+  {
+    "h": 5,
+    "NC": 32,
+    "waste": 22,
+    "dmin": 1,
+    "sim_dist": 1.3058823529411765,
+    "acc_linear": 0.1415,
+    "acc_hidden": 0.0,
+    "param_linear": 1130,
+    "param_hidden": 29573
+  },
+  {
+    "h": 6,
+    "NC": 64,
+    "waste": 54,
+    "dmin": 1,
+    "sim_dist": 1.4941176470588236,
+    "acc_linear": 0.0036,
+    "acc_hidden": 0.0,
+    "param_linear": 1356,
+    "param_hidden": 29702
+  }
+]

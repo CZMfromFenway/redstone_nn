@@ -1,0 +1,48 @@
+{
+  "reference": {
+    "agree": 0.5971130952380952,
+    "iso": 7.053333333333334,
+    "blobs": 14.2
+  },
+  "rows": [
+    {
+      "lam": 2.5,
+      "agree_sample": 0.18107142857142858,
+      "iso_sample": 32.78,
+      "blobs_sample": 44.8625,
+      "agree_mode": 0.7419642857142859,
+      "iso_mode": 3.98,
+      "blobs_mode": 8.8025,
+      "acc_mode": 0.22484375536441803,
+      "acc_sample": 0.14421874284744263,
+      "seconds": 7.5
+    },
+    {
+      "lam": 3.5,
+      "agree_sample": 0.18361607142857142,
+      "iso_sample": 32.02,
+      "blobs_sample": 44.4925,
+      "agree_mode": 0.7855803571428571,
+      "iso_mode": 2.79,
+      "blobs_mode": 6.795,
+      "acc_mode": 0.21593749523162842,
+      "acc_sample": 0.13515624403953552,
+      "seconds": 8.2
+    },
+    {
+      "lam": 5.0,
+      "agree_sample": 0.18013392857142857,
+      "iso_sample": 32.595,
+      "blobs_sample": 44.9425,
+      "agree_mode": 0.8340178571428573,
+      "iso_mode": 2.165,
+      "blobs_mode": 5.5475,
+      "acc_mode": 0.2056249976158142,
+      "acc_sample": 0.13453124463558197,
+      "seconds": 8.2
+    }
+  ],
+  "steps": 120,
+  "decode": "mode",
+  "penalty": "tv_probs"
+}

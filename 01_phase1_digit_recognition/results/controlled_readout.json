@@ -1,0 +1,102 @@
+{
+  "A_teacher": 3,
+  "N": 65536,
+  "rows": [
+    {
+      "S": 1000,
+      "case": "A 连续 tanh（上界）",
+      "dim": 8,
+      "wmax": 785,
+      "err": 25,
+      "buildable": "—"
+    },
+    {
+      "S": 1000,
+      "case": "B 4bit 直接量化",
+      "dim": 8,
+      "wmax": 103,
+      "err": 1505,
+      "buildable": "是"
+    },
+    {
+      "S": 1000,
+      "case": "C 8bit 拆分（2条线）",
+      "dim": 16,
+      "wmax": 99,
+      "err": 273,
+      "buildable": "是"
+    },
+    {
+      "S": 1000,
+      "case": "D 8bit 不拆分（1条线，诊断）",
+      "dim": 8,
+      "wmax": 6,
+      "err": 3975,
+      "buildable": "否"
+    },
+    {
+      "S": 4000,
+      "case": "A 连续 tanh（上界）",
+      "dim": 8,
+      "wmax": 3142,
+      "err": 7,
+      "buildable": "—"
+    },
+    {
+      "S": 4000,
+      "case": "B 4bit 直接量化",
+      "dim": 8,
+      "wmax": 413,
+      "err": 1525,
+      "buildable": "是"
+    },
+    {
+      "S": 4000,
+      "case": "C 8bit 拆分（2条线）",
+      "dim": 16,
+      "wmax": 394,
+      "err": 102,
+      "buildable": "是"
+    },
+    {
+      "S": 4000,
+      "case": "D 8bit 不拆分（1条线，诊断）",
+      "dim": 8,
+      "wmax": 25,
+      "err": 787,
+      "buildable": "否"
+    },
+    {
+      "S": 16000,
+      "case": "A 连续 tanh（上界）",
+      "dim": 8,
+      "wmax": 12567,
+      "err": 3,
+      "buildable": "—"
+    },
+    {
+      "S": 16000,
+      "case": "B 4bit 直接量化",
+      "dim": 8,
+      "wmax": 1651,
+      "err": 1506,
+      "buildable": "是"
+    },
+    {
+      "S": 16000,
+      "case": "C 8bit 拆分（2条线）",
+      "dim": 16,
+      "wmax": 1577,
+      "err": 73,
+      "buildable": "是"
+    },
+    {
+      "S": 16000,
+      "case": "D 8bit 不拆分（1条线，诊断）",
+      "dim": 8,
+      "wmax": 99,
+      "err": 172,
+      "buildable": "否"
+    }
+  ]
+}

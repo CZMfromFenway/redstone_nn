@@ -1,0 +1,5 @@
+{
+ "unit_model": "out in {15, 15-|W|}, |W|<=15",
+ "algebra": "sum_out = sum(W*x) + sum(S) = N",
+ "weight_range_limit": 15
+}

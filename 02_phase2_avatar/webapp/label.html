@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>头像偏好打标 · 优 / 良 / 中 / 差</title>
+<style>
+  :root{--bg:#14161a;--pan:#1d2026;--fg:#e8eaed;--dim:#9aa3af;--acc:#6ea8fe;
+        --g3:#5fd68a;--g2:#a8d46a;--g1:#e0c05a;--g0:#e07a5f}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 -apple-system,"Segoe UI",Roboto,"Noto Sans CJK SC",sans-serif}
+  header{padding:12px 20px;border-bottom:1px solid #2c313a;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+  h1{font-size:17px;margin:0;font-weight:600}
+  .sub{color:var(--dim);font-size:13px}
+  .wrap{max-width:960px;margin:0 auto;padding:22px}
+  .card{background:var(--pan);border:1px solid #2c313a;border-radius:12px;padding:20px;margin-bottom:16px}
+  .stage{display:flex;gap:28px;flex-wrap:wrap;align-items:center;justify-content:center}
+  #cv{image-rendering:pixelated;width:256px;height:256px;border-radius:10px;background:#000;
+      box-shadow:0 0 0 1px #3a4150}
+  .grades{display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:320px}
+  .grades button{font-size:17px;padding:20px 10px;border-radius:10px;border:1px solid #3a4150;
+      background:#252932;color:var(--fg);cursor:pointer;font-weight:600;transition:.08s}
+  .grades button:hover{transform:translateY(-1px)}
+  .g3{border-color:var(--g3)!important;color:var(--g3)!important}
+  .g2{border-color:var(--g2)!important;color:var(--g2)!important}
+  .g1{border-color:var(--g1)!important;color:var(--g1)!important}
+  .g0{border-color:var(--g0)!important;color:var(--g0)!important}
+  .grades button:hover{background:#2f3542}
+  kbd{background:#2f3542;border:1px solid #434b5c;border-radius:4px;padding:1px 6px;font-size:11px;color:var(--dim)}
+  .bar{height:22px;background:#252932;border-radius:6px;overflow:hidden;display:flex;margin-top:8px}
+  .bar div{height:100%;font-size:11px;color:#111;display:flex;align-items:center;justify-content:center}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:13px;color:var(--dim)}
+  .kv b{color:var(--fg);font-variant-numeric:tabular-nums}
+  .note{font-size:13px;color:var(--dim);margin-top:12px;border-left:2px solid #3a4150;padding-left:11px}
+  .err{color:#e07a5f}
+  canvas.small{image-rendering:pixelated;width:64px;height:64px;border-radius:6px}
+  #history{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;margin-top:10px}
+  #history canvas{width:100%;height:auto;image-rendering:pixelated;border-radius:3px}
+  #history .wrapimg{position:relative}
+  #history .tag{position:absolute;bottom:0;right:1px;font-size:9px;color:#fff;text-shadow:0 0 2px #000}
+</style>
+</head>
+<body>
+<header>
+  <h1>头像偏好打标</h1>
+  <span class="sub" id="meta">载入中…</span>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="stage">
+      <canvas id="cv" width="8" height="8"></canvas>
+      <div class="grades"><!-- filled by buildGrades() --></div>
+      <div id="receipt" style="margin-top:10px;font-size:13px;color:#8fd3ff;opacity:.45;
+           transition:opacity .25s;min-height:18px">（还没有记录）</div>
+    </div>
+    <div class="note">
+      按 <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 打分，立即进入下一张；
+      <kbd>空格</kbd> 换一张（不打分）。判断标准就用你自己的直觉：
+      <b>优</b> = 一眼是好头像；<b>良</b> = 能用、小瑕疵；<b>中</b> = 勉强；<b>差</b> = 古神。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:14px;margin:0 0 10px;color:var(--acc)">打标对象（用哪个模型生成）</h2>
+    <div class="btns" id="mbtns" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <div class="note" id="mnote">
+      默认用「λ=5 灰度最佳」。也可以切到 32 通道或 16 色彩——你会发现不同架构下"好看"的标准不一样，
+      所以<b>标签要跟着模型走</b>，切换模型不会混淆已标的记录（每条标签都记了是哪个模型生成的）。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:14px;margin:0 0 10px;color:var(--acc)">进度</h2>
+    <div class="kv" id="stats"></div>
+    <div class="bar" id="bar"></div>
+    <div class="kv" style="margin-top:10px"><span>奖励模型预测这一张</span><b id="rs">—</b></div>
+    <div class="kv" style="margin-top:6px"><span>采样多样性</span><b id="diversity">—</b></div>
+    <div class="note">
+      多样性看的是<b>输入向量的离散度</b>：100% = 原始独立正态水平，越低说明采样越集中。
+      偏好迭代有<b>塌陷风险</b>——每一轮都在更小的区域里取更好的样本，
+      几轮之后可能一直是同一张脸。低于 55% 会标红。
+      <br>保留比例 15%、探索率 25%：约 1/4 的样本是纯随机，用来持续探测未探索区域。
+    </div>
+    <div class="note" id="sampler">
+      当前采样：<b>独立标准正态</b>（22 个通道各 N(0,1)）。标够 14 张后，
+      运行 <code>python src\fit_reward.py --write</code> 会训一个奖励模型，
+      页面刷新后自动改为<b>奖励模型 + 候选筛选</b>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:14px;margin:0 0 10px;color:var(--acc)">已标过的（点一张可回到它）</h2>
+    <div id="history"></div>
+    <div class="note" id="emptyhist">还没有标签。</div>
+  </div>
+</div>
+
+<script>
+const NLEV=16;
+let cur=new Float32Array(22), model=null, IN_DIM=22;
+// BLIND MIX: when enabled, every face is drawn from a randomly chosen model of the
+// dimension ladder with FRESH random parameters, and the model is never shown. That
+// makes "which input dimension yields more usable random avatars" a fair comparison,
+// because the judge cannot know which model produced what.
+let MIX=false, MIX_KEYS=[];
+let SCORER=null, FILTER={};        // key -> how many candidates to draw for that arm
+let MERGE={};                      // key -> level->luminance table (Minecraft grey merge)
+let DIST=null;                 // fitted preference distribution, if available
+let history=[];                // {pca, grade, img}
+let stats={total:0,counts:[0,0,0,0]};
+
+// Architectures that can supply the face being judged. Each has its own decode rule and
+// its own idea of what "looks good", so every label records which model produced it --
+// the same 22-dim vector draws a DIFFERENT face under each architecture, and the reward
+// model must never mix them.
+// TWO LABELLING SCHEMES, chosen with ?scheme=style
+//
+// classic : 优 / 良 / 中 / 差   (the scheme used for every earlier round)
+// style   : 类二次元 / 类游戏 / 类三次元 / 中 / 差
+//
+// In BOTH, grade >= 2 means "usable" and grade 0-1 means "avoid". That is deliberate: the
+// reward fitter, the filter-gain estimate and the round analyser all test grade >= 2, so the
+// style round stays comparable without touching any of them.
+const STYLE_SCHEME=[
+  {g:4,label:'类二次元',k:'1',col:'#8fd3ff'},
+  {g:3,label:'类游戏',  k:'2',col:'#c0b0ff'},
+  {g:2,label:'类三次元',k:'3',col:'#5fd68a'},
+  {g:1,label:'中',      k:'4',col:'#e0c05a'},
+  {g:0,label:'差',      k:'5',col:'#e07a5f'},
+];
+const CLASSIC_SCHEME=[
+  {g:3,label:'优',k:'1',col:'#5fd68a'},
+  {g:2,label:'良',k:'2',col:'#a8d46a'},
+  {g:1,label:'中',k:'3',col:'#e0c05a'},
+  {g:0,label:'差',k:'4',col:'#e07a5f'},
+];
+function schemeName(){
+  const q=new URLSearchParams(window.location.search).get('scheme');
+  return q==='style'?'style':'classic';
+}
+function schemeList(){ return schemeName()==='style'?STYLE_SCHEME:CLASSIC_SCHEME; }
+
+const MODELS=[
+  {key:'w128',   file:'pca22_w128_128_model.json', label:'22→128→128→32（首选）'},
+  {key:'best128',file:'pca22_best128_model.json', label:'22→128→128→32 + TV'},
+  {key:'w32',    file:'pca22_w32_model.json',     label:'22→32→32（最省）'},
+  {key:'lam5',   file:'pca22_lam5_model.json',    label:'λ=5 灰度 512'},
+  {key:'gray32', file:'pca22_gray32_model.json',  label:'32通道连续 256'},
+  {key:'color16',file:'pca22_color16_model.json', label:'16色彩'},
+  // dimension ladder, all trained with the same 32-output recipe as s32_tv5
+  {key:'dim4',   file:'pca22_dim4_model.json',    label:'PCA-4 → 32'},
+  {key:'dim4x',  file:'pca22_dim4x_model.json',   label:'PCA-4 + 拉伸后处理'},
+  {key:'dim4st', file:'pca22_dim4st_model.json',  label:'PCA-4 训练时烘焙拉伸'},
+  {key:'dim4g',  file:'pca22_dim4g_model.json',   label:'PCA-4 + 固定增益（红石最便宜）'},
+  {key:'dim8',   file:'pca22_dim8_model.json',    label:'PCA-8 → 32'},
+  {key:'dim22',  file:'pca22_dim22_model.json',   label:'PCA-22 → 32（同配方控制）'},
+  // the three arms of the blind width round -- each trained from scratch on the data,
+  // none distilled from another. Same post-processing, only the generator differs.
+  {key:'base',   file:'pca22_dim4x_model.json',     label:'原方案 4-256-256-32'},
+  {key:'w96',    file:'pca22_dim4w96_model.json',   label:'压缩 4-96-96-32'},
+  {key:'w64',    file:'pca22_dim4w64L1_model.json', label:'压缩 4-64-32（单层）'},
+  // round 9: the same three models, each behind a 4-candidate pre-scorer
+  {key:'base_f', file:'pca22_dim4x_model.json',      label:'原方案 + 预筛'},
+  {key:'w96_f',  file:'pca22_dim4w96_model.json',    label:'4-96-96-32 + 预筛'},
+  {key:'w64_f',  file:'pca22_dim4w64L1_model.json',  label:'4-64-32 + 预筛'},
+  // round 10: 16-level vs MC 11-grey merge vs merge + pre-scorer
+  {key:'w64_c',   file:'pca22_dim4w64L1_model.json', label:'16 级自由灰度'},
+  {key:'w64_mc',  file:'pca22_dim4w64L1_model.json', label:'归并 11 档 MC 灰'},
+  {key:'w64_mcf', file:'pca22_dim4w64L1_model.json', label:'11 档 MC 灰 + 预筛'},
+];
+let MOD={};                     // loaded model json by key
+let OUT_MODE='logits_gray', OUT_DIM=512, HID=256, PAL=null;
+let LAYERS=[];                  // [{W:Float32Array[], b:Float32Array}] -- any depth
+
+function rng(s){let a=s>>>0;return function(){a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+function gauss(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+// POST-PROCESS: contrast stretch applied to the DECODED levels, not to the weights.
+// Each face is rescaled about its own midpoint so that its spread becomes `target` levels.
+// This is the cheap display-time fix; it cannot add structure that is not already in the
+// shape, it only uses more of the grey range.
+// Two ways to raise contrast, chosen with ?stretch=minmax|mid (default minmax):
+//
+//   minmax  map [lo,hi] -> [0,target]. The darkest pixel becomes 0 and the brightest
+//           becomes `target`, so the face is GUARANTEED to use `target` levels. It does
+//           move overall brightness: a face that spanned [5,8] is pushed to [0,15].
+//           This is the same transform the --stretch-targets training option applies.
+//
+//   mid     scale about the face's own midpoint. Brightness is preserved, but a face whose
+//           midpoint sits near 0 or 15 cannot reach the target span -- the expansion runs
+//           off the end and is clipped, so the achieved span depends on how bright the face
+//           already was (measured mean 13.5 rather than 15).
+// FIXED GAIN: one shared multiplier about the mid level.
+// In the redstone fixed-gain scheme this is every B_i equal -- a single multiplier and a
+// single offset, with no comparators, no division and no min/max over the face. Measured on
+// the output statistics it sits closer to real faces than the min-max stretch does
+// (contrast 11.25 vs 11.20 real, against 15.00 for min-max).
+function gainLevels(v, g){
+  const gg=(g===undefined||g===null)?1.7:g;
+  for(let i=0;i<v.length;i++) v[i]=Math.max(0,Math.min(15, 7.5+(v[i]-7.5)*gg));
+  return v;
+}
+function stretchLevels(v, target, mode){
+  let lo=1e9, hi=-1e9;
+  for(let i=0;i<v.length;i++){ if(v[i]<lo) lo=v[i]; if(v[i]>hi) hi=v[i]; }
+  const span=Math.max(hi-lo,1e-6), T=(target||15);
+  if(mode==='mid'){
+    const mid=(hi+lo)/2, scale=T/span;
+    for(let i=0;i<v.length;i++) v[i]=Math.max(0,Math.min(15, mid+(v[i]-mid)*scale));
+  }else{
+    const scale=T/span;
+    for(let i=0;i<v.length;i++) v[i]=Math.max(0,Math.min(15, (v[i]-lo)*scale));
+  }
+  return v;
+}
+function stretchMode(){
+  const q=new URLSearchParams(window.location.search).get('stretch');
+  return (q==='mid')?'mid':'minmax';
+}
+function postOf(key){
+  const m=MOD[key]&&MOD[key].meta;
+  return (m&&m.post)||'none';
+}
+
+function toF32(a){const o=new Float32Array(a.length);for(let i=0;i<a.length;i++)o[i]=a[i];return o;}
+function toF32Rows(rs){const o=[];for(const r of rs)o.push(toF32(r));return o;}
+
+// Arbitrary depth: a ReLU between consecutive layers, no activation on the last.
+// The three-matrix version this replaced silently applied the output layer twice on a
+// two-layer net (measured error 88 units), which would have corrupted every label.
+function forward(pca){
+  // IN_DIM, not a hardcoded 22: the dimension-ladder models take fewer inputs and would
+  // otherwise read past the end of their own condition vector.
+  let h=new Float32Array(IN_DIM);
+  for(let i=0;i<IN_DIM;i++) h[i]=pca[i];
+  for(let li=0;li<LAYERS.length;li++){
+    const L=LAYERS[li];
+    const o=new Float32Array(L.W.length);
+    for(let j=0;j<L.W.length;j++){
+      let s=L.b[j]; const row=L.W[j];
+      for(let i=0;i<h.length;i++) s+=row[i]*h[i];
+      o[j]=(li===LAYERS.length-1)?s:(s>0?s:0);
+    }
+    h=o;
+  }
+  return h;
+}
+// decode to 32 per-position values: a class index for the logits models, a continuous
+// brightness for the 32-channel model
+function decode(raw){
+  const v=new Float32Array(32);
+  if(OUT_MODE==='continuous32'){
+    for(let p=0;p<32;p++) v[p]=Math.max(0,Math.min(15,raw[p]));
+    return v;
+  }
+  for(let p=0;p<32;p++){
+    let bi=0,bv=-1e9;
+    for(let c=0;c<16;c++){const q=raw[p*16+c];if(q>bv){bv=q;bi=c;}}
+    v[p]=bi;
+  }
+  return v;
+}
+function toImage(v){
+  const img=new Float32Array(64);
+  for(let p=0;p<32;p++){const row=p%8,col=(p-row)/8;img[row*8+col]=v[p];img[row*8+(7-col)]=v[p];}
+  return img;
+}
+function paint(cv,img,scale){
+  const ctx=cv.getContext('2d');const id=ctx.createImageData(8,8);
+  for(let i=0;i<64;i++){
+    let c;
+    if(OUT_MODE==='logits_palette' && PAL){
+      const ix=Math.max(0,Math.min(15,Math.round(img[i]))); c=PAL[ix];
+    }else if(OUT_MODE==='continuous32'){
+      const g=Math.round(img[i]/15*255); c=[g,g,g];
+    }else{
+      const g=Math.round(img[i]*17); c=[g,g,g];
+    }
+    id.data[i*4]=c[0];id.data[i*4+1]=c[1];id.data[i*4+2]=c[2];id.data[i*4+3]=255;
+  }
+  ctx.putImageData(id,0,0);
+}
+
+// ---- sampling ---------------------------------------------------------------------
+// Measured at 100 labels (results/strategy/strategy.json):
+//     CEM ("reshape the normal")   45.8% of candidates above a random draw's median
+//     reward model + top-k         71.0%   <- +25 points, the approach used here
+// so the sampler draws a pool from N(0,1)^22, scores it with the reward model, and keeps
+// the best fraction. A share of pure-random draws is retained so the search keeps
+// exploring instead of only showing what the model already likes.
+let REW=null;                   // reward model, if fitted
+// Measured on 111 w128 labels: keeping the top 15% of a 600-candidate pool
+// raised the true 优+良 rate from 40.7% to 87.5%. Keeping 35% only reached 73.2%.
+// EXPLORE stays at 0.25 rather than 0: a loop with no exploration concentrates
+// every round on a smaller region and eventually produces one face forever.
+const POOL_N=600;               // candidate pool per click
+const KEEP=0.15;                // fraction kept by the reward model
+const EXPLORE=0.25;             // share of pure-random draws, to keep exploring
+
+function rewardOf(z){
+  if(!REW) return 0;
+  // z is in slider units; the model was fitted on standardised labelled points
+  const zs=new Float32Array(22);
+  for(let i=0;i<22;i++) zs[i]=(z[i]-REW.zmean[i])/REW.zsd[i];
+  if(REW.kind==='linear'){
+    // measured better than the MLP at this label count: held-out AUC 0.617 vs 0.553
+    let s=REW.b;
+    for(let i=0;i<22;i++) s+=REW.w[i]*zs[i];
+    return s;
+  }
+  const a=new Float32Array(REW.b1.length), b=new Float32Array(REW.b2.length);
+  for(let j=0;j<a.length;j++){let s=REW.b1[j];for(let i=0;i<22;i++)s+=REW.W1[i][j]*zs[i];a[j]=s>0?s:0;}
+  for(let j=0;j<b.length;j++){let s=REW.b2[j];for(let i=0;i<a.length;i++)s+=REW.W2[i][j]*a[i];b[j]=s>0?s:0;}
+  let s=REW.b3[0];for(let i=0;i<b.length;i++)s+=REW.W3[i][0]*b[i];
+  return s;
+}
+function drawRandom(r){
+  const o=new Float32Array(22);
+  for(let i=0;i<22;i++) o[i]=Math.max(-3.5,Math.min(3.5,gauss(r)));
+  return o;
+}
+// How each face was produced, recorded with the label. Round 2 of a preference loop draws
+// from an ALREADY purified distribution, so a label from that round is not a sample of the
+// base distribution; the analysis has to know which is which.
+let lastSampler = 'plain';
+function sampleParams(){
+  const r=rng((Math.random()*4294967295)>>>0);
+  if(!REW){ lastSampler='plain'; return drawRandom(r); }
+  if(Math.random() < EXPLORE){ lastSampler='explore'; return drawRandom(r); }
+  // reward-guided: draw a pool, keep the top KEEP fraction, pick one of them at random
+  const pool=[];
+  for(let k=0;k<POOL_N;k++){
+    const z=drawRandom(r);
+    pool.push({z, s: rewardOf(z)});
+  }
+  pool.sort((p,q)=>q.s-p.s);
+  const keep=Math.max(1,Math.floor(POOL_N*KEEP));
+  lastSampler='guided';
+  return pool[Math.floor(r()*keep)].z;
+}
+
+// ---- diversity watch ---------------------------------------------------------------
+// A preference loop can collapse: each round concentrates on a smaller region, and after
+// a couple of rounds every draw is nearly the same face. The spread of the sampled inputs
+// is the earliest signal, so it is shown live. `REF_SPREAD` is the expected per-component
+// standard deviation of the base N(0,1) sampler, i.e. 1.
+const RECENT=[];
+const REF_SPREAD=1.0;
+function trackDiversity(z){
+  RECENT.push(Array.from(z));
+  if(RECENT.length>120) RECENT.shift();
+  if(RECENT.length<10) return null;
+  const n=RECENT.length;
+  const sd=[];
+  for(let i=0;i<22;i++){
+    let m=0; for(const r of RECENT) m+=r[i]; m/=n;
+    let v=0; for(const r of RECENT) v+=(r[i]-m)*(r[i]-m); v/=n;
+    sd.push(Math.sqrt(v));
+  }
+  const meanSd=sd.reduce((a,b)=>a+b,0)/sd.length;
+  // how many distinct faces among the recent draws (rounded to 0.5 units)
+  const sig=new Set(RECENT.map(r=>r.map(v=>Math.round(v*2)).join(',')));
+  return {meanSd, ratio: meanSd/REF_SPREAD, distinct: sig.size, n};
+}
+// 4->16->1 over the four knobs, with the standardisation already folded into layer 1
+function scoreSeed(v){
+  if(!SCORER) return 0;
+  let x=v;
+  for(const L of SCORER){
+    const out=new Float32Array(L.W.length);
+    for(let o=0;o<L.W.length;o++){
+      const W=L.W[o]; let t=L.b[o];
+      for(let i=0;i<L.W[o].length;i++) t+=W[i]*x[i];
+      out[o]=L.relu&&t<0?0:t;
+    }
+    x=out;
+  }
+  return x[0];
+}
+
+function nextFace(){
+  if(MIX && MIX_KEYS.length){
+    // pick a model at random and draw PARAMETERS AT RANDOM -- no reward guidance here,
+    // because the question is what each model produces from an unbiased draw.
+    const key=MIX_KEYS[Math.floor(Math.random()*MIX_KEYS.length)];
+    if(MOD[key]) loadInto(MOD[key],key);
+    lastSampler='dimmix';
+    const n=FILTER[key]||1;
+    if(n>1 && SCORER){
+      // draw n candidates and keep the best-scoring one
+      let best=null, bs=-Infinity;
+      for(let i=0;i<n;i++){
+        const c=drawRandom(rng((Math.random()*4294967296)>>>0));
+        const sc=scoreSeed(c);
+        if(sc>bs){ bs=sc; best=c; }
+      }
+      cur=best;
+      lastSampler='dimmix+score';
+    }else{
+      cur=drawRandom(rng((Math.random()*4294967296)>>>0));
+    }
+  }else{
+    cur=sampleParams();
+  }
+  const lg=forward(cur);
+  const idx=decode(lg);
+  // per-arm post-processing, so a "model + post" pipeline can be compared against the
+  // same model without it
+  const post=postOf(modelKey);
+  if(post==='stretch') stretchLevels(idx, 15, stretchMode());
+  else if(post==='gain') gainLevels(idx, (MOD[modelKey].meta||{}).gain_value);
+  // MC colour merge: replace each level with the luminance of a real map colour. The index map
+  // is unchanged, so the shapes are identical -- only which grey each region is printed as.
+  if(MERGE[modelKey]){
+    const tb=MERGE[modelKey];
+    for(let i=0;i<idx.length;i++){
+      const k=Math.max(0, Math.min(tb.length-1, Math.round(idx[i])));
+      idx[i]=tb[k];
+    }
+  }
+  window._lastImg=toImage(idx);
+  window._lastLevels=Array.from(idx);
+  paint(document.getElementById('cv'),window._lastImg);
+  document.getElementById('cv').style.width='256px';
+  document.getElementById('cv').style.height='256px';
+  // diversity readout
+  const dv=trackDiversity(cur);
+  const dvEl=document.getElementById('diversity');
+  if(dvEl){
+    if(!dv){ dvEl.textContent='（样本还不够，需要至少 10 张）'; }
+    else {
+      const pct=(dv.ratio*100).toFixed(0);
+      const col=dv.ratio<0.55?'var(--g0)':dv.ratio<0.8?'var(--g1)':'var(--g3)';
+      dvEl.innerHTML=`近 ${dv.n} 张的输入离散度 <b style="color:${col}">${pct}%</b>`+
+        `（100% = 原始随机水平）· 其中不同向量 <b>${dv.distinct}</b> 个`+
+        (dv.ratio<0.55?' &nbsp;<b style="color:var(--g0)">⚠ 多样性地塌陷</b>':'');
+    }
+  }
+  // show what the reward model thinks of this one, so the user can see it working
+  if(REW && !MIX){
+    const s=rewardOf(cur);
+    document.getElementById('rs').textContent =
+      s.toFixed(2) + '  ' + (s>=2.5?'（模型猜：优）':s>=1.8?'（模型猜：良）':s>=1.1?'（模型猜：中）':'（模型猜：差）');
+  }
+}
+async function grade(g){
+  if(!window._lastImg) return;
+  const body={model:modelKey,grade:g,pca:Array.from(cur),
+    predicted_levels:window._lastLevels,note:lastSampler,
+    scheme:schemeName(),
+    round:(new URLSearchParams(window.location.search).get('round')||'')};
+  try{
+    const r=await fetch('/label',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)});
+    const j=await r.json();
+    if(!j.ok) throw new Error(j.error||'rejected');
+    stats.total=j.total;
+    history.push({pca:Array.from(cur),grade:g,img:Array.from(window._lastImg),model:modelKey,sampler:lastSampler});
+    renderAll();
+    // receipt: which category was stored, and the running count for THIS round
+    (function(g2, total){
+      const el=document.getElementById('receipt');
+      if(el){
+        const nm=(schemeList().find(it=>it.g===g2)||{}).label||String(g2);
+        el.textContent='已记录：'+nm+'　（本次第 '+history.length+' 张，服务器共 '+total+' 条）';
+        el.style.opacity='1';
+        clearTimeout(window._rcptT);
+        window._rcptT=setTimeout(()=>{ el.style.opacity='0.45'; }, 1400);
+      }
+    })(g, j.total);
+    nextFace();
+  }catch(e){
+    document.getElementById('meta').innerHTML='<span class="err">保存失败：'+e.message+
+      '（请用本地 http 服务打开本页，见 README）</span>';
+  }
+}
+function renderAll(){
+  // counts from the server, so the numbers survive a refresh
+  // scope the counter to THIS round, otherwise the new experiment opens showing the
+  // previous round's totals and looks like it was never reset
+  const rq=new URLSearchParams(window.location.search).get('round');
+  fetch('/labelstats'+(rq?('?round='+encodeURIComponent(rq)):'')).then(r=>r.json()).then(j=>{
+    // In BLIND MIX mode the panel must count ONLY the ladder arms. The server total pools
+    // every model ever labelled, which made a brand-new experiment display 428 answers and
+    // look contaminated. The per-model tally keeps the two apart.
+    let c = j.counts, shown = j.total, scope = '全部历史（所有模型）';
+    if(MIX && j.byModel){
+      const agg = [0,0,0,0];
+      // five buckets, not four: the style scheme added grade 4
+      MIX_KEYS.forEach(k => { const v = j.byModel[k]; if(v) for(let i=0;i<5;i++) agg[i]+=(v[i]||0); });
+      c = agg;
+      shown = agg.reduce((a,b)=>a+b,0);
+      scope = '仅本次阶梯实验（' + MIX_KEYS.join(' / ') + '）';
+    }
+    stats.total=shown; stats.counts=c;
+    // bar colours indexed by GRADE; grade 4 exists only in the style scheme
+    const cols2=['#e07a5f','#e0c05a','#5fd68a','#c0b0ff','#8fd3ff'];
+    const tot=Math.max(1,c.reduce((a,b)=>a+b,0));
+    const sl=schemeList();
+    const names=sl.map(it=>it.label).join(' / ');
+    const nums=sl.map(it=>c[it.g]||0).join(' / ');
+    const good=sl.filter(it=>it.g>=2).reduce((a,it)=>a+(c[it.g]||0),0);
+    document.getElementById('stats').innerHTML=
+      `<span>已标注</span><b>${shown} 张</b>`+
+      `<span style="opacity:.6">${scope}</span>`+
+      `<span>${names}</span><b>${nums}</b>`+
+      `<span>可接受占比</span><b>${(100*good/tot).toFixed(1)}%</b>`+
+      (MIX ? `<span style="opacity:.6">每臂目标 ≈50 张</span>` : '');
+    const order=schemeList().map(it=>it.g);
+    document.getElementById('bar').innerHTML=order.map(k=>
+      `<div style="width:${100*(c[k]||0)/tot}%;background:${cols2[k]}">${c[k]?c[k]:''}</div>`).join('');
+  }).catch(()=>{});
+  // history strip
+  const h=document.getElementById('history');
+  h.innerHTML='';
+  const cols=['#e07a5f','#e0c05a','#a8d46a','#5fd68a'];
+  history.slice(-64).forEach(it=>{
+    const wrap=document.createElement('div'); wrap.className='wrapimg';
+    const cv=document.createElement('canvas'); cv.width=8; cv.height=8;
+    paint(cv,it.img);
+    const tag=document.createElement('span'); tag.className='tag';
+    tag.textContent=['差','中','良','优'][it.grade];
+    tag.style.color=cols[it.grade];
+    wrap.appendChild(cv); wrap.appendChild(tag);
+    wrap.onclick=()=>{cur=new Float32Array(it.pca);const lg=forward(cur);
+      window._lastImg=toImage(decode(lg));window._lastLevels=Array.from(decode(lg));
+      paint(document.getElementById('cv'),window._lastImg);};
+    h.appendChild(wrap);
+  });
+  document.getElementById('emptyhist').style.display=history.length?'none':'block';
+}
+
+let modelKey='w128';
+function loadInto(j,key){
+  MOD[key]=j;
+  IN_DIM=j.meta.in_dim; modelKey=key;
+  OUT_MODE=j.meta.output_mode||'logits_gray';
+  PAL=j.palette||null;
+  // Accept both export shapes: the new list form (any depth) and the old W1/W2/W3 form.
+  if(j.gen && j.gen.layers){
+    LAYERS=j.gen.layers.map(L=>({W:toF32Rows(L.W), b:toF32(L.b)}));
+  }else{
+    LAYERS=[{W:toF32Rows(j.gen.W1), b:toF32(j.gen.b1)},
+            {W:toF32Rows(j.gen.W2), b:toF32(j.gen.b2)},
+            {W:toF32Rows(j.gen.W3), b:toF32(j.gen.b3)}];
+  }
+  HID=LAYERS[0].W.length;
+  OUT_DIM=LAYERS[LAYERS.length-1].W.length;
+}
+function modelButtons(){
+  const box=document.getElementById('mbtns');
+  if(!box) return;
+  box.innerHTML='';
+  MODELS.forEach(m=>{
+    const b=document.createElement('button');
+    b.textContent=m.label;
+    b.className='mb'+(m.key===modelKey?' act':'');
+    b.style.cssText='padding:8px 12px;font-size:13px;border-radius:8px;'+
+      (m.key===modelKey?'background:#2b4a86;color:#fff;border:1px solid #3d63ad':
+                        'background:#252932;color:#e8eaed;border:1px solid #3a4150');
+    b.onclick=()=>{
+      if(!MOD[m.key]) return;
+      loadInto(MOD[m.key],m.key); modelButtons(); nextFace();
+    };
+    box.appendChild(b);
+  });
+}
+function buildGrades(){
+  const box=document.querySelector('.grades');
+  if(!box) return;
+  box.innerHTML='';
+  schemeList().forEach(it=>{
+    const b=document.createElement('button');
+    b.dataset.g=it.g;
+    b.innerHTML=it.label+' <kbd>'+it.k+'</kbd>';
+    b.style.cssText='border:1px solid '+it.col+'66;color:'+it.col+
+                    ';background:'+it.col+'14;border-radius:10px;padding:14px 10px;'+
+                    'font-size:16px;cursor:pointer';
+    b.onclick=()=>grade(it.g);
+    box.appendChild(b);
+  });
+}
+
+async function init(){
+  // load all three architectures so switching is instant
+  for(const m of MODELS){
+    try{
+      const r=await fetch(m.file);
+      if(r.ok){ const j=await r.json(); MOD[m.key]=j; }
+      else console.warn('missing',m.file,r.status);
+    }catch(e){ console.warn('failed',m.file,e.message); }
+  }
+  if(!MOD[modelKey]) modelKey=Object.keys(MOD)[0];
+  loadInto(MOD[modelKey],modelKey);
+  document.getElementById('meta').innerHTML=
+    `模型 <b>${modelKey}</b> · ${MOD[modelKey].meta.steps_trained} 步 · `+
+    `输入维 ${MOD[modelKey].meta.in_dim} · 输出 ${OUT_DIM}`;
+  // optional fitted reward model
+  try{
+    const rw=await fetch('preference_reward.json');
+    if(rw.ok){
+      REW=await rw.json();
+      document.getElementById('sampler').innerHTML=
+        `当前采样：<b>奖励模型 + 候选筛选</b>（每次抽 ${POOL_N} 个候选，保留最好的 `+
+        `${(KEEP*100).toFixed(0)}%，另有 ${(EXPLORE*100).toFixed(0)}% 纯随机用于探索）。<br>`+
+        `模型基于 <b>${REW.n_labels}</b> 个标签训练，优良占比 `+
+        `<b>${(REW.good_rate_observed*100).toFixed(1)}%</b>，类别分离度 `+
+        `<b>${REW.separation.toFixed(2)}</b>。`;
+    }
+  }catch(e){}
+  // legacy CEM distribution (kept so older exports still work)
+  try{
+    const pr=await fetch('preference_dist.json');
+    if(pr.ok && !REW){ DIST=await pr.json(); }
+  }catch(e){}
+  // ?mix=1 turns on blind mixed labelling over the dimension ladder
+  const qs=new URLSearchParams(window.location.search);
+  if(qs.get('mix')==='1'){
+    try{
+      const manFile=new URLSearchParams(window.location.search).get('man')||'dimsweep_manifest.json';
+      const r=await fetch(manFile);
+      if(r.ok){
+        const man=await r.json();
+        MIX_KEYS=man.filter(m=>MOD[m.key]).map(m=>m.key);
+        // arms that carry a "filter" field get pre-scored: n candidates, keep the best
+        for(const a of man) if(a.filter && MOD[a.key]) FILTER[a.key]=Math.max(1, a.filter.n|0);
+        const mergeArms=man.filter(a=>a.merge && MOD[a.key]);
+        if(mergeArms.length){
+          try{
+            const mr=await fetch('merge_mc11.json');
+            if(mr.ok){ const mj=await mr.json();
+              for(const a of mergeArms) MERGE[a.key]=mj._lut; }
+          }catch(e){ console.warn('merge table missing, arms run unmerged'); }
+        }
+        if(Object.keys(FILTER).length){
+          try{
+            const sr=await fetch('scorer_accept.json');
+            if(sr.ok){ const sj=await sr.json(); SCORER=sj.layers; }
+          }catch(e){ console.warn('scorer missing, arms will run unfiltered'); }
+        }
+        // one arm is allowed: a single-model round still wants the same plumbing
+        // (no model buttons, no reward readout, round-scoped progress)
+        if(MIX_KEYS.length>=1){
+          MIX=true;
+          document.getElementById('meta').innerHTML=
+            (MIX_KEYS.length===1
+              ? `<b>单模型打标</b> · ${MIX_KEYS[0]} · 每张随机参数，不显示模型信息`
+              : `<b>盲测混合模式</b> · 每张随机来自 ${MIX_KEYS.length} 个模型之一（不显示是哪个）· `+
+                `模型集合：${MIX_KEYS.join(', ')}`);
+          const nf=Object.keys(FILTER).length;
+          if(nf) document.getElementById('meta').innerHTML+=
+            `　·　<b>预筛</b>：${nf} 个臂会先抽若干种子打分再出图`;
+          const nm2=Object.keys(MERGE).length;
+          if(nm2) document.getElementById('meta').innerHTML+=
+            `　·　<b>地图色</b>：${nm2} 个臂的灰度被归并到 MC 的 11 档灰色`;
+          const sp=document.getElementById('sampler');
+          if(sp) sp.innerHTML='当前采样：<b>纯随机</b>（无奖励引导，各模型等概率）';
+          // the model buttons are meaningless here and invite manual switching that
+          // would break the blinding, so hide the whole row
+          const mb=document.getElementById('mbtns');
+          if(mb){ mb.style.display='none'; if(mb.parentElement) mb.parentElement.style.display='none'; }
+        }else{
+          console.warn('mix requested but only', MIX_KEYS.length, 'ladder models loaded');
+        }
+      }
+    }catch(e){ console.warn('mix init failed', e.message); }
+  }
+  buildGrades();
+  window.addEventListener('keydown',e=>{
+    const byKey={};
+    schemeList().forEach(it=>{ byKey[it.k]=it.g; });
+    if(byKey[e.key]!==undefined) grade(byKey[e.key]);
+    else if(e.key===' '){e.preventDefault();nextFace();}
+  });
+  modelButtons();
+  nextFace(); renderAll();
+}
+init().catch(e=>{
+  document.getElementById('meta').innerHTML='<span class="err">载入失败：'+e.message+'</span>';
+});
+window.LABEL={getState:()=>({cur,stats,history,DIST,REW,modelKey,IN_DIM,OUT_DIM,available:Object.keys(MOD)}),switchModel:(k)=>{if(MOD[k]){loadInto(MOD[k],k);modelButtons();nextFace();}},grade:(g)=>grade(g),next:()=>nextFace(),probe:(v)=>Array.from(forward(v))};
+</script>
+</body>
+</html>

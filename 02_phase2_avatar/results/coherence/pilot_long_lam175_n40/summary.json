@@ -1,0 +1,38 @@
+{
+  "args": {
+    "steps": 40,
+    "batch": 256,
+    "lam": 1.75,
+    "lam_final": 0.0,
+    "adv_weight": 1.0,
+    "decode": "mode",
+    "hid": 256,
+    "threads": 10,
+    "eval_every": 1000,
+    "tag": "pilot_long_lam175_n40"
+  },
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 40,
+      "lam_now": 1.75,
+      "ce": 2.5879,
+      "acc_mode": 0.1759,
+      "acc_sample": 0.0879,
+      "entropy": 2.6662,
+      "maxprob": 0.1269,
+      "agree_mode": 0.5624,
+      "iso_mode": 6.955,
+      "blobs_mode": 15.24,
+      "agree_sample": 0.139,
+      "iso_sample": 37.085,
+      "blobs_sample": 48.91,
+      "sec": 2.5
+    }
+  ],
+  "seconds": 2.6
+}

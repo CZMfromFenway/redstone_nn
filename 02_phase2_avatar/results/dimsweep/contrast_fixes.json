@@ -1,0 +1,70 @@
+{
+  "real": {
+    "contrast": 11.20488514066727,
+    "bright": 7.370946787861241,
+    "washed": 0.0965914220516221,
+    "flat": 0.04361821685516735,
+    "dark": 0.09338488694628898,
+    "bright_tail": 0.08073619555505746
+  },
+  "arms": {
+    "dim22": {
+      "raw": {
+        "contrast": 12.1575,
+        "bright": 7.3862359375,
+        "washed": 0.0058,
+        "flat": 0.00025,
+        "dark": 0.05895,
+        "bright_tail": 0.05535
+      },
+      "stretched": {
+        "contrast": 15.0,
+        "bright": 7.40899375,
+        "washed": 0.0,
+        "flat": 0.0,
+        "dark": 0.0169,
+        "bright_tail": 0.0185
+      },
+      "accept_rate": 0.9942
+    },
+    "dim8": {
+      "raw": {
+        "contrast": 11.05785,
+        "bright": 7.363696875,
+        "washed": 0.0264,
+        "flat": 0.0007,
+        "dark": 0.07465,
+        "bright_tail": 0.0638
+      },
+      "stretched": {
+        "contrast": 14.99925,
+        "bright": 7.48755,
+        "washed": 5e-05,
+        "flat": 5e-05,
+        "dark": 0.0274,
+        "bright_tail": 0.0347
+      },
+      "accept_rate": 0.9736
+    },
+    "dim4": {
+      "raw": {
+        "contrast": 8.72065,
+        "bright": 7.34619375,
+        "washed": 0.1872,
+        "flat": 0.02275,
+        "dark": 0.0726,
+        "bright_tail": 0.0639
+      },
+      "stretched": {
+        "contrast": 14.9985,
+        "bright": 7.242921875,
+        "washed": 0.0001,
+        "flat": 0.0001,
+        "dark": 0.0202,
+        "bright_tail": 0.0248
+      },
+      "accept_rate": 0.8128
+    }
+  },
+  "threshold": 6.0
+}

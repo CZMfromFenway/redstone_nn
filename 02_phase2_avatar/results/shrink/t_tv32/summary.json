@@ -1,0 +1,53 @@
+{
+  "args": {
+    "tag": "t_tv32",
+    "mode": "gray32",
+    "steps": 40,
+    "batch": 256,
+    "hid": 256,
+    "layers": 2,
+    "lam": 5.0,
+    "gauss_target": false,
+    "tv32": true,
+    "sigma": 0.35,
+    "adv_weight": 1.0,
+    "eval_every": 20,
+    "threads": 3
+  },
+  "n_params": 79904,
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 20,
+      "acc": 0.068,
+      "mae_levels": 6.657,
+      "d_acc": 0.9312,
+      "agree": 0.7157,
+      "iso": 5.755,
+      "blobs": 9.45,
+      "sec": 5.3,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 40,
+      "acc": 0.0613,
+      "mae_levels": 5.145,
+      "d_acc": 0.74,
+      "agree": 0.6213,
+      "iso": 7.005,
+      "blobs": 12.77,
+      "sec": 10.5,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    }
+  ]
+}

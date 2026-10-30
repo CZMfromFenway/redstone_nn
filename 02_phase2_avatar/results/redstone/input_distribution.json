@@ -1,0 +1,94 @@
+{
+  "rows": [
+    {
+      "agree": 0.4235267857142857,
+      "distinct": 377,
+      "nearest_real": 33.275,
+      "score": 1.7905403163411906,
+      "kind": "G",
+      "label": "continuous Gaussian (reference)",
+      "score_delta": 0.0,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.4221428571428571,
+      "distinct": 385,
+      "nearest_real": 33.55,
+      "score": 1.7980755869111196,
+      "kind": "Q8",
+      "label": "Gaussian quantised to 8 bits",
+      "score_delta": 0.007535270569928976,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.6332142857142857,
+      "distinct": 357,
+      "nearest_real": 18.8025,
+      "score": 1.77941806484982,
+      "kind": "U",
+      "label": "uniform [-3.5,3.5]",
+      "score_delta": -0.011122251491370694,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.4303571428571428,
+      "distinct": 386,
+      "nearest_real": 32.9175,
+      "score": 1.8231379843645674,
+      "kind": "B16",
+      "label": "binomial, sum of 16 bits",
+      "score_delta": 0.032597668023376825,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.42486607142857147,
+      "distinct": 382,
+      "nearest_real": 33.015,
+      "score": 1.838838384320194,
+      "kind": "B8",
+      "label": "binomial, sum of 8 bits",
+      "score_delta": 0.04829806797900349,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.4294642857142857,
+      "distinct": 366,
+      "nearest_real": 32.75,
+      "score": 1.808908777058336,
+      "kind": "B4",
+      "label": "binomial, sum of 4 bits",
+      "score_delta": 0.018368460717145485,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.42160714285714285,
+      "distinct": 382,
+      "nearest_real": 33.4225,
+      "score": 1.80360052744777,
+      "kind": "T2_5",
+      "label": "Gaussian truncated to +-2.5",
+      "score_delta": 0.0130602111065794,
+      "verdict": "safe"
+    },
+    {
+      "agree": 0.4352232142857143,
+      "distinct": 374,
+      "nearest_real": 32.5225,
+      "score": 1.8289533072316966,
+      "kind": "T1_5",
+      "label": "Gaussian truncated to +-1.5",
+      "score_delta": 0.03841299089050598,
+      "verdict": "safe"
+    }
+  ],
+  "reference": {
+    "agree": 0.4235267857142857,
+    "distinct": 377,
+    "nearest_real": 33.275,
+    "score": 1.7905403163411906,
+    "kind": "G",
+    "label": "continuous Gaussian (reference)",
+    "score_delta": 0.0,
+    "verdict": "safe"
+  }
+}

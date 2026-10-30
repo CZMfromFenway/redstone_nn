@@ -1,0 +1,71 @@
+{
+  "dead_0": {
+    "comp": 330,
+    "dust": 225
+  },
+  "dead_1": {
+    "comp": 301,
+    "dust": 210
+  },
+  "dead_2": {
+    "comp": 273,
+    "dust": 195
+  },
+  "dead_3": {
+    "comp": 246,
+    "dust": 180
+  },
+  "dead_4": {
+    "comp": 220,
+    "dust": 165
+  },
+  "dead_5": {
+    "comp": 195,
+    "dust": 150
+  },
+  "dead_6": {
+    "comp": 171,
+    "dust": 135
+  },
+  "dead_7": {
+    "comp": 148,
+    "dust": 120
+  },
+  "dead_8": {
+    "comp": 126,
+    "dust": 105
+  },
+  "dead_9": {
+    "comp": 105,
+    "dust": 90
+  },
+  "dead_10": {
+    "comp": 85,
+    "dust": 75
+  },
+  "dead_11": {
+    "comp": 66,
+    "dust": 60
+  },
+  "dead_12": {
+    "comp": 48,
+    "dust": 45
+  },
+  "dead_13": {
+    "comp": 31,
+    "dust": 30
+  },
+  "dead_14": {
+    "comp": 15,
+    "dust": 15
+  },
+  "dead_15": {
+    "comp": 0,
+    "dust": 0
+  },
+  "dead_indep_of_b_comp": true,
+  "dead_indep_of_b_dust": true,
+  "lambda_max_n1": 201825,
+  "lambda_max_n4": 807300,
+  "lambda_max_n15": 3027375
+}

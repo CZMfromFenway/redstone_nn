@@ -1,0 +1,81 @@
+# ─────────────────────────────────────────────
+# redstone_nn · 入库原则
+#   入库：我们产出的、小的、不可再生的结论（文档 / 脚本 / schem / 定案模型 / 精选图）
+#   排除：能重新下载的、大的、别人的（数据集 / venv / 检查点 / jar / 中间图）
+# 修改本文件后，请用 `git status --short | Measure-Object` 确认没有大文件混入
+# ─────────────────────────────────────────────
+
+# ── 环境与缓存 ──────────────────────────────
+.venv/
+__pycache__/
+*.py[cod]
+.piptmp/
+.ipynb_checkpoints/
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+.obsidian/workspace*
+*.log
+
+# ── 大数据：可再获取（一律不入库）────────────
+*.npy
+*.npz
+*.tar.gz
+*.zip
+*.7z
+!99_models/*.npz
+01_phase1_digit_recognition/data_mnist/
+02_phase2_avatar/data/
+02_phase2_avatar/data_v2_canonical/
+02_phase2_avatar/archive_phase1_attempts/data/
+02_phase2_avatar/archive_phase1_attempts/results/
+00_shared/archive_dt_*/**/*.npy
+00_shared/archive_dt_*/**/*.zip
+
+# ── 游戏资源：体积 + 版权（不入库）──────────
+99_mc_texture/
+
+# ── 训练检查点：206 个，只留唯一"结论级"的 ──
+*.pt
+*.pth
+*.ckpt
+!02_phase2_avatar/results/coherence/final_lam5_20k/final.pt
+
+# ── 图片：默认排除，只白名单保留结论图 ──────
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+!kb/figures/**
+!01_phase1_digit_recognition/results/heatmap_all_boost.png
+!01_phase1_digit_recognition/results/mnist15_binarized_900.png
+!02_phase2_avatar/results/pca4map/MAP_p3_p0_5.png
+!02_phase2_avatar/results/styles/STYLES_7.png
+!02_phase2_avatar/results/colour/mcfit/MERGE11.png
+!03_phase3_quantized_network/results/annotated_layout.png
+!03_phase3_quantized_network/results/signal_maps_4cases.png
+
+# ── webapp：52 MB → 只留 6 个定案件 ────────
+02_phase2_avatar/webapp/*.json
+!02_phase2_avatar/webapp/pca22_dim4w64L1_model.json
+!02_phase2_avatar/webapp/colour_k8snap_model.json
+!02_phase2_avatar/webapp/scorer_quad.json
+!02_phase2_avatar/webapp/merge_mc11.json
+!02_phase2_avatar/webapp/styles_gauss.json
+!02_phase2_avatar/webapp/style_envelopes.json
+02_phase2_avatar/webapp/sandbox_standalone.html
+02_phase2_avatar/webapp/*.png
+
+# ── 6 MB 级中间量（可重算）──────────────────
+03_phase3_quantized_network/results/planes_L2.json
+03_phase3_quantized_network/results/towers_L2.json
+03_phase3_quantized_network/results/planes64_relu.json
+02_phase2_avatar/audit_tmp/tree_compare.json
+00_shared/archive_dt_*/data/DT_binary_compiler_*.csv
+
+# ── 本地草稿 ───────────────────────────────
+*.tmp
+*.bak
+~$*

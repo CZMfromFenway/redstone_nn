@@ -1,0 +1,109 @@
+{
+  "args": {
+    "tag": "s32_tv5_gauss",
+    "mode": "gray32",
+    "steps": 12000,
+    "batch": 256,
+    "hid": 256,
+    "layers": 2,
+    "lam": 5.0,
+    "gauss_target": true,
+    "tv32": true,
+    "sigma": 0.35,
+    "adv_weight": 1.0,
+    "eval_every": 2000,
+    "threads": 4
+  },
+  "n_params": 79904,
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 2000,
+      "acc": 0.6495,
+      "mae_levels": 0.475,
+      "d_acc": 0.8562,
+      "agree": 0.4507,
+      "iso": 13.45,
+      "blobs": 23.53,
+      "sec": 372.1,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 4000,
+      "acc": 0.7041,
+      "mae_levels": 0.404,
+      "d_acc": 0.8363,
+      "agree": 0.4663,
+      "iso": 12.625,
+      "blobs": 22.5,
+      "sec": 641.5,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 6000,
+      "acc": 0.7328,
+      "mae_levels": 0.369,
+      "d_acc": 0.8413,
+      "agree": 0.4765,
+      "iso": 12.11,
+      "blobs": 21.84,
+      "sec": 873.4,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 8000,
+      "acc": 0.7434,
+      "mae_levels": 0.353,
+      "d_acc": 0.8462,
+      "agree": 0.4888,
+      "iso": 11.54,
+      "blobs": 21.05,
+      "sec": 1110.9,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 10000,
+      "acc": 0.7513,
+      "mae_levels": 0.34,
+      "d_acc": 0.835,
+      "agree": 0.4914,
+      "iso": 11.645,
+      "blobs": 20.98,
+      "sec": 1346.4,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 12000,
+      "acc": 0.7563,
+      "mae_levels": 0.33,
+      "d_acc": 0.8288,
+      "agree": 0.4936,
+      "iso": 11.565,
+      "blobs": 20.76,
+      "sec": 1542.3,
+      "params": 79904,
+      "mode": "gray32",
+      "layers": 2,
+      "hid": 256
+    }
+  ]
+}

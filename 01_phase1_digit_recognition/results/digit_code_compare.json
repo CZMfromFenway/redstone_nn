@@ -1,0 +1,6 @@
+{
+  "A_10argmax": 0.8915,
+  "B_h_sigmoid": 0.6528,
+  "C_softmax_codes": 0.8917,
+  "D_h_sigmoid_single": 0.653
+}

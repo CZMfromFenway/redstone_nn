@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>红石 8×8 网络 · 单层平面生成器</title>
+<style>
+  :root{--bg:#101014;--pane:#181820;--line:#2c2c38;--fg:#e8e8f0;--dim:#9a9aa8;--acc:#5ad2ff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:13px/1.5 system-ui,"Segoe UI",sans-serif;display:flex;height:100vh;overflow:hidden}
+  #side{width:300px;min-width:300px;background:var(--pane);border-right:1px solid var(--line);padding:14px;overflow-y:auto}
+  #main{flex:1;overflow:auto;position:relative}
+  h1{font-size:14px;margin:0 0 12px;color:var(--acc);letter-spacing:.5px}
+  h2{font-size:11px;margin:16px 0 6px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+  label{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 0;cursor:pointer}
+  label span{color:var(--dim)}
+  input[type=number]{width:74px;background:#0c0c10;border:1px solid var(--line);color:var(--fg);padding:3px 6px;border-radius:4px;text-align:right}
+  input[type=range]{width:110px}
+  input[type=checkbox]{accent-color:var(--acc);width:15px;height:15px}
+  .info{margin-top:14px;padding-top:10px;border-top:1px solid var(--line);font:12px/1.6 ui-monospace,Consolas,monospace;color:var(--dim)}
+  .info b{color:var(--fg)}
+  canvas{display:block}
+  .lg{position:fixed;left:314px;bottom:10px;background:#16161cE8;border:1px solid var(--line);border-radius:8px;padding:8px 11px;font-size:11px;color:var(--dim);line-height:1.7}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px;border:1px solid #555}
+</style>
+</head>
+<body>
+<div id="side">
+  <h1>单层平面生成器</h1>
+
+  <h2>规模</h2>
+  <label><span>输入数 n</span><input type="number" id="n" value="4" min="1" max="64" step="1"></label>
+  <label><span>位宽 b</span><input type="number" id="b" value="8" min="2" max="12" step="1"></label>
+
+  <h2>方向</h2>
+  <label><span>灰线朝上</span><input type="checkbox" id="greyUp" checked></label>
+  <label><span>白线朝上</span><input type="checkbox" id="whiteUp" checked></label>
+  <label><span>输入顺序反转</span><input type="checkbox" id="inRev"></label>
+  <label><span>位序反转</span><input type="checkbox" id="bitRev"></label>
+  <label><span>列奇偶反转</span><input type="checkbox" id="parSwap"></label>
+
+  <h2>灰环平移</h2>
+  <div style="color:#6a6a80;font-size:11px;padding:2px 0">自动求解（取零缺陷的最小值）</div>
+
+  <h2>显示</h2>
+  <label><span>显示比较器数值</span><input type="checkbox" id="showVal" checked></label>
+  <label><span>标出待定件</span><input type="checkbox" id="markPend" checked></label>
+
+  <div class="info" id="info"></div>
+</div>
+<div id="main"><canvas id="cv"></canvas></div>
+
+<div class="lg">
+  <div><span class="sw" style="background:#4a3a50"></span>减法比较器（链上）</div>
+  <div><span class="sw" style="background:#2c2c38"></span>普通比较器</div>
+  <div><span class="sw" style="background:#966e46"></span>容器（空，待填）</div>
+  <div><span class="sw" style="background:#c8c8c8"></span>白色方块（白线）</div>
+  <div><span class="sw" style="background:#6e6e78"></span>基底方块</div>
+  <div><span class="sw" style="background:#888;border-color:#f0c040"></span>待定（环内值/超限权重）</div>
+</div>
+
+<script>
+const PAL=[[200,45,45],[235,140,35],[240,225,55],[105,215,55],
+           [35,170,190],[50,70,200],[135,50,195],[215,80,200]];
+const DV={N:[0,-1],S:[0,1],E:[1,0],W:[-1,0]};
+const FLIP={N:'S',S:'N',E:'W',W:'E'};
+const FULL={N:'north',S:'south',E:'east',W:'west'};
+
+function buildSpec(n,b,o){
+  const be = b + (b&1);                 // 偶数化
+  const cut = (b&1) ? 4 : 0;            // 砍掉的行数
+  const zmsb0 = 3*(be-1) + (((be-1)%2===0)?2:3);
+  const J  = Math.floor((zmsb0-2)/6)+1;
+  // 灰线朝下时，顶部要额外留 4 行给灰环 + 它的取电跳板
+  const PAD = (o.greyUp && o.whiteUp) ? 0 : 4;   // 任一环朝下即留 4 行
+  const L = zmsb0 + 8 - cut + PAD;
+  const W = 2*n + 6;
+  const xw = 2*n + 3;
+  const chainRows=[];                             // 每条链的减法行
+  for(let j=0;j<J;j++) chainRows.push(6*j+4-cut+PAD);
+  const zlc = chainRows[chainRows.length-1];
+  const gzm = zmsb0 - cut + PAD;                  // 真正的 MSB 行
+  const gz0 = (o.gRingTop!=null) ? o.gRingTop
+            : (o.greyUp ? zlc : Math.max(0, chainRows[0] - 4));
+  const wz0 = (o.wRingTop!=null) ? o.wRingTop
+            : (o.whiteUp ? (zlc + 1) : 1);
+  const crSet = new Set(chainRows);
+
+  const ODD=[],EVEN=[];
+  for(let i=0;i<n;i++){ODD.push(2*i+3);EVEN.push(2*i+4);}
+  const CE = o.parSwap?EVEN:ODD, CO = o.parSwap?ODD:EVEN;
+  const XI = i => o.inRev ? (n-1-i) : i;
+  const colOf = (k,i) => ( (k%2===0?CE:CO)[XI(i)] );
+  const rowOf = k => ((k%2===0)?3*k+2:3*k+3) - cut + PAD;
+  const barOf = k => ((k%2===0)?3*k+1:3*k+4) - cut + PAD;
+
+  const cells=new Map(); const K=(x,z)=>x+','+z;
+  const clash=[];                       // 覆盖冲突（同一格被两类元件写）
+  const put=(x,z,c)=>{
+    const key=K(x,z), old=cells.get(key);
+    if(old && !(old.t===c.t && old.c===c.c)) clash.push({x,z,a:old.t,b:c.t});
+    cells.set(key,Object.assign({x,z},c));
+  };
+  const cmp=(x,z,fac,mode,pend)=>put(x,z,{t:'cmp',out:FLIP[fac],mode:mode||'compare',pend:!!pend});
+  const blk=(x,z,c,pend)=>put(x,z,{t:'blk',c:c||'base',pend:!!pend});
+
+  // ---------- 灰环
+  cmp(1,gz0,'E','compare',true); cmp(2,gz0+1,'S','compare',true);
+  cmp(1,gz0+2,'W','compare',true); cmp(0,gz0+1,'N','compare',true);
+  [[0,gz0],[2,gz0],[0,gz0+2],[2,gz0+2]].forEach(([x,z])=>blk(x,z,'base',true));
+
+  // ---------- 白环
+  cmp(xw+1,wz0,'W','compare',true); cmp(xw+2,wz0+1,'N','compare',true);
+  cmp(xw+1,wz0+2,'E','compare',true); cmp(xw,wz0+1,'S','compare',true);
+  [[xw,wz0],[xw+2,wz0],[xw,wz0+2],[xw+2,wz0+2]].forEach(([x,z])=>blk(x,z,'white',true));
+
+  // ---------- 输入行 + 容器
+  for(let k=0;k<be;k++){
+    if(k===be-1) continue;          // MSB 由配对区供值，不画普通色块/桶
+    const zc=rowOf(k), zb=barOf(k);
+    if(zc<0) continue;
+    for(let i=0;i<n;i++){
+      const bitOf = (b&1)? (k-1) : k;                 // 该槽位对应哪个位
+      const shown = (k===be-1) ? (b-1)                // MSB 颜色固定
+                  : (o.bitRev ? (b-2-bitOf) : bitOf); // 位序反转只换标号
+      blk(colOf(k,i),zc,'col'+(((shown%8)+8)%8));
+      if(zb>=0) put(colOf(k,i),zb,{t:'barrel',pend:true});
+    }
+  }
+
+  // ---------- 链
+  for(let j=0;j<J;j++){
+    const z4=chainRows[j], z3=z4-1, z5=z4+1;
+    if(z3>=0) CE.forEach(x=>cmp(x,z3,'N'));
+    ODD.concat(EVEN).forEach(x=>cmp(x,z4,'W','subtract'));
+    if(z5<L) CO.forEach(x=>cmp(x,z5,'S'));
+  }
+
+  // ---------- 左总线（灰上：从第一条链往上到环；灰下：从环往下到最后一条链）
+  const b0 = chainRows[0];
+  const r0 = o.greyUp ? b0 : gz0+3;
+  const r1 = o.greyUp ? gz0-1 : zlc;
+  for(let z=r0; z<=r1; z++){
+    if(z<0||z>=L) continue;
+    const p=K(2,z); if(cells.has(p)) continue;
+    if(z%2===0) blk(2,z,'base');
+    else cmp(2,z,o.greyUp?'S':'N');
+  }
+  chainRows.forEach(z=>{ if(z>=0&&z<L&&!cells.has(K(2,z))) blk(2,z,'base'); });
+
+  // ---------- 右总线（减法点跟着链走）
+  const wStart = o.whiteUp ? b0 : (wz0 + 3);   // 白线朝下时从环的下方起铺
+  for(let z=wStart; z<=zlc; z++){
+    if(z<0) continue;
+    if(z%2===0) cmp(xw,z,o.whiteUp?'S':'N', crSet.has(z)?'subtract':'compare');
+    else blk(xw,z,'white');
+  }
+
+  // ---------- MSB 行
+  const msSlot = be-1;
+  const MSBCOL = (msSlot%2===0)?CE:CO;      // 跟着列奇偶反转走
+  for(let i=0;i<n;i++) blk(MSBCOL[XI(i)],gzm,'col'+(b-1)%8);
+
+  // ---------- 配对区（按"情形Ⅰ满配"画，全部标待定）
+  const zr = gzm+1;
+  for(let p=0;p<Math.floor(n/2);p++){
+    const a=XI(2*p), bb=XI(2*p+1);
+    let xa=MSBCOL[Math.min(a,bb)], xb=MSBCOL[Math.max(a,bb)];
+    put(xa+1,zr,{t:'barrel',pend:true});                     // Δ 桶
+    cmp(xa,zr,'S','compare',true); cmp(xb,zr,'S','compare',true);
+    if(zr+1<L){
+      cmp(xa,zr+1,'S','compare',true); cmp(xa+1,zr+1,'N','compare',true);
+      cmp(xb,zr+1,'S','compare',true);
+    }
+    [2,4,6].forEach(dz=>{ if(zr+dz<L){ blk(xa,zr+dz,'col7',true); blk(xb,zr+dz,'col7',true);} });
+    if(zr+2<L) cmp(xa+1,zr+2,'W','subtract',true);
+    if(zr+3<L) cmp(a<=bb?xa:xb,zr+3,'S','compare',true);
+    if(zr+4<L) cmp(xa+1,zr+4,'E','compare',true);
+    if(zr+5<L){ cmp(xa,zr+5,'N','compare',true); cmp(xb,zr+5,'S','compare',true); }
+    if(zr+6<L) cmp(xa+1,zr+6,'W','compare',true);
+  }
+
+  // ---------- 奇数 n：孤立输入的小环（向右展开）
+  if(n%2===1){
+    const x=MSBCOL[n-1];
+    [[x,zr+4],[x+2,zr+4],[x,zr+2],[x,zr+6],[x+2,zr+6]].forEach(([px,pz])=>{
+      if(pz<L&&px<W) blk(px,pz,'col7',true);
+    });
+    if(zr+4<L) cmp(x+1,zr+4,'W','compare',true);
+    if(zr+5<L) cmp(x+2,zr+5,'N','compare',true);
+    if(zr+6<L) cmp(x+1,zr+6,'E','compare',true);
+    if(zr+5<L) cmp(x,zr+5,'S','compare',true);
+    if(zr+3<L) cmp(x,zr+3,'S','compare',true);
+    if(zr+1<L) cmp(x,zr+1,'S','compare',true);
+    if(zr<L)   cmp(x,zr,'S','compare',true);
+  }
+  return {W,L,cells,J,zlc,zmsb:gzm,gz:gz0,wz:wz0,zr,xw,be,cut,chainRows,clash};
+}
+
+/* ---------- 图检测：死比较器 / 孤儿方块 ---------- */
+function validate(spec, port){
+  const clashN = (spec.clash||[]).length;
+  const {W,L,cells}=spec;
+  const at=(x,z)=>cells.get(x+','+z);
+  const inb=(x,z)=>x>=0&&x<W&&z>=0&&z<L;
+  const cmps=[],others=[];
+  cells.forEach(c=>{ (c.t==='cmp'?cmps:others).push(c); });
+
+  // 每个比较器的 rear / 两个侧位
+  const rear=c=>{const d=DV[c.out];return [c.x-d[0],c.y!==undefined?0:c.z-d[1]];};
+  const rearOf=c=>{const d=DV[c.out];return [c.x-d[0], c.z-d[1]];};
+  const sidesOf=c=>{const d=DV[c.out];return [[c.x-d[1],c.z+d[0]],[c.x+d[1],c.z-d[0]]];};
+  const targetOf=c=>{const d=DV[c.out];return [c.x+d[0],c.z+d[1]];};
+
+  const dead=[];
+  cmps.forEach(c=>{
+    const [bx,bz]=targetOf(c); const b=at(bx,bz);
+    let used=false;
+    if(b&&b.t==='cmp'){
+      const [rx,rz]=rearOf(b);
+      if(rx===c.x&&rz===c.z) used=true;
+      sidesOf(b).forEach(([sx,sz])=>{ if(sx===c.x&&sz===c.z) used=true; });
+    } else if(b){
+      // 有别的比较器把这个位置当 rear
+      cmps.forEach(q=>{ if(q===c) return; const [rx,rz]=rearOf(q);
+        if(rx===bx&&rz===bz) used=true; });
+    }
+    if(port && c.x===port[0]&&c.z===port[1]) used=true;   // 端口
+    if(!used) dead.push(c);
+  });
+
+  const orphan=[], unpowered=[];
+  others.forEach(o=>{
+    let chg=false, rd=false;
+    cmps.forEach(c=>{
+      const [tx,tz]=targetOf(c); if(tx===o.x&&tz===o.z) chg=true;
+      const [rx,rz]=rearOf(c);
+      if(rx===o.x&&rz===o.z) rd=true;
+      const [r2x,r2z]=[c.x-2*DV[c.out][0], c.z-2*DV[c.out][1]];
+      const mid=at(rx,rz);
+      if(r2x===o.x&&r2z===o.z&&mid&&mid.t==='blk') rd=true;   // 穿透读
+    });
+    const isSrc = (o.t==='barrel') || (o.t==='blk' && (o.c||'').startsWith('col'));
+    if(!chg&&!rd) orphan.push(o);
+    else if(rd&&!chg&&!isSrc) unpowered.push(o);          // 被读却没人充能 → 恒 0
+  });
+  // 第四类：rear 为空的比较器（没有输入）
+  const unreared=[];
+  cmps.forEach(c=>{ const [rx,rz]=rearOf(c); if(!at(rx,rz)) unreared.push(c); });
+  return {dead,orphan,unpowered,unreared,clashN};
+}
+
+function draw(){
+  const n = Math.max(1,Math.min(64,+document.getElementById('n').value||4));
+  const b = Math.max(2,Math.min(12,+document.getElementById('b').value||8));
+  const o = {
+    greyUp:document.getElementById('greyUp').checked,
+    whiteUp:document.getElementById('whiteUp').checked,
+    inRev:document.getElementById('inRev').checked,
+    bitRev:document.getElementById('bitRev').checked,
+    parSwap:document.getElementById('parSwap').checked,
+    gshift:2   // 下面会自动求解
+  };
+  const showVal=document.getElementById('showVal').checked;
+  const markPend=document.getElementById('markPend').checked;
+
+  // ===== 环沿各自传播方向滑到最远（四类缺陷全为零才算合法）=====
+  const okOf = t => {
+    const pzz = o.whiteUp ? t.chainRows[0] : t.chainRows[t.chainRows.length-1];
+    const vv = validate({W:t.W,L:t.L,cells:t.cells,clash:t.clash}, [t.xw,pzz]);
+    return vv.dead.length+vv.orphan.length+vv.unpowered.length+vv.unreared.length+vv.clashN;
+  };
+  const slide = (base, key, dirDown, parity) => {
+    const probe = buildSpec(n,b,base);
+    const cand = [];
+    for(let z=parity; z<probe.L-2; z+=2) cand.push(z);
+    cand.sort((a,b)=> dirDown ? b-a : a-b);
+    let best=null, bestBad=1e9;
+    for(const z of cand){
+      const t = buildSpec(n,b,Object.assign({},base,{[key]:z}));
+      const bad = okOf(t);
+      if(bad===0) return z;
+      if(bad<bestBad){ bestBad=bad; best=z; }
+    }
+    return best;
+  };
+  const gTop = slide(Object.assign({},o,{gRingTop:null,wRingTop:null}), 'gRingTop', !o.greyUp, 0);
+  let wTop = null;
+  if(!o.whiteUp){
+    const probe = buildSpec(n,b,Object.assign({},o,{gRingTop:gTop,wRingTop:null}));
+    const cap = probe.chainRows[0] - 3;      // wz+3 不得越过第一条链
+    const cand = [];
+    for(let z=1; z<=cap; z+=2) cand.push(z);
+    cand.sort((a,c)=>c-a);                   // 朝下：从大到小试
+    let best=null, bb=1e9;
+    for(const z of cand){
+      const t = buildSpec(n,b,Object.assign({},o,{gRingTop:gTop,wRingTop:z}));
+      const bad = okOf(t);
+      if(bad===0){ wTop=z; break; }
+      if(bad<bb){ bb=bad; best=z; }
+    }
+    if(wTop===null) wTop=best;
+  }
+  const s = buildSpec(n,b,Object.assign({},o,{gRingTop:gTop,wRingTop:wTop}));
+
+  // 位序反转只改颜色标号，不动结构（在 buildSpec 里处理）
+  const _cr=s.chainRows;
+  const _pz = o.whiteUp ? _cr[0] : _cr[_cr.length-1];
+  let cells=s.cells, W=s.W, L=s.L, port=[s.xw,_pz], zmsb=s.zmsb;
+
+  const C = W<=16?44 : W<=40?26 : W<=80?16 : 10;
+  const PADL=46,PADT=40;
+  const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  cv.width=(PADL+W*C+20)*dpr; cv.height=(PADT+L*C+14)*dpr;
+  cv.style.width=(PADL+W*C+20)+'px'; cv.style.height=(PADT+L*C+14)+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#101014'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.font=(C>=26?'10px':'8px')+' ui-monospace,Consolas,monospace';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+
+  for(let z=0;z<L;z++)for(let x=0;x<W;x++){
+    const c=cells.get(x+','+z); if(!c) continue;
+    const X=PADL+x*C, Y=PADT+z*C;
+    if(c.t==='cmp'){
+      const sub=c.mode==='subtract';
+      ctx.fillStyle=sub?'#4a3a50':'#2c2c38';
+      ctx.fillRect(X+1,Y+1,C-2,C-2);
+      ctx.strokeStyle=sub?'#d76060':'#6a6a80';
+      ctx.lineWidth=1; ctx.strokeRect(X+1.5,Y+1.5,C-3,C-3);
+      const d=DV[c.out], cx=X+C/2, cy=Y+C/2, r=C*0.22;
+      ctx.strokeStyle=sub?'#ff6060':'#ffc355'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(cx-d[0]*r,cy-d[1]*r-3); ctx.lineTo(cx+d[0]*r,cy+d[1]*r-3); ctx.stroke();
+      ctx.beginPath();
+      const tx=cx+d[0]*r*1.7, ty=cy+d[1]*r*1.7-3;
+      ctx.moveTo(tx,ty);
+      ctx.lineTo(tx-d[0]*4-d[1]*4, ty-d[1]*4+d[0]*4);
+      ctx.lineTo(tx-d[0]*4+d[1]*4, ty-d[1]*4-d[0]*4);
+      ctx.closePath(); ctx.fillStyle=sub?'#ff6060':'#ffc355'; ctx.fill();
+      if(markPend&&c.pend){ ctx.strokeStyle='#f0c040'; ctx.setLineDash([2,2]);
+        ctx.strokeRect(X+1.5,Y+1.5,C-3,C-3); ctx.setLineDash([]); }
+    } else if(c.t==='barrel'){
+      ctx.fillStyle='#966e46'; ctx.fillRect(X+2,Y+2,C-4,C-4);
+      ctx.strokeStyle='#5a4020'; ctx.lineWidth=1; ctx.strokeRect(X+2.5,Y+2.5,C-5,C-5);
+      if(markPend&&c.pend){ ctx.strokeStyle='#f0c040'; ctx.setLineDash([2,2]);
+        ctx.strokeRect(X+2.5,Y+2.5,C-5,C-5); ctx.setLineDash([]); }
+    } else {
+      let col='#6e6e78', pend=false;
+      if(c.c.startsWith('col')){ const k=+c.c.slice(3); col='rgb('+PAL[k%8].join(',')+')'; }
+      else if(c.c==='white') col='#c8c8c8';
+      pend=c.pend;
+      ctx.fillStyle=col; ctx.fillRect(X+2,Y+2,C-4,C-4);
+      ctx.strokeStyle='#d8d8d8'; ctx.lineWidth=1; ctx.strokeRect(X+2.5,Y+2.5,C-5,C-5);
+      if(markPend&&pend){ ctx.strokeStyle='#f0c040'; ctx.setLineDash([2,2]);
+        ctx.strokeRect(X+2.5,Y+2.5,C-5,C-5); ctx.setLineDash([]); }
+    }
+  }
+  // 端口
+  ctx.strokeStyle='#5ad2ff'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(PADL+port[0]*C+C/2, PADT+port[1]*C+C/2, C*0.42, 0, Math.PI*2); ctx.stroke();
+
+  // 坐标
+  ctx.fillStyle='#9a9aa8';
+  const xs = W>40?10:1;
+  for(let x=0;x<W;x+=xs) ctx.fillText(x, PADL+x*C+C/2, PADT-14);
+  for(let z=0;z<L;z++) ctx.fillText('z'+z, 20, PADT+z*C+C/2);
+
+  let nc=0,nb=0,np=0;
+  cells.forEach(c=>{ if(c.t==='cmp')nc++; else if(c.t==='barrel')nb++; else np++; });
+  const v = validate({W,L,cells,clash:s.clash}, port);
+  const okAll = v.dead.length===0 && v.orphan.length===0 && v.unpowered.length===0 && v.unreared.length===0 && v.clashN===0;
+  // 标出问题件
+  if(!okAll){
+    ctx.lineWidth=2;
+    v.dead.forEach(c=>{ const X=PADL+c.x*C, Y=PADT+c.z*C;
+      ctx.strokeStyle='#ff3030';
+      ctx.beginPath(); ctx.moveTo(X+2,Y+2); ctx.lineTo(X+C-3,Y+C-3);
+      ctx.moveTo(X+2,Y+C-3); ctx.lineTo(X+C-3,Y+2); ctx.stroke(); });
+    v.orphan.forEach(c=>{ const X=PADL+c.x*C, Y=PADT+c.z*C;
+      ctx.strokeStyle='#ff3cdc'; ctx.strokeRect(X+1,Y+1,C-3,C-3); });
+    v.unpowered.forEach(c=>{ const X=PADL+c.x*C, Y=PADT+c.z*C;
+      ctx.strokeStyle='#ffa030'; ctx.setLineDash([3,2]); ctx.strokeRect(X+1,Y+1,C-3,C-3); ctx.setLineDash([]); });
+    v.unreared.forEach(c=>{ const X=PADL+c.x*C, Y=PADT+c.z*C;
+      ctx.strokeStyle='#ffee30'; ctx.lineWidth=3; ctx.strokeRect(X+2,Y+2,C-5,C-5); ctx.lineWidth=2; });
+  }
+  document.getElementById('info').innerHTML =
+    `平面 <b>${W} × ${L}</b><br>`+
+    `链数 J = <b>${s.J}</b>　链行 ${s.chainRows.join('/')}<br>`+
+    `MSB 行 z=${zmsb}　配对区 z=${s.zr}..${Math.min(s.zr+6,L-1)}<br>`+
+    `灰环顶行 ${s.gz}（滑移 ${gTop}）　白环顶行 ${s.wz}（滑移 ${wTop}）<br>`+
+    `比较器 <b>${nc}</b>　容器 <b>${nb}</b>　方块 <b>${np}</b><br>`+
+    `端口 (${port[0]}, ${port[1]})<br>`+
+    (b%2? `奇数 b：由 b=${b+1} 砍 ${s.cut} 行<br>`:'偶数 b：直接生成<br>')+
+    `<div style="margin-top:6px;padding:6px;border-radius:5px;`+
+    `background:${okAll?'#12301c':'#3a1014'};color:${okAll?'#7fe0a0':'#ff8080'}">`+
+    `图检测：${okAll?'通过 ✓':'失败 ✗'}<br>`+
+    `死 ${v.dead.length}　孤 ${v.orphan.length}　未供能 ${v.unpowered.length}　无输入 ${v.unreared.length}　覆盖冲突 ${v.clashN}</div>`;
+}
+
+document.querySelectorAll('input').forEach(el=>{
+  el.addEventListener('input',draw); el.addEventListener('change',draw);
+});
+draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "args": {
+    "tag": "pilot_sweep_code3",
+    "mode": "code",
+    "pca_k": 0,
+    "code_k": 3,
+    "steps": 100,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": ""
+  },
+  "cond_desc": "learned 3-bit style code (8 clusters, continuous centre)",
+  "cond_dim": 16,
+  "nG": 218112,
+  "nD": 341953,
+  "history": [
+    {
+      "step": 100,
+      "ce": 2.2315,
+      "acc": 0.2181,
+      "d_acc": 0.8721,
+      "loss_d": 0.8429,
+      "loss_g": 3.6748,
+      "levels": 11.396484375,
+      "nn_med": 22,
+      "nn_min": 16,
+      "dups": 0,
+      "near_real_mean": 42.3564453125,
+      "near_real_min": 24,
+      "symmetry": 1.0,
+      "sec": 8.4
+    }
+  ],
+  "seconds": 8.4
+}

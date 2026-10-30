@@ -1,0 +1,14 @@
+# 统一行尾，避免 Windows/Linux 协作时整文件 diff
+* text=auto eol=lf
+
+# 明确的二进制：不做行尾转换、不做文本 diff
+*.schem   binary
+*.png     binary
+*.jpg     binary
+*.npy     binary
+*.npz     binary
+*.pt      binary
+*.jar     binary
+
+# 文档差异更好读
+*.md diff=markdown

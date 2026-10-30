@@ -1,0 +1,34 @@
+{
+  "rows": [
+    {
+      "kind": "G",
+      "distinct_2x2": 13,
+      "flat": 1
+    },
+    {
+      "kind": "Q8",
+      "distinct_2x2": 13,
+      "flat": 1
+    },
+    {
+      "kind": "B4",
+      "distinct_2x2": 12,
+      "flat": 0
+    },
+    {
+      "kind": "B8",
+      "distinct_2x2": 12,
+      "flat": 1
+    },
+    {
+      "kind": "B16",
+      "distinct_2x2": 12,
+      "flat": 1
+    },
+    {
+      "kind": "U",
+      "distinct_2x2": 15,
+      "flat": 10
+    }
+  ]
+}

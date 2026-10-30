@@ -1,0 +1,9 @@
+{
+  "params": 205824,
+  "heldout_ce": 0.5089215636253357,
+  "heldout_acc": 0.8544921875,
+  "marginal_baseline_ce": 2.6586498054644405,
+  "free_running_acc": 0.807891845703125,
+  "steps": 8000,
+  "seconds": 39.3
+}

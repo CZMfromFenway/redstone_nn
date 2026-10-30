@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>红石 8×8 网络 · 平面仿真器</title>
+<style>
+  :root{--bg:#0e0e12;--pane:#17171f;--line:#2c2c38;--fg:#e8e8f0;--dim:#8f8f9c;--acc:#5ad2ff;--ok:#7fe0a0;--bad:#ff7070;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:13px/1.55 system-ui,"Segoe UI",sans-serif;display:flex;height:100vh;overflow:hidden}
+  #side{width:320px;min-width:320px;background:var(--pane);border-right:1px solid var(--line);padding:14px;overflow-y:auto}
+  #main{flex:1;overflow:auto;position:relative}
+  h1{font-size:14px;margin:0 0 2px;color:var(--acc)}
+  .sub{font-size:11px;color:var(--dim);margin-bottom:12px}
+  h2{font-size:11px;margin:15px 0 5px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+  label{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 0;cursor:pointer}
+  label span{color:var(--dim)}
+  input[type=number],select{width:96px;background:#0b0b0f;border:1px solid var(--line);color:var(--fg);padding:3px 6px;border-radius:4px}
+  input[type=checkbox]{accent-color:var(--acc);width:15px;height:15px}
+  button{width:100%;margin-top:8px;background:#23233a;border:1px solid var(--line);color:var(--fg);padding:6px;border-radius:5px;cursor:pointer}
+  button:hover{background:#2d2d4a}
+  .info{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font:12px/1.6 ui-monospace,Consolas,monospace;color:var(--dim)}
+  .info b{color:var(--fg)}
+  canvas{display:block;cursor:pointer}
+  .lg{position:fixed;left:334px;bottom:8px;background:#15151cE8;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:11px;color:var(--dim);line-height:1.6}
+  .sw{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:5px;border:1px solid #555}
+</style>
+</head>
+<body>
+<div id="side">
+  <h1>平面仿真器</h1>
+  <div class="sub">载入权重后 n/b 锁定，容器显示 $W^{(k)}_i$，彩块可点击</div>
+
+  <h2>权重</h2>
+  <input type="file" id="file" accept=".json" style="width:100%;font-size:11px;color:var(--dim)">
+  <button id="demo">用内置示例权重</button>
+  <label style="margin-top:6px"><span>层</span>
+    <select id="layer"><option value="0">层1 (4→64)</option><option value="1">层2 (64→32)</option></select></label>
+  <label><span>通道</span><input type="number" id="ch" value="0" min="0"></label>
+  <label><span>位宽 b</span><input type="number" id="b" value="8" min="2" max="12"></label>
+
+  <h2>方向</h2>
+  <label><span>灰线朝低位权方向</span><input type="checkbox" id="greyUp" checked></label>
+  <label><span>白线朝低位权方向</span><input type="checkbox" id="whiteUp" checked></label>
+  <label><span>输入顺序反转</span><input type="checkbox" id="inRev"></label>
+  <label><span>位权朝次方向升高</span><input type="checkbox" id="bitRev"></label>
+  <label><span>列奇偶反转</span><input type="checkbox" id="parSwap"></label>
+
+  <div class="info" id="info">尚未载入权重</div>
+</div>
+<div id="main"><canvas id="cv"></canvas></div>
+<div class="lg">
+  <div><span class="sw" style="background:#4a3a50"></span>减法比较器</div>
+  <div><span class="sw" style="background:#2c2c38"></span>比较器</div>
+  <div><span class="sw" style="background:#966e46"></span>容器（显示 W 与信号）</div>
+  <div><span class="sw" style="background:#c8c8c8"></span>白色方块</div>
+  <div><span class="sw" style="background:#6e6e78"></span>基底</div>
+  <div>彩块点击 = 翻转该输入位（火把）</div>
+</div>
+
+<script>
+const PAL=[[200,45,45],[235,140,35],[240,225,55],[105,215,55],
+           [35,170,190],[50,70,200],[135,50,195],[215,80,200]];
+const DV={N:[0,-1],S:[0,1],E:[1,0],W:[-1,0]};
+const FLIP={N:'S',S:'N',E:'W',W:'E'};
+const ZFLIP={N:'S',S:'N',E:'E',W:'W'};
+
+/* ---------- 权重 → 整数 U ----------
+   严格对应 03_phase3_quantized_network/src/compiler.py：
+       delta_j = (xmax-xmin)/2^in_bits     （层1 均匀；层2 逐通道）
+       g_i     = max_j |w_ij| * delta_j
+       sig_i   = w_ref / (g_i * 2^(in_bits-2))
+       W_ijk   = rint( sig_i * w_ij * delta_j * 2^k )   ← rint = 四舍六入五取偶
+   注意：b 是"权重位宽"，IN_BITS 是"输入端位宽"，两者不同。
+   ------------------------------------------------------------- */
+const IN_BITS = 8;          // 模型输入端 8 位
+const W_REF   = 882;
+const X_MIN   = -3.5, X_MAX = 3.5;
+
+function rint(v){           // numpy.rint：.5 取偶
+  const f = Math.floor(v), d = v - f;
+  if (d > 0.5) return f + 1;
+  if (d < 0.5) return f;
+  return (f % 2 === 0) ? f : f + 1;
+}
+
+function compile(Wm, b, delta, inBits){
+  const M = Wm.length, N = Wm[0].length;
+  const ib = inBits || b;                       // 输入位宽：默认与权重位宽相同（compiler.py 的约定）
+  const d = delta || new Array(N).fill((X_MAX - X_MIN) / (1 << ib));
+  const sig = [];
+  for (let i = 0; i < M; i++) {
+    let g = 0;
+    for (let j = 0; j < N; j++) g = Math.max(g, Math.abs(Wm[i][j]) * d[j]);
+    sig.push(W_REF / (g * (1 << (ib - 2))));
+  }
+  const U = [];
+  for (let i = 0; i < M; i++) {
+    const row = [];
+    for (let j = 0; j < N; j++) {
+      const r = [];
+      for (let k = 0; k < b; k++) r.push(rint(sig[i] * Wm[i][j] * d[j] * (1 << k)));
+      row.push(r);
+    }
+    U.push(row);
+  }
+  return U;
+}
+
+/* 层1 的输出步长 δ_out = c/σ —— 供层2 当 delta 用（compiler.py 步 4） */
+function layer1DeltaOut(Wm, theta, b, outBits){
+  const d1 = new Array(Wm[0].length).fill((X_MAX - X_MIN) / (1 << b));
+  const U = compile(Wm, b, d1, b);
+  const m = U.length, n = U[0].length;
+  const res = [];
+  for (let i = 0; i < m; i++) {
+    let g = 0;
+    for (let j = 0; j < n; j++) g = Math.max(g, Math.abs(Wm[i][j]) * d1[j]);
+    const sg = W_REF / (g * (1 << (b - 2)));
+    let Cmin = 0, Cmax = 0;
+    for (let j = 0; j < n; j++) for (let k = 0; k < b; k++) {
+      const v = U[i][j][k];
+      if (v < 0) Cmin += v; else Cmax += v;
+    }
+    const Nmax = Cmax - Cmin;
+    // kappa = theta + Σ w*(a0 + 0.5·delta)，a0 = -3.5
+    let kap = theta[i];
+    for (let j = 0; j < n; j++) kap += Wm[i][j] * (X_MIN + 0.5 * d1[j]);
+    const P = rint(-sg * kap - Cmin);
+    const c = Math.max(Math.ceil((Nmax - P) / ((1 << outBits) - 1)), 1);
+    res.push(c / sg);
+  }
+  return res;
+}
+
+/* ---------- 建板（带数值） ---------- */
+function build(n,b,U,ch,o){
+  const J=Math.ceil(b/2);
+  const Wm=U[ch];
+  const S=[],WS=[];
+  for(let i=0;i<n;i++){ const a=[],w=[]; for(let k=0;k<b;k++){ a.push(15+Math.abs(Wm[i][k])); w.push(Wm[i][k]); } S.push(a); WS.push(w); }
+  let K=0; for(let i=0;i<n;i++)for(let k=0;k<b;k++) K+=S[i][k];
+
+  const m=new Map(), K2=(x,z)=>x+','+z;
+  const put=(rx,Z,c)=>m.set(K2(rx,Z),Object.assign({rx,Z},c));
+  const cmp=(rx,Z,fac,mode,init,src)=>put(rx,Z,{t:'cmp',out:FLIP[fac],mode:mode||'compare',init:init||0,src:!!src});
+  const blk=(rx,Z,c)=>put(rx,Z,{t:'blk',c:c||'base'});
+  const bar=(rx,Z,val,w,ik)=>put(rx,Z,{t:'barrel',val,wt:w,ik});
+
+  const Zch=j=>-6*j, Zmsb=2;
+  const codd=i=>2*i, ceven=i=>2*i+1;
+  const CE=o.parSwap?ceven:codd, CO=o.parSwap?codd:ceven;
+  const XI=i=>o.inRev?(n-1-i):i;
+  const rxw=2*n;
+
+  const SLOTS=[];
+  for(let j=0;j<J;j++){ SLOTS.push({c:j,Z:Zch(j)+2,up:false}); SLOTS.push({c:j,Z:Zch(j)-2,up:true}); }
+  SLOTS.sort((a,b2)=>Math.abs(a.Z)-Math.abs(b2.Z)||(b2.Z-a.Z));
+  const SLOT=[]; for(let i=0;i<b;i++) SLOT[b-1-i]=SLOTS[i];
+  const slotOf=k=>SLOT[k];
+  const colOf=(k,i)=>((slotOf(k).up?CE:CO)(XI(i)));
+
+  // 灰环
+  const zg=o.greyUp?(Zch(0)-2):(-6*J+4);          // 约定值
+  cmp(-2,zg,'E','compare',K,true); cmp(-1,zg+1,'S','compare',K,true);
+  cmp(-2,zg+2,'W','compare',K,true); cmp(-3,zg+1,'N','compare',K,true);
+  [[-3,zg],[-1,zg],[-3,zg+2],[-1,zg+2]].forEach(([x,z])=>blk(x,z,'base'));
+  // 白环
+  const zw=o.whiteUp?(Zmsb-1):(Zch(J-1)-3);        // 约定值 -6(J-1)-3
+  const W0RING=J*K-15*n*b;
+  cmp(rxw+1,zw,'W','compare',W0RING,true); cmp(rxw+2,zw+1,'N','compare',W0RING,true);
+  cmp(rxw+1,zw+2,'E','compare',W0RING,true); cmp(rxw,zw+1,'S','compare',W0RING,true);
+  [[rxw,zw],[rxw+2,zw],[rxw,zw+2],[rxw+2,zw+2]].forEach(([x,z])=>blk(x,z,'white'));
+
+  // 位行 + 容器
+  for(let k=0;k<b-1;k++){
+    const sl=slotOf(k), zc=sl.Z, zb=zc+(sl.up?-1:1);
+    for(let i=0;i<n;i++){
+      const shown=o.bitRev?(b-2-k):k;
+      put(colOf(k,i),zc,{t:'blk',c:'col'+((shown%8+8)%8),ik:[i,k]});
+      bar(colOf(k,i),zb,S[i][k],WS[i][k],[i,k]);
+    }
+  }
+  // 链
+  const hasUp=[],hasDn=[];
+  for(let j=0;j<J;j++){ hasUp.push(false); hasDn.push(j===0); }
+  for(let k=0;k<b-1;k++){ const sl=slotOf(k); if(sl.up) hasUp[sl.c]=true; else hasDn[sl.c]=true; }
+  for(let j=0;j<J;j++){
+    const z4=Zch(j);
+    if(hasUp[j]) for(let i=0;i<n;i++) cmp(CE(i),z4-1,'N');
+    for(let i=0;i<n;i++){ cmp(codd(i),z4,'W','subtract'); cmp(ceven(i),z4,'W','subtract'); }
+    if(hasDn[j]) for(let i=0;i<n;i++) cmp(CO(i),z4+1,'S');
+  }
+  // 左总线
+  const zlo=Zch(J-1), zhi=Zch(0);
+  const r0=o.greyUp?zlo:zg+3, r1=o.greyUp?zg-1:zhi;
+  for(let z=r0;z<=r1;z++){ if(m.has(K2(-1,z))) continue;
+    if(((z%2)+2)%2===0) blk(-1,z,'base'); else cmp(-1,z,o.greyUp?'S':'N'); }
+  for(let j=0;j<J;j++) if(!m.has(K2(-1,Zch(j)))) blk(-1,Zch(j),'base');
+  // 右总线
+  const crSet=new Set(); for(let j=0;j<J;j++) crSet.add(Zch(j));
+  const ws=o.whiteUp?zlo:zw+3;
+  for(let z=ws;z<=zhi;z++){
+    if(((z%2)+2)%2===0) cmp(rxw,z,o.whiteUp?'S':'N', crSet.has(z)?'subtract':'compare');
+    else blk(rxw,z,'white');
+  }
+  // MSB 行
+  for(let i=0;i<n;i++) put(CO(XI(i)),Zmsb,{t:'blk',c:'col'+((b-1)%8),ik:[i,b-1]});
+
+  // 配对区（按数值定情形）
+  const pairInfo=[];
+  for(let p=0;p<Math.floor(n/2);p++){
+    const i0=XI(2*p), i1=XI(2*p+1);
+    const cA=CO(i0), cB=CO(i1);                 // 两个 MSB 块的实际列
+    const xa=Math.min(cA,cB), xb=Math.max(cA,cB);
+    const wa=Math.abs(WS[i0][b-1]), wb=Math.abs(WS[i1][b-1]);   // i0 对应 cA
+    const sa=S[i0][b-1], sb=S[i1][b-1];
+    const lo=Math.min(wa,wb), hi=Math.max(wa,wb);
+    const cs = lo>882?'I':(hi>882?'II':'III');
+    // 哪个列放大值
+    // "大值在哪一侧"必须按列判，不能按输入序号
+    const leftIsA = (cA < cB);
+    const iLeft  = leftIsA ? i0 : i1;
+    const iRight = leftIsA ? i1 : i0;
+    const sLeft = leftIsA ? sa : sb;
+    const sRight= leftIsA ? sb : sa;
+    const bigAtA = (sLeft >= sRight);   // 左列是否为大值
+    pairInfo.push({xa,xb,cs,sa,sb,bigAtA,i0,i1});
+    const zr=Zmsb+1;
+    if(cs==='III'){
+      // 两个直通桶：桶在 Z=4，比较器在 Z=3 读桶并向上充能 MSB 块
+      bar(xa,zr+1,sLeft ,WS[iLeft ][b-1],[iLeft ,b-1]);
+      bar(xb,zr+1,sRight,WS[iRight][b-1],[iRight,b-1]);
+      cmp(xa,zr,'S','compare',sLeft);
+      cmp(xb,zr,'S','compare',sRight);
+      continue;
+    }
+    const smax=Math.max(sa,sb), smin=Math.min(sa,sb);
+    // 每一列拿它自己那个输入的信号
+    const bigCol = (sa>=sb) ? cA : cB;      // 大值所在列（按输入序号）
+    const smlCol = (sa>=sb) ? cB : cA;
+    // Δ 桶放在 xa+1
+    bar(xa+1,zr,smax-smin,null,null);
+    // 上游：把 smax 顶进 MSB
+    cmp(bigCol,zr,'S','compare',smax);   // 大值列：来自环
+    cmp(smlCol,zr,'S','compare',smin);   // 小值列：来自减法
+    cmp(xa,zr+1,'S','compare',smax); cmp(xa+1,zr+1,'N','compare',smax); cmp(xb,zr+1,'S','compare',smax);
+    [[xa,zr+4],[xb,zr+4],[xa,zr+6],[xb,zr+6]].forEach(([x,z])=>blk(x,z,'wire'));
+    // 减法：大值在 A ⇒ 减法朝 B
+    cmp(xa+1,zr+2, bigAtA?'W':'E','subtract',smax);
+    cmp(bigAtA?xa:xb, zr+3,'S','compare',smax);
+    // 取电链：把环值顶进 MSB 块
+    blk(xa,zr+2,'wire'); blk(xb,zr+2,'wire');
+    // Sa 环（烧录）
+    cmp(xa+1,zr+4,'E','compare',smax,true);
+    cmp(xa,zr+5,'N','compare',smax,true); cmp(xb,zr+5,'S','compare',smax,true);
+    cmp(xa+1,zr+6,'W','compare',smax,true);
+  }
+  // 奇数 n：最后一个输入单独
+  if(n%2===1){
+    const i=n-1, x=CO(XI(i)), zr=Zmsb+1;
+    const wv=Math.abs(WS[i][b-1]), sv=S[i][b-1];
+    if(wv<=882){ bar(x,zr,sv,WS[i][b-1],[i,b-1]); cmp(x,zr,'S','compare',sv); }
+    else {
+      bar(x+1,zr,sv,null,null);
+      [[x,zr+2],[x+2,zr+2],[x,zr+4],[x+2,zr+4],[x,zr+6],[x+2,zr+6]].forEach(([px,pz])=>blk(px,pz,'wire'));
+      cmp(x,zr,'S','compare',sv); cmp(x,zr+1,'S','compare',sv);
+      cmp(x+1,zr+4,'W','compare',sv,true); cmp(x+2,zr+5,'N','compare',sv,true);
+      cmp(x+1,zr+6,'E','compare',sv,true); cmp(x,zr+5,'S','compare',sv,true);
+      cmp(x,zr+3,'S','compare',sv);
+    }
+  }
+
+  // 包围盒
+  let minX=1e9,maxX=-1e9,minZ=1e9,maxZ=-1e9;
+  m.forEach(c=>{ if(c.rx<minX)minX=c.rx; if(c.rx>maxX)maxX=c.rx; if(c.Z<minZ)minZ=c.Z; if(c.Z>maxZ)maxZ=c.Z; });
+  const W=maxX-minX+1, L=maxZ-minZ+1;
+  const cells=new Map(), idx=new Map();
+  m.forEach(c=>{
+    const nc=Object.assign({},c,{x:c.rx-minX,z:c.Z-minZ});
+    cells.set(nc.x+','+nc.z,nc);
+    if(nc.t==='cmp') idx.set(nc.x+','+nc.z,nc);
+  });
+  // Z 镜像（位权朝次方向升高）
+  let out=cells, oW=W, oL=L, oMinX=minX, oMinZ=minZ;
+  if(o.bitRev){
+    const m2=new Map();
+    cells.forEach(c=>{
+      const nc=Object.assign({},c,{z:L-1-c.z});
+      if(nc.t==='cmp') nc.out=ZFLIP[nc.out];
+      m2.set(nc.x+','+nc.z,nc);
+    });
+    out=m2;
+  }
+  const originZ = o.bitRev ? (oL-1-(0-oMinZ)) : (0-oMinZ);
+  return {W:oW,L:oL,cells:out,n,b,J,K,W0:W0RING,S,WS,ch,N:15*n*b,
+          originZ, originX:(0-oMinX), xw:rxw-oMinX};
+}
+
+/* ---------- 求值：锁定源 → 从源向外扩散（拓扑推进，不用迭代） ---------- */
+function evalBoard(B){
+  const get=(x,z)=>B.cells.get(x+','+z);
+  const cmps=[]; B.cells.forEach(c=>{ if(c.t==='cmp') cmps.push(c); });
+
+  // 每个格子的"已解析值"
+  const val=new Map();          // key -> 数值（用于方块/比较器）
+  const locked=new Set();       // 已锁定的比较器 key
+  const key=c=>c.x+','+c.z;
+
+  cmps.forEach(c=>{ c.state = 0; });
+
+  // ① 锁源：init>0 的比较器（两个大环 + 配对区的 Sa 环）
+  const queue=[];
+  cmps.forEach(c=>{
+    if(c.src){ c.state=c.init; locked.add(key(c));
+      val.set(key(c), c.init);
+      queue.push(c); }
+  });
+
+  // ② 方块被已锁定比较器充能
+  const chargeOf=new Map();
+  const applyCharge=(c)=>{
+    const d=DV[c.out], tx=c.x+d[0], tz=c.z+d[1];
+    const t=get(tx,tz);
+    if(t&&(t.t==='blk'||t.t==='barrel')){
+      const k=tx+','+tz;
+      const cur=chargeOf.get(k);
+      if(cur===undefined || c.state>cur){ chargeOf.set(k,c.state); }
+    }
+  };
+  queue.forEach(applyCharge);
+
+  // ③ 一个比较器的 rear 是否已可解析
+  const resolveRear=(c)=>{
+    const d=DV[c.out], rx=c.x-d[0], rz=c.z-d[1];
+    const r=get(rx,rz);
+    if(!r) return {ok:true, v:0};
+    if(r.t==='blk'&&r.torch>0) return {ok:true, v:15};
+    if(r.t==='barrel') return {ok:true, v:r.val|0};
+    if(r.t==='cmp'){
+      if(locked.has(key(r))) return {ok:true, v:r.state};
+      return {ok:false};
+    }
+    // 方块：先看充能，再看穿透
+    const ch=chargeOf.get(rx+','+rz);
+    if(ch!==undefined) return {ok:true, v:ch};
+    // 穿透：reader 在 c，方块在 r，桶在 r 的"背侧"
+    const bx=rx-d[0], bz=rz-d[1];
+    const b=get(bx,bz);
+    if(b&&b.t==='barrel') return {ok:true, v:b.val|0};
+    // 后面还有没有可能被充能？
+    return {ok:false};
+  };
+
+  const sideCmp=(c)=>{          // 返回侧位里"指向自己"的比较器（可能为空）
+    const d=DV[c.out], out=[];
+    for(const s of [[-d[1],d[0]],[d[1],-d[0]]]){
+      const nb=get(c.x+s[0], c.z+s[1]);
+      if(nb&&nb.t==='cmp'){
+        const nd=DV[nb.out];
+        if(c.x+s[0]+nd[0]===c.x && c.z+s[1]+nd[1]===c.z) out.push(nb);
+      }
+    }
+    return out;
+  };
+  const sideReady=(c)=>sideCmp(c).every(nb=>locked.has(key(nb)));
+  const sideOf=(c)=>{
+    let sv=0;
+    for(const nb of sideCmp(c)) sv=Math.max(sv, nb.state);
+    return sv;
+  };
+
+  // ④ 拓扑推进
+  let changed=true, guard=0;
+  while(changed && guard++<5000){
+    changed=false;
+    for(const c of cmps){
+      if(locked.has(key(c))) continue;
+      const rr=resolveRear(c);
+      if(!rr.ok) continue;
+      if(!sideReady(c)) continue;      // 侧输入还没全部锁定 → 自己也先不定
+      const sv=sideOf(c);
+      const v = (c.mode==='subtract') ? Math.max(0, rr.v - sv)
+                                      : (rr.v >= sv ? rr.v : 0);
+      c.state=v; locked.add(key(c)); val.set(key(c), v);
+      applyCharge(c);
+      changed=true;
+    }
+  }
+  return B;
+}
+
+/* ---------- 渲染 ---------- */
+let CURRENT=null;
+function render(){
+  const B=CURRENT; if(!B) return;
+  const C = B.W<=16?46 : B.W<=40?26 : B.W<=80?16 : 10;
+  const PADL=56,PADT=44;
+  const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  cv.width=(PADL+B.W*C+20)*dpr; cv.height=(PADT+B.L*C+14)*dpr;
+  cv.style.width=(PADL+B.W*C+20)+'px'; cv.style.height=(PADT+B.L*C+14)+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#0e0e12'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.font=(C>=30?'10px':'8px')+' ui-monospace,Consolas,monospace';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+
+  for(let z=0;z<B.L;z++)for(let x=0;x<B.W;x++){
+    const c=B.cells.get(x+','+z); if(!c) continue;
+    const X=PADL+x*C, Y=PADT+z*C;
+    if(c.t==='cmp'){
+      const sub=c.mode==='subtract';
+      ctx.fillStyle=sub?'#4a3a50':'#2c2c38'; ctx.fillRect(X+1,Y+1,C-2,C-2);
+      ctx.strokeStyle=sub?'#d76060':'#6a6a80'; ctx.lineWidth=1; ctx.strokeRect(X+1.5,Y+1.5,C-3,C-3);
+      const d=DV[c.out],cx=X+C/2,cy=Y+C/2,r=C*0.2;
+      ctx.strokeStyle=sub?'#ff6060':'#ffc355'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(cx-d[0]*r,cy-d[1]*r-4); ctx.lineTo(cx+d[0]*r,cy+d[1]*r-4); ctx.stroke();
+      ctx.fillStyle='#eaffea'; ctx.font='bold '+(C>=40?11:9)+'px ui-monospace,Consolas,monospace';
+      ctx.fillText(String(c.state), cx, cy+8);
+      ctx.font=(C>=30?'10px':'8px')+' ui-monospace,Consolas,monospace';
+    } else if(c.t==='barrel'){
+      ctx.fillStyle='#966e46'; ctx.fillRect(X+2,Y+2,C-4,C-4);
+      ctx.font='bold '+(C>=40?10:8)+'px ui-monospace,Consolas,monospace';
+      ctx.fillStyle='#fff4d8';
+      ctx.fillText(String(c.val), X+C/2, Y+C/2-6);
+      ctx.font=(C>=30?'9px':'7px')+' ui-monospace,Consolas,monospace';
+      ctx.fillStyle='#ffe0a0';
+      if(c.wt!==null&&c.wt!==undefined) ctx.fillText('W'+c.wt, X+C/2, Y+C/2+6);
+      else ctx.fillText('Δ', X+C/2, Y+C/2+6);
+      ctx.font=(C>=30?'10px':'8px')+' ui-monospace,Consolas,monospace';
+    } else {
+      let col='#6e6e78';
+      if(c.c&&c.c.startsWith('col')) col='rgb('+PAL[(+c.c.slice(3))%8].join(',')+')';
+      else if(c.c==='white') col='#c8c8c8';
+      else if(c.c==='wire') col='#b04a9a';
+      ctx.fillStyle=col; ctx.fillRect(X+2,Y+2,C-4,C-4);
+      if(c.c&&c.c.startsWith('col')&&C>=24){
+        ctx.fillStyle='#101014'; ctx.fillText(String(c.torch||0), X+C/2, Y+C/2);
+      }
+    }
+  }
+  ctx.fillStyle='#8f8f9c';
+  for(let x=0;x<B.W;x+= (B.W>40?10:1)){ const rel=x-B.originX;
+    ctx.fillText(rel===0?'0*':String(rel), PADL+x*C+C/2, PADT-14); }
+  for(let z=0;z<B.L;z++){ const rel=z-B.originZ;
+    ctx.fillStyle = rel===0 ? '#5ad2ff' : '#8f8f9c';
+    ctx.fillText(rel===0?'Z0':String(rel), 24, PADT+z*C+C/2); }
+  ctx.fillStyle='#8f8f9c';
+}
+
+/* ---------- UI ---------- */
+function opts(){
+  return {greyUp:document.getElementById('greyUp').checked,
+          whiteUp:document.getElementById('whiteUp').checked,
+          inRev:document.getElementById('inRev').checked,
+          bitRev:document.getElementById('bitRev').checked,
+          parSwap:document.getElementById('parSwap').checked};
+}
+let RAWW=null, THETA0=null;   // 原始浮点权重 / 层1 偏置
+function rebuild(){
+  if(!RAWW) return;
+  let b=Math.max(2,Math.min(12,+document.getElementById('b').value||8));
+  if(layer===1){ b=8; document.getElementById('b').value='8'; }
+  document.getElementById('b').disabled=(layer===1);
+  const layer=+document.getElementById('layer').value;
+  let ch=Math.max(0,+document.getElementById('ch').value||0);
+  // 层1：delta 均匀 = 7/2^b，输入位宽 = b
+  // 层2：输入位宽固定为层1 的输出位数 8，delta 逐通道 = 层1 的 δ_out
+  let U;
+  if(layer===0){
+    U = compile(RAWW[0], b);
+  } else {
+    const th = (RAWW.t0||[]) ;
+    const dout = layer1DeltaOut(RAWW[0], THETA0, 8, 8);
+    U = compile(RAWW[1], 8, dout, 8);
+  }
+  const n=U[0].length;
+  ch=Math.min(ch,U.length-1);
+  const B=build(n,b,U,ch,opts());
+  // 初始化火把：默认全 0（用户点击翻转）
+  B.cells.forEach(c=>{ if(c.ik&&c.t==='blk'&&c.c.startsWith('col')) c.torch=c.torch||0; });
+  evalBoard(B);
+  CURRENT=B;
+  render();
+  report(B);
+}
+function report(B){
+  let out=0;
+  B.cells.forEach(c=>{ if(c.ik){
+    const k=c.ik[1];
+    if(k!==B.b-1) return; // 只统计 MSB 环给的
+  }});
+  document.getElementById('info').innerHTML=
+    `<b>n=${B.n}  b=${B.b}  通道 ${B.ch}</b><br>`+
+    `K = ΣS = <b>${B.K}</b><br>`+
+    `白环 W₀ = J·K − 15nb = <b>${B.W0}</b><br>`+
+    `MSB 环最大 Sa = <b>${Math.max(...B.S.map(r=>r[B.b-1]))}</b><br>`+
+    `<span style="color:#8f8f9c">点击彩色方块翻转输入位</span>`;
+}
+document.querySelectorAll('input,select').forEach(el=>{
+  el.addEventListener('change',()=>{ if(el.id==='file') return; rebuild(); });
+});
+document.getElementById('cv').addEventListener('click',ev=>{
+  const B=CURRENT; if(!B) return;
+  const C = B.W<=16?46 : B.W<=40?26 : B.W<=80?16 : 10;
+  const rect=ev.target.getBoundingClientRect();
+  const x=Math.floor((ev.clientX-rect.left-56)/C), z=Math.floor((ev.clientY-rect.top-44)/C);
+  const c=B.cells.get(x+','+z);
+  if(c&&c.ik&&c.t==='blk'&&c.c.startsWith('col')){
+    c.torch = c.torch>0?0:15;
+    evalBoard(B); render();
+  }
+});
+document.getElementById('file').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{ try{
+    const j=JSON.parse(rd.result);
+    RAWW=j.gen?j.gen.layers.map(l=>l.W):j.layers.map(l=>l.W);
+    THETA0=(j.gen?j.gen.layers[0].b:j.layers[0].b)||new Array(RAWW[0].length).fill(0);
+    document.getElementById('ch').max=(RAWW[0].length-1);
+    rebuild();
+  }catch(err){ document.getElementById('info').textContent='解析失败: '+err.message; } };
+  rd.readAsText(f);
+});
+document.getElementById('demo').addEventListener('click',()=>{
+  // 内置示例：n=4, b 用当前，权重随机
+  const Wm=[]; let s=12345;
+  const rnd=()=>{ s=(s*1103515245+12345)&0x7fffffff; return s/0x7fffffff; };
+  for(let i=0;i<4;i++){ const r=[]; for(let k=0;k<8;k++) r.push((rnd()*2-1)*1.0); Wm.push(r); }
+  RAWW=[Wm]; THETA0=new Array(4).fill(0);
+  document.getElementById('ch').max='0';
+  rebuild();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>打标效果检验 · 随机 vs 奖励模型引导</title>
+<style>
+  :root{--bg:#14161a;--pan:#1d2026;--fg:#e8eaed;--dim:#9aa3af;--acc:#6ea8fe;--good:#5fd68a;--bad:#e07a5f}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"Segoe UI",Roboto,"Noto Sans CJK SC",sans-serif}
+  header{padding:12px 20px;border-bottom:1px solid #2c313a;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+  h1{font-size:17px;margin:0;font-weight:600}
+  .sub{color:var(--dim);font-size:13px}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px}
+  .card{background:var(--pan);border:1px solid #2c313a;border-radius:10px;padding:16px;margin-bottom:16px}
+  .card h2{font-size:13px;margin:0 0 10px;color:var(--acc);font-weight:600}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:900px){.two{grid-template-columns:1fr}}
+  .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+  .grid canvas{width:100%;height:auto;image-rendering:pixelated;border-radius:5px;background:#000}
+  button{background:#252932;color:var(--fg);border:1px solid #3a4150;border-radius:7px;padding:8px 14px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc)}
+  button.pri{background:#2b4a86;border-color:#3d63ad}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:13px;color:var(--dim)}
+  .kv b{color:var(--fg);font-variant-numeric:tabular-nums}
+  .note{font-size:12.5px;color:var(--dim);margin-top:10px;border-left:2px solid #3a4150;padding-left:10px}
+  .warn{color:#f0a35e}
+  .big{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+  .score-hero{display:flex;gap:26px;align-items:baseline;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+  <h1>打标效果检验</h1>
+  <span class="sub" id="meta">载入中…</span>
+</header>
+
+<div class="wrap">
+  <div class="card" id="need" style="display:none">
+    <h2 class="warn">还没有奖励模型</h2>
+    <div>先在 <a href="label.html" style="color:#6ea8fe">label.html</a> 标至少 14 张，
+      然后运行 <code>python src\fit_reward.py --write</code>，刷新本页即可对比。</div>
+  </div>
+
+  <div class="card" id="main" style="display:none">
+    <h2>同一批输入，两种采样的对比</h2>
+    <div class="score-hero">
+      <div><div class="sub">随机采样 平均奖励</div><div class="big" id="sRand">—</div></div>
+      <div><div class="sub">引导采样 平均奖励</div><div class="big" id="sGuid" style="color:var(--good)">—</div></div>
+      <div><div class="sub">提升</div><div class="big" id="sGain">—</div></div>
+      <button class="pri" id="bRe">🔄 重新抽一批</button>
+    </div>
+    <div class="note" id="verdict">
+      左右两侧各 24 张。左侧从独立标准正态抽样，右侧由奖励模型从 600 个候选里筛选。
+      <b>请你自己看哪边更好</b>——上面的分数只是奖励模型的预测，最终标准是你的眼睛。
+    </div>
+  </div>
+
+  <div class="two" id="panes" style="display:none">
+    <div class="card">
+      <h2>随机采样（基线）</h2>
+      <div class="grid" id="gRand"></div>
+    </div>
+    <div class="card">
+      <h2>奖励模型引导</h2>
+      <div class="grid" id="gGuid"></div>
+    </div>
+  </div>
+
+  <div class="card" id="detail" style="display:none">
+    <h2>明细</h2>
+    <div class="kv" id="kv"></div>
+    <div class="note">
+      「退化风险」这一行很重要：如果引导采样的图离真实训练脸太近，那就不是在生成而是在抄。
+      离真实脸平均汉明距离低于 8 个像素时我会标红。
+    </div>
+  </div>
+</div>
+
+<script>
+let G=null, REW=null, MODEL=null;
+let OUT_MODE='logits_gray', OUT_DIM=512, HID=256, PAL=null, IN_DIM=22;
+let LAYERS=[];                  // [{W,b}] -- any depth
+
+// KEEP and EXPLORE are set from measurement, not taste. On the user's 111 w128
+// labels, ranking a 600-candidate pool and keeping the top 15% raised the true
+// 优+良 rate from 40.7% to 87.5% (+47 points); keeping 35% only reached 73.2%.
+// EXPLORE is 0 here because this page exists to SHOW the effect, and random
+// draws would dilute it. A production sampler would keep ~15-30% exploration
+// so it does not collapse onto one region and stop discovering anything new.
+const N_SHOW=24, POOL=600, KEEP=0.15, EXPLORE=0.0;
+
+function rng(s){let a=s>>>0;return function(){a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;}}
+function gauss(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+const toF32=(a)=>{const o=new Float32Array(a.length);for(let i=0;i<a.length;i++)o[i]=a[i];return o;};
+const toF32Rows=(rs)=>{const o=[];for(const r of rs)o.push(toF32(r));return o;};
+
+// Arbitrary depth, ReLU between layers, linear on the last. The fixed three-matrix
+// version this replaced applied the output layer twice on a two-layer net.
+function forward(pca){
+  let h=new Float32Array(22);
+  for(let i=0;i<22;i++) h[i]=pca[i];
+  for(let li=0;li<LAYERS.length;li++){
+    const L=LAYERS[li];
+    const o=new Float32Array(L.W.length);
+    for(let j=0;j<L.W.length;j++){
+      let s=L.b[j]; const row=L.W[j];
+      for(let i=0;i<h.length;i++) s+=row[i]*h[i];
+      o[j]=(li===LAYERS.length-1)?s:(s>0?s:0);
+    }
+    h=o;
+  }
+  return h;
+}
+function decode(raw){
+  const v=new Float32Array(32);
+  if(OUT_MODE==='continuous32'){
+    for(let p=0;p<32;p++) v[p]=Math.max(0,Math.min(15,raw[p]));
+    return v;
+  }
+  for(let p=0;p<32;p++){
+    let bi=0,bv=-1e9;
+    for(let c=0;c<16;c++){const q=raw[p*16+c];if(q>bv){bv=q;bi=c;}}
+    v[p]=bi;
+  }
+  return v;
+}
+function buildImg(v){
+  const img=new Float32Array(64);
+  for(let p=0;p<32;p++){const row=p%8,col=(p-row)/8;img[row*8+col]=v[p];img[row*8+(7-col)]=v[p];}
+  return img;
+}
+function draw(cv,img){
+  const ctx=cv.getContext('2d');const id=ctx.createImageData(8,8);
+  for(let i=0;i<64;i++){
+    let c;
+    if(OUT_MODE==='logits_palette' && PAL){const ix=Math.max(0,Math.min(15,Math.round(img[i])));c=PAL[ix];}
+    else if(OUT_MODE==='continuous32'){const g=Math.round(img[i]/15*255);c=[g,g,g];}
+    else{const g=Math.round(img[i]*17);c=[g,g,g];}
+    id.data[i*4]=c[0];id.data[i*4+1]=c[1];id.data[i*4+2]=c[2];id.data[i*4+3]=255;
+  }
+  ctx.putImageData(id,0,0);
+}
+function rewardOf(z){
+  const zs=new Float32Array(22);
+  for(let i=0;i<22;i++) zs[i]=(z[i]-REW.zmean[i])/REW.zsd[i];
+  if(REW.kind==='linear'){
+    // measured better than the MLP at this label count: held-out AUC 0.617 vs 0.553
+    let s=REW.b;
+    for(let i=0;i<22;i++) s+=REW.w[i]*zs[i];
+    return s;
+  }
+  const a=new Float32Array(REW.b1.length), b=new Float32Array(REW.b2.length);
+  for(let j=0;j<a.length;j++){let s=REW.b1[j];for(let i=0;i<22;i++)s+=REW.W1[i][j]*zs[i];a[j]=s>0?s:0;}
+  for(let j=0;j<b.length;j++){let s=REW.b2[j];for(let i=0;i<a.length;i++)s+=REW.W2[i][j]*a[i];b[j]=s>0?s:0;}
+  let s=REW.b3[0];for(let i=0;i<b.length;i++)s+=REW.W3[i][0]*b[i];
+  return s;
+}
+function drawRandom(r){
+  const o=new Float32Array(22);
+  for(let i=0;i<22;i++)o[i]=Math.max(-3.5,Math.min(3.5,gauss(r)));
+  return o;
+}
+function guidedDraw(r){
+  if(!REW) return drawRandom(r);
+  if(Math.random()<EXPLORE) return drawRandom(r);
+  let best=null,bs=-1e9;
+  for(let k=0;k<POOL;k++){
+    const z=drawRandom(r); const s=rewardOf(z);
+    if(s>bs){bs=s;best=z;}
+  }
+  return best;
+}
+function renderOne(z){
+  return buildImg(decode(forward(z)));
+}
+function fill(el,items){
+  el.innerHTML='';
+  items.forEach(img=>{
+    const cv=document.createElement('canvas'); cv.width=8; cv.height=8;
+    draw(cv,img); el.appendChild(cv);
+  });
+}
+
+let seed=1234;
+function run(){
+  const rR=rng((seed*7919)>>>0), rG=rng((seed*104729)>>>0);
+  const zsR=[], zsG=[];
+  for(let k=0;k<N_SHOW;k++){ zsR.push(drawRandom(rR)); zsG.push(guidedDraw(rG)); }
+  const imgsR=zsR.map(renderOne), imgsG=zsG.map(renderOne);
+  fill(document.getElementById('gRand'),imgsR);
+  fill(document.getElementById('gGuid'),imgsG);
+  if(REW){
+    const sR=zsR.reduce((a,z)=>a+rewardOf(z),0)/N_SHOW;
+    const sG=zsG.reduce((a,z)=>a+rewardOf(z),0)/N_SHOW;
+    document.getElementById('sRand').textContent=sR.toFixed(2);
+    document.getElementById('sGuid').textContent=sG.toFixed(2);
+    const g=document.getElementById('sGain');
+    g.textContent=(sG-sR>=0?'+':'')+(sG-sR).toFixed(2);
+    g.style.color = sG>sR ? 'var(--good)' : 'var(--bad)';
+  }
+}
+async function init(){
+  // Which architecture to show. The reward model is fitted PER architecture, so the page
+  // must display the same one the labels came from: the same 22-dim vector draws a
+  // different face under each model. Default to the one being labelled.
+  const qs = new URLSearchParams((window.location && window.location.search) || '');
+  const key = qs.get('model') || 'w128';
+  const FILE = {
+    w128:'pca22_w128_128_model.json', best128:'pca22_best128_model.json',
+    w32:'pca22_w32_model.json', lam5:'pca22_lam5_model.json',
+    gray32:'pca22_gray32_model.json', color16:'pca22_color16_model.json',
+    distill:'pca22_distill32_model.json'
+  }[key] || 'pca22_w128_128_model.json';
+  const r0=await fetch(FILE);
+  MODEL=await r0.json();
+  IN_DIM=MODEL.meta.in_dim; OUT_MODE=MODEL.meta.output_mode||'logits_gray';
+  PAL=MODEL.palette||null;
+  if(MODEL.gen && MODEL.gen.layers){
+    LAYERS=MODEL.gen.layers.map(L=>({W:toF32Rows(L.W), b:toF32(L.b)}));
+  }else{
+    LAYERS=[{W:toF32Rows(MODEL.gen.W1), b:toF32(MODEL.gen.b1)},
+            {W:toF32Rows(MODEL.gen.W2), b:toF32(MODEL.gen.b2)},
+            {W:toF32Rows(MODEL.gen.W3), b:toF32(MODEL.gen.b3)}];
+  }
+  HID=LAYERS[0].W.length; OUT_DIM=LAYERS[LAYERS.length-1].W.length;
+  try{
+    const r1=await fetch('preference_reward.json');
+    if(r1.ok){
+      const cand=await r1.json();
+      // only use a reward model fitted on THIS architecture
+      // STRICT: only a reward model fitted on THIS architecture is meaningful. The same
+      // 22-dim vector draws a different face under each model, so applying another
+      // architecture's reward model would be quietly wrong. An older export without a
+      // model field is refused rather than guessed at.
+      if(cand.model===key){ REW=cand; }
+      else {
+        console.warn('reward model is for '+(cand.model||'(unlabelled)')+', page shows '+key+'; ignoring it');
+        window.__rewardMismatch = cand.model || '(unlabelled)';
+      }
+    }
+  }catch(e){}
+  document.getElementById('meta').innerHTML=
+    `模型 <b>${key}</b> · ${MODEL.meta.steps_trained} 步 · ` +
+    `${MODEL.meta.multiplies ? MODEL.meta.multiplies.toLocaleString()+' 次乘法' : ''}`;
+  if(!REW){
+    document.getElementById('need').style.display='block';
+    // still show the random side so the page is not blank
+    document.getElementById('main').style.display='block';
+    document.getElementById('panes').style.display='grid';
+    run();
+    return;
+  }
+  document.getElementById('main').style.display='block';
+  document.getElementById('panes').style.display='grid';
+  document.getElementById('detail').style.display='block';
+  document.getElementById('kv').innerHTML=
+    `<span>奖励模型标签数</span><b>${REW.n_labels}</b>`+
+    `<span>标签分布（优/良/中/差）</span><b>${REW.counts['优']} / ${REW.counts['良']} / ${REW.counts['中']} / ${REW.counts['差']}</b>`+
+    `<span>优良占比（打标时）</span><b>${(REW.good_rate_observed*100).toFixed(1)}%</b>`+
+    `<span>类别分离度</span><b>${REW.separation.toFixed(2)}</b>`+
+    `<span>候选池 / 保留比例</span><b>${POOL} / ${(KEEP*100).toFixed(0)}%</b>`+
+    `<span>探索比例</span><b>${(EXPLORE*100).toFixed(0)}%</b>`;
+  document.getElementById('bRe').onclick=()=>{ seed=(seed*1664525+1013904223)>>>0; run(); };
+  run();
+}
+init().catch(e=>{
+  document.getElementById('meta').innerHTML='<span class="warn">载入失败：'+e.message+'</span>';
+});
+window.CMP={getState:()=>({REW,MODEL,OUT_MODE}),run};
+</script>
+</body>
+</html>

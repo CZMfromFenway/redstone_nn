@@ -1,0 +1,71 @@
+{
+  "S_increment_comparator": {
+    "max_dev_from_constant": 2,
+    "increment_values": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "S_increment_dust": {
+    "max_dev_from_constant": 3,
+    "increment_values": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "increment_formula_comparator": false,
+  "increment_formula_dust": false,
+  "monotone_comparator_forward": {
+    "nondecreasing": 300,
+    "nonincreasing": 205,
+    "n": 300
+  },
+  "monotone_comparator_reverse": {
+    "nondecreasing": 224,
+    "nonincreasing": 300,
+    "n": 300
+  },
+  "monotone_dust_forward": {
+    "nondecreasing": 300,
+    "nonincreasing": 236,
+    "n": 300
+  },
+  "monotone_dust_reverse": {
+    "nondecreasing": 224,
+    "nonincreasing": 300,
+    "n": 300
+  },
+  "weight_set_comparator_forward": {
+    "count": 6,
+    "min": 0,
+    "max": 5
+  },
+  "weight_set_comparator_reverse": {
+    "count": 6,
+    "min": -5,
+    "max": 0
+  },
+  "weight_set_dust_forward": {
+    "count": 5,
+    "min": 0,
+    "max": 4
+  },
+  "weight_set_dust_reverse": {
+    "count": 4,
+    "min": -3,
+    "max": 0
+  },
+  "network_equivalence": {
+    "A": [
+      0,
+      0,
+      0,
+      -1
+    ],
+    "max_abs_dev": 0
+  }
+}

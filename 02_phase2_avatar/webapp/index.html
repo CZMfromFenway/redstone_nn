@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>8×8 头像生成器 · PCA-22 实验台（三个模型）</title>
+<style>
+  :root{--bg:#14161a;--pan:#1d2026;--pan2:#252932;--fg:#e8eaed;--dim:#9aa3af;--acc:#6ea8fe;--acc2:#7bd88f;--warn:#f0a35e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"Segoe UI",Roboto,"Noto Sans CJK SC",sans-serif}
+  header{padding:12px 20px;border-bottom:1px solid #2c313a;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+  h1{font-size:17px;margin:0;font-weight:600}
+  .sub{color:var(--dim);font-size:12.5px}
+  .wrap{display:grid;grid-template-columns:minmax(340px,1fr) minmax(430px,1.15fr);gap:18px;padding:18px;max-width:1560px;margin:0 auto}
+  @media(max-width:1040px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--pan);border:1px solid #2c313a;border-radius:10px;padding:14px}
+  .card h2{font-size:13px;margin:0 0 10px;color:var(--acc);font-weight:600;letter-spacing:.3px}
+  .row{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .row label{width:34px;color:var(--dim);font-size:11.5px;font-variant-numeric:tabular-nums;flex:none}
+  .row input[type=range]{flex:1;height:18px;accent-color:var(--acc)}
+  .row .val{width:62px;text-align:right;font-size:11.5px;font-variant-numeric:tabular-nums;flex:none}
+  button{background:var(--pan2);color:var(--fg);border:1px solid #3a4150;border-radius:7px;padding:6px 11px;font-size:12.5px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:#fff}
+  button.pri{background:#2b4a86;border-color:#3d63ad}
+  button.pri:hover{background:#345698}
+  .btns{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+  canvas{image-rendering:pixelated;border-radius:6px;background:#000;display:block}
+  .faces{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:10px}
+  .faces canvas{width:100%;height:auto;cursor:pointer;border:1px solid #333a46}
+  .faces canvas:hover{border-color:var(--acc2)}
+  .scroll{max-height:440px;overflow-y:auto;padding-right:4px}
+  .scroll::-webkit-scrollbar{width:9px}.scroll::-webkit-scrollbar-thumb{background:#39404d;border-radius:5px}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:12px;color:var(--dim)}
+  .kv b{color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums}
+  .note{font-size:12px;color:var(--dim);margin-top:10px;border-left:2px solid #3a4150;padding-left:9px}
+  .badge{display:inline-block;background:var(--pan2);border:1px solid #3a4150;border-radius:5px;padding:1px 6px;font-size:11px;color:var(--dim)}
+  .badge.on{background:#1f3d2a;border-color:#2f6b46;color:#9fe6b8}
+  .badge.best{background:#4a3a1f;border-color:#7a6330;color:#f0d69e}
+  .err{color:var(--warn)}
+  .big{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+  .big canvas{width:100%;height:auto}
+  .cap{font-size:11.5px;color:var(--dim);margin-top:6px}
+  .seg{display:inline-flex;border:1px solid #3a4150;border-radius:8px;overflow:hidden;margin-bottom:10px;flex-wrap:wrap}
+  .seg button{border:0;border-radius:0;padding:7px 12px;font-size:12px}
+  .seg button.act{background:#2b4a86;color:#fff}
+  table.cmp{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+  table.cmp th,table.cmp td{border-bottom:1px solid #2c313a;padding:4px 6px;text-align:right}
+  table.cmp th:first-child,table.cmp td:first-child{text-align:left;color:var(--dim)}
+  table.cmp tr.hi td{color:var(--acc2)}
+  table.cmp th.best,table.cmp td.best{color:#f0d69e;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <h1>8×8 头像生成器 · PCA-22 实验台</h1>
+  <span class="sub" id="meta">载入中…</span>
+</header>
+
+<div class="wrap">
+  <div>
+    <div class="card">
+      <h2>模型版本（同一组参数，一键切换对比）</h2>
+      <div class="seg" id="modelseg"></div>
+      <div class="note" id="modelnote"></div>
+
+      <h2 style="margin-top:16px">22 个风格参数（PCA 主成分）</h2>
+      <div class="btns">
+        <button class="pri" id="bRand">🎲 随机采样</button>
+        <button id="bReal">🖼 用真实脸当起点</button>
+        <button id="bZero">⭘ 归零</button>
+        <button id="bRe">🔄 重新采样</button>
+        <button id="bReset">↺ 默认值</button>
+      </div>
+      <div class="scroll" id="sliders"></div>
+      <div class="note">
+        每个参数是该主成分的<b>标准差倍数</b>：0 = 数据集平均，±1 ≈ 常见范围，±3 ≈ 极端。<br>
+        <b>切换模型时参数保持不变</b>，所以你能看到同一组输入在不同模型下的差别。
+      </div>
+
+      <h2 style="margin-top:16px">按风格包裹采样（拟合真实风格的高斯椭球）</h2>
+      <div class="btns" id="envbtns"></div>
+      <div class="note" id="envnote">
+        「随机采样」是 <b>22 个独立的标准正态</b>（每个主成分 $N(0,1)$，互不相关）。
+        下面的按钮改为从一个风格样本拟合出的<b>高维正态</b>里采样：
+        均值 = 该风格样本的均值，协方差 = 该风格样本的协方差（向单位阵收缩，因为标注样本太少）。
+        <b>注意</b>：有些风格本身就靠近原点，独立采样已经能覆盖；有些偏移很远，才真正需要包裹。
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>采样设置</h2>
+      <div class="row"><label>温度</label>
+        <input type="range" id="temp" min="0.3" max="2.5" step="0.05" value="1">
+        <span class="val" id="tempv">1.00</span></div>
+      <div class="note">
+        实测（最优模型，20000 步）：<b>取众数的相邻同色率 60.7%，采样只有 42.1%</b>，真实脸 60.5%。
+        所以这个模型<b>取众数几乎与真实脸一样平滑</b>，采样会引入额外抖动。
+        这说明 16 路输出几乎单峰（96.2% 宽松单峰、平均峰数 1.05），
+        <b>取众数（argmax）是正确的解码方式</b>。
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>生成结果</h2>
+      <div class="big">
+        <div><canvas id="cvGen" width="8" height="8"></canvas><div class="cap">生成（采样）</div></div>
+        <div><canvas id="cvMode" width="8" height="8"></canvas><div class="cap">生成（取众数）</div></div>
+        <div><canvas id="cvRef" width="8" height="8"></canvas><div class="cap" id="refcap">真实参考</div></div>
+      </div>
+      <div class="kv" style="margin-top:12px" id="stats"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>三个模型实测对比（同一把尺子）</h2>
+      <table class="cmp" id="cmptable"><tbody></tbody></table>
+      <div class="note">
+        「相邻同色率」越高越平滑（无杂色）；「孤立像素」「连通色块」越低越好。
+        <b>真实脸：60.5% / 6.80 / 13.8</b>。λ=5 那个模型在 20000 步时达到
+        <b>60.7% / 7.01 / 14.4</b>，即杂色程度与真实脸几乎一致。
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>真实脸画廊（点一张，载入它的 22 个参数）</h2>
+      <div class="faces" id="gallery"></div>
+      <div class="note">从留出集取的真实头像，三个模型共用同一批，所以切换模型时看的还是同一张脸。</div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const NLEV=16, NPOS=32;
+// Four architectures, all conditioned on the same 22 PCA numbers, so switching keeps the
+// sliders fixed and the comparison is fair.
+const MODEL_FILES = [
+  {key:'lam5',   file:'pca22_lam5_model.json',    label:'λ=5 · 20000步 · 灰度最佳', best:true},
+  {key:'nonoise',file:'pca22_nonoise_model.json', label:'无噪声 · 6000步'},
+  {key:'noise',  file:'pca22_model.json',         label:'有噪声 · 1500步'},
+  {key:'gray32', file:'pca22_gray32_model.json',  label:'32通道连续 · 参数少61%', newarch:true},
+  {key:'color16',file:'pca22_color16_model.json', label:'16色彩 · 512输出', newarch:true},
+  {key:'w128',   file:'pca22_w128_128_model.json', label:'22→128→128→32 · 省88.5%', newarch:true},
+  {key:'w32',    file:'pca22_w32_model.json',     label:'22→32→32 · 省99.1%', newarch:true},
+  {key:'distill',file:'pca22_distill32_model.json',label:'蒸馏32 · 无TV', newarch:true}
+];
+let MODELS={}, cur=null, seed=12345, active='lam5';
+let LAYERS=[], mu,comps,sd, LEVELS, gallery, meta, IN_DIM=22;
+let ENV={styles:{}};
+// output handling: 'logits_gray' | 'logits_palette' | 'continuous32'
+let OUT_MODE='logits_gray', OUT_DIM=512, PAL=null, HID=256;
+
+function rng(s){let a=s>>>0;return function(){a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;}}
+function gauss(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+const toF32 = (a) => { const o=new Float32Array(a.length); for(let i=0;i<a.length;i++)o[i]=a[i]; return o; };
+const toF32Rows = (rows) => { const o=[]; for(let r=0;r<rows.length;r++)o.push(toF32(rows[r])); return o; };
+
+// ---- forward pass: 22 (+64 noise) -> hidden... -> OUT_DIM -------------------------
+// LAYERS is a list of {W, b} in OUTPUT-MAJOR layout, with a ReLU BETWEEN consecutive
+// layers. Supporting a list (instead of the fixed W1/W2/W3 the first exports used) is
+// required because the shrunken models have one or two linear layers, not three; the
+// three-matrix form applied the last layer twice on a two-layer net.
+function forward(pca, z){
+  let h = new Float32Array(22);
+  for(let i=0;i<22;i++) h[i]=pca[i];
+  if(IN_DIM>22){
+    // the noisy model takes 64 extra inputs on its FIRST layer
+    const L=LAYERS[0];
+    const h1=new Float32Array(L.W.length);
+    for(let j=0;j<L.W.length;j++){
+      let s=L.b[j]; const row=L.W[j];
+      for(let i=0;i<22;i++) s+=row[i]*h[i];
+      for(let i=0;i<64;i++) s+=row[22+i]*z[i];
+      h1[j]=s>0?s:0;
+    }
+    h=h1;
+    for(let li=1;li<LAYERS.length;li++){
+      const L2=LAYERS[li];
+      const o=new Float32Array(L2.W.length);
+      for(let j=0;j<L2.W.length;j++){
+        let s=L2.b[j]; const row=L2.W[j];
+        for(let i=0;i<h.length;i++) s+=row[i]*h[i];
+        o[j]= j===L2.W.length-1 ? s : (s>0?s:0);
+      }
+      h=o;
+    }
+    return h;
+  }
+  for(let li=0;li<LAYERS.length;li++){
+    const L=LAYERS[li];
+    const o=new Float32Array(L.W.length);
+    for(let j=0;j<L.W.length;j++){
+      let s=L.b[j]; const row=L.W[j];
+      for(let i=0;i<h.length;i++) s+=row[i]*h[i];
+      o[j]= (li===LAYERS.length-1) ? s : (s>0?s:0);   // no activation on the last layer
+    }
+    h=o;
+  }
+  return h;
+}
+
+// ---- decoding: turn the raw output into 32 per-position values ---------------------
+// For the logits models the value is a CLASS INDEX (a grey level, or a palette colour).
+// For the 32-channel model the value is a CONTINUOUS brightness in level units.
+function decode(raw, temp, mode, r){
+  if(OUT_MODE==='continuous32'){
+    const v=new Float32Array(32);
+    for(let p=0;p<32;p++) v[p]=Math.max(0,Math.min(15,raw[p]));
+    return v;                                  // rounding happens at render time
+  }
+  const v=new Float32Array(32);
+  for(let p=0;p<32;p++){
+    let mx=-1e9;
+    for(let c=0;c<16;c++){const q=raw[p*16+c]/temp; if(q>mx)mx=q;}
+    const pr=new Float32Array(16); let sum=0;
+    for(let c=0;c<16;c++){const e=Math.exp(raw[p*16+c]/temp-mx); pr[c]=e; sum+=e;}
+    for(let c=0;c<16;c++) pr[c]/=sum;
+    if(mode==='mode'){
+      let bi=0,bv=-1;
+      for(let c=0;c<16;c++) if(pr[c]>bv){bv=pr[c];bi=c;}
+      v[p]=bi;
+    }else{
+      let u=r(),acc=0,ch=15;
+      for(let c=0;c<16;c++){acc+=pr[c]; if(u<=acc){ch=c;break;}}
+      v[p]=ch;
+    }
+  }
+  return v;
+}
+
+// ---- assemble the mirrored 8x8 from the 32 left-half values ------------------------
+function buildImg(v){
+  const img=new Float32Array(64);
+  for(let p=0;p<32;p++){const row=p%8, col=(p-row)/8;
+    img[row*8+col]=v[p]; img[row*8+(7-col)]=v[p];}
+  return img;
+}
+// ---- render: grey ramp, palette, or a continuous ramp ------------------------------
+function valueToRGB(x){
+  if(OUT_MODE==='logits_palette'){
+    const i=Math.max(0,Math.min(15,Math.round(x)));
+    return PAL[i];
+  }
+  if(OUT_MODE==='continuous32'){
+    const g=Math.round(x/15*255);              // continuous: keep the sub-level detail
+    return [g,g,g];
+  }
+  const g=Math.round(x*17);
+  return [g,g,g];
+}
+function draw(cv, img){
+  const ctx=cv.getContext('2d'); const id=ctx.createImageData(8,8);
+  for(let i=0;i<64;i++){
+    const c=valueToRGB(img[i]);
+    id.data[i*4]=c[0]; id.data[i*4+1]=c[1]; id.data[i*4+2]=c[2]; id.data[i*4+3]=255;
+  }
+  ctx.putImageData(id,0,0); cv.style.width='100%'; cv.style.aspectRatio='1';
+}
+// the speckle metrics need integer class labels; round the continuous case
+function toClassImg(img){
+  const o=new Uint8Array(64);
+  for(let i=0;i<64;i++) o[i]=Math.max(0,Math.min(15,Math.round(img[i])));
+  return o;
+}
+
+function speckle(img){
+  let pairs=0, same=0, iso=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const nb=[[r-1,c],[r+1,c],[r,c-1],[r,c+1]].filter(([y,x])=>y>=0&&y<8&&x>=0&&x<8);
+    let nSame=0;
+    for(const [y,x] of nb){ pairs++; if(img[r*8+c]===img[y*8+x]) { same++; nSame++; } }
+    if(nSame===0) iso++;
+  }
+  const seen=new Uint8Array(64); let blobs=0;
+  for(let s=0;s<64;s++){
+    if(seen[s]) continue;
+    const lv=img[s]; const st=[s]; seen[s]=1; blobs++;
+    while(st.length){
+      const u=st.pop(), r=(u/8)|0, c=u%8;
+      for(const [dy,dx] of [[1,0],[-1,0],[0,1],[0,-1]]){
+        const y=r+dy,x=c+dx; if(y<0||y>7||x<0||x>7) continue;
+        const v=y*8+x; if(!seen[v] && img[v]===lv){ seen[v]=1; st.push(v); }
+      }
+    }
+  }
+  return {agree: same/pairs, iso, blobs};
+}
+
+function buildSliders(){
+  const box=document.getElementById('sliders');
+  if(box.children.length) return;
+  for(let i=0;i<22;i++){
+    const d=document.createElement('div'); d.className='row';
+    d.innerHTML=`<label>PC${i}</label><input type="range" min="-3.5" max="3.5" step="0.02" value="0" data-i="${i}">
+                 <span class="val" data-v="${i}">0.00</span>`;
+    box.appendChild(d);
+  }
+  box.querySelectorAll('input[type=range]').forEach(el=>{
+    el.addEventListener('input',()=>{
+      const i=+el.dataset.i; cur[i]=+el.value;
+      box.querySelector(`span[data-v="${i}"]`).textContent=(+el.value).toFixed(2);
+      update();
+    });
+  });
+}
+function syncSliders(){
+  const box=document.getElementById('sliders');
+  box.querySelectorAll('input[type=range]').forEach(el=>{
+    const i=+el.dataset.i; el.value=cur[i];
+    box.querySelector(`span[data-v="${i}"]`).textContent=cur[i].toFixed(2);
+  });
+}
+let lastRef=null, lastRefLabel='（未选）';
+function setRef(img,label){ if(img){lastRef=img; lastRefLabel=label;} }
+function nearestGallery(){
+  let best=-1,bd=1e18;
+  for(let k=0;k<gallery.length;k++){
+    let d=0; for(let i=0;i<22;i++){const t=cur[i]-gallery[k].pca[i]; d+=t*t;}
+    if(d<bd){bd=d;best=k;}
+  }
+  return {k:best, dist:Math.sqrt(bd)};
+}
+
+function sampleEnvelope(name){
+  const st = ENV.styles && ENV.styles[name];
+  if(!st){ console.warn('no envelope for', name); return null; }
+  const r = rng((Math.random()*4294967295)>>>0);
+  const z = new Float32Array(22);
+  for(let i=0;i<22;i++) z[i]=gauss(r);
+  const out = new Float32Array(22);
+  for(let i=0;i<22;i++){
+    let s = st.mean[i];
+    const row = st.chol[i];
+    for(let j=0;j<22;j++) s += row[j]*z[j];
+    out[i] = Math.max(-3.5, Math.min(3.5, s));
+  }
+  for(let i=0;i<22;i++) cur[i]=out[i];
+  syncSliders(); update();
+  return out;
+}
+function buildEnvButtons(){
+  const box=document.getElementById('envbtns');
+  if(!box) return;
+  box.innerHTML='';
+  const styles = ENV.styles || {};
+  Object.keys(styles).forEach(name=>{
+    const st=styles[name];
+    const b=document.createElement('button');
+    b.textContent = `${st.label_cn} · n=${st.n_samples}`;
+    b.title = `|mean|=${st.mean_norm}, 独立采样命中率(近邻口径) ${(st.independent_sampler_hit_nn*100).toFixed(1)}%`;
+    b.onclick=()=>{
+      sampleEnvelope(name);
+      document.getElementById('envnote').innerHTML =
+        `当前采样自 <b>${st.label_cn}</b> 的高斯包裹：均值偏移 |μ| = <b>${st.mean_norm}</b>，`
+        + `拟合自 <b>${st.n_samples}</b> 张真实样本（协方差向单位阵收缩 ${(st.shrink_alpha*100).toFixed(0)}%）。<br>`
+        + `这个风格被<b>独立</b>正态采样命中的概率：马氏椭球口径 <b>${(st.independent_sampler_hit_maha*100).toFixed(1)}%</b>，`
+        + `最近邻口径 <b>${(st.independent_sampler_hit_nn*100).toFixed(1)}%</b>。<br>`
+        + `<span style="color:#f0a35e">注意</span>：${st.caveat}。`;
+    };
+    box.appendChild(b);
+  });
+  const b2=document.createElement('button');
+  b2.textContent='↩ 恢复独立标准正态';
+  b2.onclick=()=>{
+    const r=rng((Math.random()*4294967295)>>>0);
+    for(let i=0;i<22;i++) cur[i]=Math.max(-3.5,Math.min(3.5,gauss(r)));
+    syncSliders(); update();
+  };
+  box.appendChild(b2);
+}
+
+function update(){
+  const temp=+document.getElementById('temp').value;
+  const r=rng(seed);
+  const z=new Float32Array(64); for(let i=0;i<64;i++) z[i]=gauss(r);
+  const raw=forward(cur,z);
+  const gen=buildImg(decode(raw,temp,'sample',rng(seed^0x9e3779b9)));
+  const mod=buildImg(decode(raw,temp,'mode',rng(1)));
+  draw(document.getElementById('cvGen'),gen);
+  draw(document.getElementById('cvMode'),mod);
+  if(lastRef){ draw(document.getElementById('cvRef'),lastRef); }
+  else { document.getElementById('cvRef').getContext('2d').clearRect(0,0,8,8); }
+  document.getElementById('refcap').textContent=lastRefLabel;
+  const sS=speckle(toClassImg(gen)), sM=speckle(toClassImg(mod));
+  const uniq=new Set(Array.from(toClassImg(mod))).size;
+  const ng=nearestGallery();
+  const isCont = OUT_MODE==='continuous32';
+  // for the continuous model, report how far the values sit from whole levels: that is
+  // the information a 512-logit model cannot represent
+  let extra='';
+  if(isCont){
+    let near=0; for(let p=0;p<32;p++){const v=mod[p]; if(Math.abs(v-Math.round(v))<0.1) near++;}
+    extra=`<span>接近整数级的通道</span><b>${near}/32（越低说明连续值越有信息）</b>`;
+  }
+  document.getElementById('stats').innerHTML=
+    `<span>灰度/颜色级数（众数）</span><b>${uniq} / 16</b>`+
+    `<span>相邻同色率（众数/采样）</span><b>${(sM.agree*100).toFixed(1)}% / ${(sS.agree*100).toFixed(1)}%</b>`+
+    `<span>孤立像素（众数/采样）</span><b>${sM.iso} / ${sS.iso}</b>`+
+    `<span>连通色块（众数/采样）</span><b>${sM.blobs} / ${sS.blobs}</b>`+
+    extra+
+    `<span>到最近真实样例</span><b>${ng.dist.toFixed(2)} 个标准差（#${ng.k}）</b>`;
+}
+
+function applyModel(j){
+  meta=j.meta; IN_DIM=meta.in_dim;
+  OUT_MODE = meta.output_mode || 'logits_gray';
+  PAL = j.palette || null;
+  // Accept BOTH export shapes: the new list form (arbitrary depth) and the older
+  // W1/W2/W3 form (exactly three linear layers).
+  if(j.gen && j.gen.layers){
+    LAYERS = j.gen.layers.map(L=>({W:toF32Rows(L.W), b:toF32(L.b)}));
+  }else{
+    LAYERS = [{W:toF32Rows(j.gen.W1), b:toF32(j.gen.b1)},
+              {W:toF32Rows(j.gen.W2), b:toF32(j.gen.b2)},
+              {W:toF32Rows(j.gen.W3), b:toF32(j.gen.b3)}];
+  }
+  HID = LAYERS[0].W.length;
+  OUT_DIM = LAYERS[LAYERS.length-1].W.length;
+  mu=toF32(j.pca.mean); comps=toF32Rows(j.pca.components); sd=toF32(j.pca.sd);
+  LEVELS=j.levels;
+  // Normalise the gallery: the older greyscale exports store `rgb` (0..255), the newer
+  // ones store `levels` (0..15). Every model must present the same interface, otherwise
+  // switching models throws on a missing field.
+  gallery=(j.gallery||[]).map(it=>{
+    const o={pca:it.pca};
+    if(it.levels) o.levels=it.levels;
+    else if(it.rgb) o.levels=it.rgb.map(v=>v/17);
+    else o.levels=new Array(64).fill(0);
+    if(it.color) o.color=it.color;
+    return o;
+  });
+  const best = active==='lam5';
+  const tag = OUT_MODE==='logits_palette' ? '16 色彩' :
+              OUT_MODE==='continuous32' ? '32 连续明度' : (meta.use_noise?'condition+z':'condition');
+  document.getElementById('meta').innerHTML=
+    `<b>${active}</b> · 训练 <b>${meta.steps_trained}</b> 步 · 输入 <b>${meta.in_dim}</b> · `+
+    `隐层 <b>${HID}</b> · 输出 <b>${OUT_DIM}</b> · 参数 <b>${(meta.n_params||0).toLocaleString()}</b> `+
+    `<span class="badge ${best?'best':(meta.use_noise?'':'on')}">${tag}</span>`;
+  const n=document.getElementById('modelnote');
+  if(OUT_MODE==='continuous32'){
+    n.innerHTML='输出是 <b>32 个连续明度值</b>（0~15 级），渲染时四舍五入到 16 级。'+
+      '<b>参数 79,904，比 512 输出的 203,264 少 61%，而逐像素准确率更高（0.7594 vs 0.7005）。</b>'+
+      '连续值确实携带信息：只有约 39.5% 的通道落在整数附近，其余都在级与级之间。';
+  }else if(OUT_MODE==='logits_palette'){
+    n.innerHTML='输出是 <b>32 个位置 × 16 个调色板颜色</b>的 logits。注意调色板索引是<b>无序</b>的——'+
+      '这比有序灰度难，因为它没有"明暗相邻"的结构可借。实测准确率 0.6475，'+
+      '相邻同色率 68.7%（真实彩色参考 66.1%）。';
+  }else if(best){
+    n.innerHTML='输入 = 22 个 PCA 参数。训练时加了<b>空间一致性惩罚</b>（TV，λ=5），因此输出不再"麻麻赖赖"。'+
+      '实测众数版相邻同色率 <b>60.7%</b>，真实脸 <b>60.5%</b>；逐像素准确率 <b>0.70</b>。';
+  }else if(meta.use_noise){
+    n.innerHTML='输入 = 22 个 PCA 参数 <b>+ 64 维噪声</b>。实测噪声只贡献 0.2% 的 logits 方差。';
+  }else{
+    n.innerHTML='输入 = <b>只有</b> 22 个 PCA 参数。比有噪声版更确定、更干净，但只训练了 6000 步、且没有一致性惩罚。';
+  }
+}
+
+function segButtons(){
+  const seg=document.getElementById('modelseg');
+  seg.innerHTML='';
+  MODEL_FILES.forEach(m=>{
+    const b=document.createElement('button');
+    b.textContent=m.label; b.dataset.key=m.key;
+    if(m.key===active) b.classList.add('act');
+    b.onclick=()=>{
+      if(!MODELS[m.key]){ return; }
+      active=m.key; applyModel(MODELS[m.key]);
+      seg.querySelectorAll('button').forEach(x=>x.classList.toggle('act', x.dataset.key===active));
+      update();
+    };
+    seg.appendChild(b);
+  });
+}
+
+function galleryTile(item){
+  // greyscale exports carry `levels` as grey levels; the colour export carries `color`
+  const cv=document.createElement('canvas'); cv.width=8; cv.height=8;
+  if(item.color){
+    const ctx=cv.getContext('2d'); const id=ctx.createImageData(8,8);
+    for(let i=0;i<64;i++){
+      id.data[i*4]=item.color[i*3]; id.data[i*4+1]=item.color[i*3+1];
+      id.data[i*4+2]=item.color[i*3+2]; id.data[i*4+3]=255;
+    }
+    ctx.putImageData(id,0,0);
+  }else{
+    const img=new Float32Array(64);
+    for(let i=0;i<64;i++) img[i]=item.levels[i];
+    // draw directly as grey, independent of the active model's palette
+    const ctx=cv.getContext('2d'); const id=ctx.createImageData(8,8);
+    for(let i=0;i<64;i++){
+      const g=Math.round(item.levels[i]/15*255);
+      id.data[i*4]=g; id.data[i*4+1]=g; id.data[i*4+2]=g; id.data[i*4+3]=255;
+    }
+    ctx.putImageData(id,0,0);
+  }
+  return cv;
+}
+
+async function init(){
+  for(const m of MODEL_FILES){
+    try{
+      const r=await fetch(m.file);
+      if(r.ok) MODELS[m.key]=await r.json();
+      else console.warn('missing', m.file, r.status);
+    }catch(e){ console.warn('failed', m.file, e.message); }
+  }
+  try{
+    const r=await fetch('style_envelopes.json');
+    if(r.ok) ENV=await r.json();
+  }catch(e){ console.warn('envelopes failed', e.message); }
+  if(!MODELS[active]) active=Object.keys(MODELS)[0];
+  applyModel(MODELS[active]);
+  cur=new Float32Array(22);
+  buildSliders(); syncSliders(); segButtons(); buildEnvButtons();
+
+  const g=document.getElementById('gallery');
+  gallery.forEach((item,k)=>{
+    const cv=galleryTile(item);
+    cv.title='真实脸 #'+k;
+    cv.addEventListener('click',()=>{
+      for(let i=0;i<22;i++) cur[i]=item.pca[i];
+      syncSliders();
+      // the reference panel should show the face in the ACTIVE model's colour space
+      if(OUT_MODE==='logits_palette' && item.color){
+        const ref=new Float32Array(64);
+        for(let i=0;i<64;i++) ref[i]=item.levels[i];   // palette index as the value
+        setRef(ref,'真实脸 #'+k+'（彩色）');
+        const cvr=document.getElementById('cvRef');
+        const ctx=cvr.getContext('2d'); const id=ctx.createImageData(8,8);
+        for(let i=0;i<64;i++){
+          id.data[i*4]=item.color[i*3]; id.data[i*4+1]=item.color[i*3+1];
+          id.data[i*4+2]=item.color[i*3+2]; id.data[i*4+3]=255;
+        }
+        ctx.putImageData(id,0,0);
+        update();
+        return;
+      }
+      const ref=new Float32Array(64);
+      for(let i=0;i<64;i++) ref[i]=item.levels[i];
+      setRef(ref,'真实脸 #'+k); update();
+    });
+    g.appendChild(cv);
+  });
+  lastRef=null; lastRefLabel='（未选）';
+
+  const rows=[
+    ['训练步数','20000','6000','1500','12000','12000'],
+    ['参数量','203,264','203,264','203,264','<b>79,904</b>','203,264'],
+    ['输出维度','512','512','512','<b>32 连续</b>','512'],
+    ['逐像素准确率','<b>0.7005</b>','0.6429','0.4779','0.7594','0.6475'],
+    ['相邻同色率(众数)','<b>60.7%</b>','50.3%','48.6%','51.7%','68.7%'],
+    ['孤立像素(众数)','<b>7.01</b>','11.11','12.13','10.31','3.92'],
+    ['真实参考','60.5% / 6.80','—','—','60.5% / 6.80','66.1% / 4.05'],
+  ];
+  document.querySelector('#cmptable tbody').innerHTML=
+    '<tr><th>指标</th><th class="best">λ=5 灰度</th><th>无噪声</th><th>有噪声</th>'+
+    '<th>32通道</th><th>16色彩</th></tr>'+
+    rows.map(r=>`<tr><td>${r[0]}</td><td class="best">${r[1]}</td><td>${r[2]}</td>`+
+                `<td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
+
+  document.getElementById('bRand').onclick=()=>{
+    const r=rng((Math.random()*4294967295)>>>0);
+    for(let i=0;i<22;i++) cur[i]=Math.max(-3.5,Math.min(3.5,gauss(r)));
+    seed=(Math.random()*4294967295)>>>0; syncSliders(); update();
+  };
+  document.getElementById('bZero').onclick=()=>{ for(let i=0;i<22;i++) cur[i]=0; syncSliders(); update(); };
+  document.getElementById('bRe').onclick=()=>{ seed=(seed*1664525+1013904223)>>>0; update(); };
+  document.getElementById('bReal').onclick=()=>{
+    const k=Math.floor(Math.random()*gallery.length);
+    for(let i=0;i<22;i++) cur[i]=gallery[k].pca[i];
+    syncSliders(); update();
+  };
+  document.getElementById('bReset').onclick=()=>{
+    for(let i=0;i<22;i++) cur[i]=0; seed=12345; syncSliders(); update();
+  };
+  document.getElementById('temp').addEventListener('input',()=>{
+    document.getElementById('tempv').textContent=(+document.getElementById('temp').value).toFixed(2);
+    update();
+  });
+  update();
+}
+
+window.APP = {
+  forward, decode, buildImg, draw, valueToRGB, speckle, toClassImg, update, rng, gauss, init,
+  getModels: () => MODELS,
+  getState: () => ({ cur, seed, gallery, meta, IN_DIM, active, OUT_MODE, OUT_DIM, HID,
+                     loaded: Object.keys(MODELS),
+                     envelopes: Object.keys(ENV.styles || {}) }),
+  setPca: (v) => { for(let i=0;i<22;i++) cur[i]=v[i]; syncSliders(); },
+  setModel: (k) => { active=k; applyModel(MODELS[k]); update(); },
+  sampleEnvelope: (name) => sampleEnvelope(name),
+  ENV: () => ENV,
+};
+
+init().catch(e=>{
+  document.getElementById('meta').innerHTML='<span class="err">载入失败：'+e.message+
+    '。若用 file:// 打开，浏览器会禁止读取本地 json，请用本地 http 服务（见 README）。</span>';
+});
+</script>
+</body>
+</html>

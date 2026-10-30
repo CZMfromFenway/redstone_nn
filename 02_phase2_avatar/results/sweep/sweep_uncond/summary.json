@@ -1,0 +1,62 @@
+{
+  "args": {
+    "tag": "sweep_uncond",
+    "mode": "uncond",
+    "pca_k": 0,
+    "code_k": 0,
+    "steps": 1500,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": "21:00"
+  },
+  "cond_desc": "none (z only)",
+  "cond_dim": 0,
+  "nG": 214016,
+  "nD": 340929,
+  "history": [
+    {
+      "step": 1000,
+      "ce": 2.7147,
+      "acc": 0.1304,
+      "d_acc": 0.9917,
+      "loss_d": 1.5638,
+      "loss_g": 4.2828,
+      "levels": 13.650390625,
+      "nn_med": 24,
+      "nn_min": 21,
+      "dups": 0,
+      "near_real_mean": 46.755859375,
+      "near_real_min": 36,
+      "symmetry": 1.0,
+      "sec": 82.1
+    },
+    {
+      "step": 1500,
+      "ce": 2.7023,
+      "acc": 0.1321,
+      "d_acc": 0.9658,
+      "loss_d": 0.525,
+      "loss_g": 5.0875,
+      "levels": 13.6064453125,
+      "nn_med": 24,
+      "nn_min": 20,
+      "dups": 0,
+      "near_real_mean": 46.58984375,
+      "near_real_min": 38,
+      "symmetry": 1.0,
+      "sec": 123.5
+    }
+  ],
+  "seconds": 123.5
+}

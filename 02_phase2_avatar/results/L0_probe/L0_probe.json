@@ -1,0 +1,59 @@
+{
+  "n_input": 923975,
+  "gray_quant": {
+    "per_pixel_mse": 21.5801726876627,
+    "rms": 4.645446446539094
+  },
+  "symmetry": {
+    "gray_pairs_equal": 0.8089081820395574,
+    "gray_fully_symmetric": 0.27205281528179875,
+    "colour_pairs_equal": 0.8646237384669498,
+    "colour_fully_symmetric": 0.34175167077031304
+  },
+  "subsets": [
+    {
+      "threshold": 1.0,
+      "kept": 251370,
+      "share": 0.27205281528179875,
+      "flip_rate": 0.0
+    },
+    {
+      "threshold": 0.99,
+      "kept": 251370,
+      "share": 0.27205281528179875,
+      "flip_rate": 0.0
+    },
+    {
+      "threshold": 0.95,
+      "kept": 321219,
+      "share": 0.34764901647771856,
+      "flip_rate": 0.003397652769605783
+    },
+    {
+      "threshold": 0.9,
+      "kept": 448923,
+      "share": 0.48586054817500474,
+      "flip_rate": 0.013122656892161907
+    },
+    {
+      "threshold": 0.85,
+      "kept": 499149,
+      "share": 0.5402191617738575,
+      "flip_rate": 0.01809116616481251
+    },
+    {
+      "threshold": 0.75,
+      "kept": 651598,
+      "share": 0.70521172109635,
+      "flip_rate": 0.03728914338288331
+    },
+    {
+      "threshold": 0.0,
+      "kept": 923975,
+      "share": 1.0,
+      "flip_rate": 0.09554590898022132
+    }
+  ],
+  "gray_levels_used": 16,
+  "distinct_levels_per_avatar_mean": 5.6004
+}

@@ -1,0 +1,10 @@
+target bits x0..x15: 0000000011111111
+mask_decimal: 65280; reversals: 1
+FOUND exact solution in depth<=3 database
+min_depth: 1
+all_min_sequences: D|T
+representative_sequence: D
+representative_config: D(S,s)[a=8,b=15]
+threshold_op: le
+threshold_k: 0
+analog_hex: 0000000012345678

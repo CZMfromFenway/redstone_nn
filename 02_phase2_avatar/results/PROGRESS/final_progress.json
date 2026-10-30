@@ -1,0 +1,58 @@
+[
+  {
+    "name": "1  无条件 GAN",
+    "note": "no condition",
+    "accepted": null,
+    "in_dim": 64,
+    "frozen": 0
+  },
+  {
+    "name": "2  条件 GAN（半边真实输入）",
+    "note": "memorises the answer",
+    "accepted": null,
+    "in_dim": 576,
+    "frozen": 0
+  },
+  {
+    "name": "3  PCA-22",
+    "note": "22 PCs + noise",
+    "accepted": null,
+    "in_dim": 86,
+    "frozen": 0
+  },
+  {
+    "name": "4  PCA-22 + 平滑奖励",
+    "note": "TV coherence penalty",
+    "accepted": null,
+    "in_dim": 22,
+    "frozen": 0
+  },
+  {
+    "name": "5  PCA-4",
+    "note": "four knobs only",
+    "accepted": null,
+    "in_dim": 4,
+    "frozen": 0
+  },
+  {
+    "name": "6  PCA-4 + min-max 拉伸",
+    "note": "contrast restored",
+    "accepted": null,
+    "in_dim": 4,
+    "frozen": 0
+  },
+  {
+    "name": "7  + 筛选（不指定风格）",
+    "note": "MLP 4-16-1, keep 50%",
+    "accepted": 78.9,
+    "in_dim": 4,
+    "frozen": 0
+  },
+  {
+    "name": "8  + 指定二次元 + 筛选",
+    "note": "keep 50%, scorer aimed at 类二次元",
+    "accepted": 75.0,
+    "in_dim": 4,
+    "frozen": 0
+  }
+]

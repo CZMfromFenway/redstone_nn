@@ -1,0 +1,24 @@
+{
+  "F_0": [
+    212,
+    216,
+    236,
+    237,
+    199,
+    226,
+    239,
+    233,
+    190,
+    198
+  ],
+  "target": 128,
+  "argmax_match": true,
+  "accuracy": 0.8738,
+  "F_range": [
+    55,
+    170
+  ],
+  "margin_min": 0,
+  "margin_median": 8.0,
+  "margin_ties": 300
+}

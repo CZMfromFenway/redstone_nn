@@ -1,0 +1,48 @@
+{
+  "reference": {
+    "agree": 0.5971130952380952,
+    "iso": 7.053333333333334,
+    "blobs": 14.2
+  },
+  "rows": [
+    {
+      "lam": 1.0,
+      "agree_sample": 0.27049107142857143,
+      "iso_sample": 24.205,
+      "blobs_sample": 36.5575,
+      "agree_mode": 0.5191517857142857,
+      "iso_mode": 9.91,
+      "blobs_mode": 18.5875,
+      "acc_mode": 0.4793750047683716,
+      "acc_sample": 0.31718748807907104,
+      "seconds": 90.4
+    },
+    {
+      "lam": 3.0,
+      "agree_sample": 0.2704464285714286,
+      "iso_sample": 24.425,
+      "blobs_sample": 36.695,
+      "agree_mode": 0.5734821428571428,
+      "iso_mode": 8.285,
+      "blobs_mode": 15.8725,
+      "acc_mode": 0.48390623927116394,
+      "acc_sample": 0.30531251430511475,
+      "seconds": 90.3
+    },
+    {
+      "lam": 10.0,
+      "agree_sample": 0.26334821428571425,
+      "iso_sample": 24.945,
+      "blobs_sample": 37.2525,
+      "agree_mode": 0.7820982142857141,
+      "iso_mode": 2.555,
+      "blobs_mode": 6.6325,
+      "acc_mode": 0.43226563930511475,
+      "acc_sample": 0.24609375,
+      "seconds": 89.2
+    }
+  ],
+  "steps": 1200,
+  "decode": "mode",
+  "penalty": "ce_smooth"
+}

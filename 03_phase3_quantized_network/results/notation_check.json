@@ -1,0 +1,14 @@
+{
+ "b_tested": [
+  8,
+  10,
+  12
+ ],
+ "claims": {
+  "single_general_form": true,
+  "y_min_zero_iff_relu_output_layer": true,
+  "output_layer_needs_offset": true,
+  "t_equals_1_overflows": true
+ },
+ "b_overflow_fix": "clamp to 2^b - 1, or scale by (2^b - 1)"
+}

@@ -1,0 +1,1 @@
+setblock ~ ~ ~ minecraft:barrel{Items:[{Slot:0b,count:64,id:"minecraft:wooden_axe"},{Slot:1b,count:3b,id:"minecraft:wooden_axe"},{Slot:26b,count:32b,id:"minecraft:redstone"}],CustomName:'"signal: 36, item: 4320"'}

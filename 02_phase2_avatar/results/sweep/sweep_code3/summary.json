@@ -1,0 +1,62 @@
+{
+  "args": {
+    "tag": "sweep_code3",
+    "mode": "code",
+    "pca_k": 0,
+    "code_k": 3,
+    "steps": 1500,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": "21:00"
+  },
+  "cond_desc": "learned 3-bit style code (8 clusters, continuous centre)",
+  "cond_dim": 16,
+  "nG": 218112,
+  "nD": 341953,
+  "history": [
+    {
+      "step": 1000,
+      "ce": 2.2124,
+      "acc": 0.2193,
+      "d_acc": 0.9727,
+      "loss_d": 1.7372,
+      "loss_g": 3.789,
+      "levels": 11.177734375,
+      "nn_med": 22,
+      "nn_min": 13,
+      "dups": 0,
+      "near_real_mean": 41.6591796875,
+      "near_real_min": 22,
+      "symmetry": 1.0,
+      "sec": 85.1
+    },
+    {
+      "step": 1500,
+      "ce": 2.2104,
+      "acc": 0.2194,
+      "d_acc": 0.9634,
+      "loss_d": 0.602,
+      "loss_g": 4.1755,
+      "levels": 11.2939453125,
+      "nn_med": 22,
+      "nn_min": 12,
+      "dups": 0,
+      "near_real_mean": 41.8955078125,
+      "near_real_min": 22,
+      "symmetry": 1.0,
+      "sec": 127.2
+    }
+  ],
+  "seconds": 127.2
+}

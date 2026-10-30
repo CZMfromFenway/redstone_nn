@@ -1,0 +1,12 @@
+{
+  "histogram_vs_brute_force": "passed",
+  "P13_size": 158,
+  "P16_size": 242,
+  "real_teacher_channel_forward": "passed",
+  "channel_errors": 13648,
+  "wall_s": 3.622447967529297,
+  "scope": "one restored original Teacher / mixedT DD / one restart; not the formal 7-restart study",
+  "full_15_channel_4pass_forward": "passed",
+  "seed": 66112,
+  "errors": 3623
+}

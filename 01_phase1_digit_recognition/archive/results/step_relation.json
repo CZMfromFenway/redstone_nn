@@ -1,0 +1,18 @@
+{
+  "cand_b_{x+1} - 29 + x": 0,
+  "cand_b_{x+1} - 15": 280000,
+  "cand_b_{x+1} - c_x(x)": 299662,
+  "cand_b_{x+1} - b_x": 299662,
+  "single_b1_0": -29,
+  "single_b1_14": -15,
+  "single_b1_15": -14,
+  "single_b1_16": -13,
+  "single_b1_67": 38,
+  "single_b1_300": 271,
+  "single_b1_897": 868,
+  "dS_range": {
+    "n": 912,
+    "min": -29,
+    "max": 882
+  }
+}

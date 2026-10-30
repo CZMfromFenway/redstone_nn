@@ -1,0 +1,13 @@
+{
+ "v_per_weight_bits": "12\u00b7n\u00b7m\u00b7b",
+ "v_per_weight_lut": "36\u00b7n\u00b7m\u00b7b",
+ "ratio": 3.0,
+ "final": {
+  "bx": 8,
+  "by": 10,
+  "rings": 96,
+  "containers": 22528,
+  "volume": 297984.0,
+  "lut_equiv": 811008.0
+ }
+}

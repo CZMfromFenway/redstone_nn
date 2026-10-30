@@ -1,0 +1,12 @@
+{
+ "pairs": {
+  "I": 38,
+  "II": 62,
+  "III": 28
+ },
+ "max_diff": 843,
+ "rings_layer1": 100,
+ "rings_layer2": 593,
+ "vol_magenta_side": 370176,
+ "vol_split": 352128
+}

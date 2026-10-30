@@ -1,0 +1,416 @@
+{
+  "args": {
+    "budget": 100,
+    "rounds": 5,
+    "eval_n": 400,
+    "seeds": "0,1,2",
+    "pool": 2000,
+    "keep": 0.15,
+    "beta": 2.0
+  },
+  "rows": [
+    {
+      "strategy": "base",
+      "seed": 0,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -33.605,
+          "frac_above_median": 0.5
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -33.47,
+          "frac_above_median": 0.4875
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -32.62,
+          "frac_above_median": 0.56
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -32.3275,
+          "frac_above_median": 0.5475
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -32.6025,
+          "frac_above_median": 0.53
+        }
+      ],
+      "base_median": -35.0
+    },
+    {
+      "strategy": "base",
+      "seed": 1,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -33.045,
+          "frac_above_median": 0.3975
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -32.52,
+          "frac_above_median": 0.435
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -33.52,
+          "frac_above_median": 0.3925
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -33.4675,
+          "frac_above_median": 0.3875
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -32.9075,
+          "frac_above_median": 0.415
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "base",
+      "seed": 2,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -31.6725,
+          "frac_above_median": 0.44
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -32.855,
+          "frac_above_median": 0.455
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -32.58,
+          "frac_above_median": 0.43
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -33.12,
+          "frac_above_median": 0.4225
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -32.8275,
+          "frac_above_median": 0.425
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "cem",
+      "seed": 0,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -33.5425,
+          "frac_above_median": 0.51
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -32.0775,
+          "frac_above_median": 0.56
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -31.055,
+          "frac_above_median": 0.5875
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -32.68,
+          "frac_above_median": 0.5125
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -31.8925,
+          "frac_above_median": 0.555
+        }
+      ],
+      "base_median": -35.0
+    },
+    {
+      "strategy": "cem",
+      "seed": 1,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -32.5725,
+          "frac_above_median": 0.425
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -32.99,
+          "frac_above_median": 0.4225
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -32.785,
+          "frac_above_median": 0.44
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -32.9375,
+          "frac_above_median": 0.415
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -33.185,
+          "frac_above_median": 0.395
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "cem",
+      "seed": 2,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -31.16,
+          "frac_above_median": 0.47
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -31.28,
+          "frac_above_median": 0.4475
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -32.7825,
+          "frac_above_median": 0.4375
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -31.95,
+          "frac_above_median": 0.475
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -32.7975,
+          "frac_above_median": 0.425
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "reward_topk",
+      "seed": 0,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -32.4225,
+          "frac_above_median": 0.515
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -31.5825,
+          "frac_above_median": 0.5675
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -30.015,
+          "frac_above_median": 0.62
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -26.0075,
+          "frac_above_median": 0.75
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -26.1425,
+          "frac_above_median": 0.71
+        }
+      ],
+      "base_median": -35.0
+    },
+    {
+      "strategy": "reward_topk",
+      "seed": 1,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -30.26,
+          "frac_above_median": 0.5125
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -26.9775,
+          "frac_above_median": 0.655
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -24.2075,
+          "frac_above_median": 0.75
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -25.895,
+          "frac_above_median": 0.68
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -24.5875,
+          "frac_above_median": 0.7575
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "reward_topk",
+      "seed": 2,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -29.41,
+          "frac_above_median": 0.5425
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -26.0875,
+          "frac_above_median": 0.6975
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -25.79,
+          "frac_above_median": 0.6925
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -25.4125,
+          "frac_above_median": 0.72
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -25.8975,
+          "frac_above_median": 0.6625
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "reward_is",
+      "seed": 0,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -34.09,
+          "frac_above_median": 0.985
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -36.0,
+          "frac_above_median": 0.0
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -4.0,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -9.54,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -3.115,
+          "frac_above_median": 1.0
+        }
+      ],
+      "base_median": -35.0
+    },
+    {
+      "strategy": "reward_is",
+      "seed": 1,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -33.7625,
+          "frac_above_median": 0.0325
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -9.495,
+          "frac_above_median": 0.97
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -9.0,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -10.295,
+          "frac_above_median": 0.9975
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -4.0725,
+          "frac_above_median": 1.0
+        }
+      ],
+      "base_median": -34.0
+    },
+    {
+      "strategy": "reward_is",
+      "seed": 2,
+      "trajectory": [
+        {
+          "labels": 20,
+          "mean_proxy": -29.79,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 40,
+          "mean_proxy": -13.6875,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 60,
+          "mean_proxy": -0.03,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 80,
+          "mean_proxy": -4.0,
+          "frac_above_median": 1.0
+        },
+        {
+          "labels": 100,
+          "mean_proxy": -4.0,
+          "frac_above_median": 1.0
+        }
+      ],
+      "base_median": -34.0
+    }
+  ],
+  "summary": {
+    "base": {
+      "mean_proxy": -32.77916666666666,
+      "above_median": 0.4566666666666667
+    },
+    "cem": {
+      "mean_proxy": -32.625,
+      "above_median": 0.4583333333333333
+    },
+    "reward_topk": {
+      "mean_proxy": -25.5425,
+      "above_median": 0.71
+    },
+    "reward_is": {
+      "mean_proxy": -3.7291666666666665,
+      "above_median": 1.0
+    }
+  },
+  "best": "reward_is"
+}

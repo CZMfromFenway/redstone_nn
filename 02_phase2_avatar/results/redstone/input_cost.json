@@ -1,0 +1,144 @@
+{
+  "influence": [
+    {
+      "pc": 0,
+      "pixels_changed": 64
+    },
+    {
+      "pc": 1,
+      "pixels_changed": 64
+    },
+    {
+      "pc": 3,
+      "pixels_changed": 48
+    },
+    {
+      "pc": 5,
+      "pixels_changed": 48
+    },
+    {
+      "pc": 6,
+      "pixels_changed": 48
+    },
+    {
+      "pc": 12,
+      "pixels_changed": 42
+    },
+    {
+      "pc": 2,
+      "pixels_changed": 40
+    },
+    {
+      "pc": 4,
+      "pixels_changed": 36
+    },
+    {
+      "pc": 7,
+      "pixels_changed": 34
+    },
+    {
+      "pc": 9,
+      "pixels_changed": 32
+    },
+    {
+      "pc": 10,
+      "pixels_changed": 32
+    },
+    {
+      "pc": 14,
+      "pixels_changed": 32
+    },
+    {
+      "pc": 8,
+      "pixels_changed": 28
+    },
+    {
+      "pc": 11,
+      "pixels_changed": 28
+    },
+    {
+      "pc": 13,
+      "pixels_changed": 28
+    },
+    {
+      "pc": 17,
+      "pixels_changed": 28
+    },
+    {
+      "pc": 15,
+      "pixels_changed": 26
+    },
+    {
+      "pc": 16,
+      "pixels_changed": 24
+    },
+    {
+      "pc": 20,
+      "pixels_changed": 24
+    },
+    {
+      "pc": 21,
+      "pixels_changed": 24
+    },
+    {
+      "pc": 18,
+      "pixels_changed": 20
+    },
+    {
+      "pc": 19,
+      "pixels_changed": 20
+    }
+  ],
+  "diversity": [
+    {
+      "k": 1,
+      "distinct": 172,
+      "mean_hamming": 57.56582278481012,
+      "agree": 0.564375
+    },
+    {
+      "k": 2,
+      "distinct": 374,
+      "mean_hamming": 58.3746835443038,
+      "agree": 0.6183928571428572
+    },
+    {
+      "k": 3,
+      "distinct": 399,
+      "mean_hamming": 58.66012658227848,
+      "agree": 0.559419642857143
+    },
+    {
+      "k": 5,
+      "distinct": 400,
+      "mean_hamming": 58.18607594936709,
+      "agree": 0.5249553571428571
+    },
+    {
+      "k": 8,
+      "distinct": 400,
+      "mean_hamming": 58.73924050632911,
+      "agree": 0.4915625
+    },
+    {
+      "k": 12,
+      "distinct": 400,
+      "mean_hamming": 58.59240506329114,
+      "agree": 0.4653571428571429
+    },
+    {
+      "k": 16,
+      "distinct": 400,
+      "mean_hamming": 58.60569620253165,
+      "agree": 0.44263392857142864
+    },
+    {
+      "k": 22,
+      "distinct": 400,
+      "mean_hamming": 58.689240506329114,
+      "agree": 0.4248214285714286
+    }
+  ],
+  "model_multiplies": 202240,
+  "preference_filter_multiplies": 13200
+}

@@ -1,0 +1,14 @@
+family,method,teacher,h,errors,error_rate,note
+Function Count K4,old v05 baseline,N4_MLP_T1,12,5257,0.0802154541015625,previous standard function-level result
+Function Count K4,curriculum+block best of 3,N4_MLP_T1,12,4999,0.0762786865234375,new best in v07
+Function Count K4,old v05 baseline,N4_COUNT_T1,12,1801,0.0274810791015625,previous standard function-level result
+Function Count K4,curriculum+block lucky best,N4_COUNT_T1,12,346,0.005279541015625,rare trajectory; not stable
+Function Count K4,16-restart distribution best,N4_COUNT_T1,12,3043,0.0464324951171875,best among separate 16 restart sample; shows heavy-tail instability
+OneFlip,anneal v06,N4_MLP_T1,8,10055,0.1534271240234375,previous v06 hard result
+OneFlip,alpha blend after soft pretrain,N4_MLP_T1,8,10204,0.15570068359375,no material gain
+OneFlip,alpha blend after soft pretrain,N4_MLP_T1,12,10778,0.164459228515625,no material gain
+OneFlip,alpha blend,N4_COUNT_T1,12,25071,0.3825531005859375,poor on Count-native teacher
+Differentiable function library,K1 soft categorical,N4_MLP_T1,8,14202,0.216705322265625,naive logic-gate-style relaxation
+Differentiable function library,K2 soft categorical,N4_MLP_T1,8,15780,0.24078369140625,naive logic-gate-style relaxation
+Greedy growth,node-by-node h12,N4_MLP_T1,12,13422,0.204803466796875,very cheap but weak; useful initialization only
+Greedy growth,node-by-node h12,N4_COUNT_T1,12,23875,0.3643035888671875,very cheap but weak

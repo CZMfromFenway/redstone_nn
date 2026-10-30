@@ -1,0 +1,18 @@
+task,teacher,method,h,hard_errors,soft_errors,N,hard_rate,soft_rate,notes
+XOR-2D,hand,fixed-weak-grid-reg,4,64,0.0,256,0.25,0.0,fixed weak periodic regularization; projection gap
+XOR-2D,hand,annealed-grid-reg-seed0,4,0,0.0,256,0.0,0.0,annealed quantization regularization
+XOR-2D,hand,annealed-grid-reg-seed1,4,0,0.0,256,0.0,0.0,annealed quantization regularization
+XOR-2D,hand,annealed-grid-reg-seed2,4,0,0.0,256,0.0,0.0,annealed quantization regularization
+N4_MLP_T1,MLP,oneflip-anneal,8,10055,6952.0,65536,0.1534271240234375,0.1060791015625,2 restarts x1300
+N4_MLP_T1,MLP,oneflip-anneal,12,14554,5305.0,65536,0.222076416015625,0.0809478759765625,1 restart x1500
+N4_MLP_T1,MLP,oneflip-anneal,15,22313,5130.0,65536,0.3404693603515625,0.078277587890625,1 restart x1000
+N4_MLP_T1,MLP,oneflip-consistency,8,14541,6759.0,65536,0.2218780517578125,0.1031341552734375,shared soft/quantized consistency pilot
+N4_COUNT_T1,Count-DT-K4,oneflip-anneal,8,26480,26480.0,65536,0.404052734375,0.404052734375,1 restart x900
+N4_COUNT_T1,Count-DT-K4,oneflip-consistency,8,23495,20454.0,65536,0.3585052490234375,0.312103271484375,shared soft/quantized consistency pilot
+N4_COUNT_T1,Count-DT-K4,oneflip-anneal,15,26480,26480.0,65536,0.404052734375,0.404052734375,1 restart x1000
+N4_MLP_T1,MLP,function-level-Count-K4,8,5785,,65536,0.0882720947265625,,v05 baseline
+N4_MLP_T1,MLP,function-level-Count-K4,12,5257,,65536,0.0802154541015625,,v05 baseline
+N4_MLP_T1,MLP,function-level-Count-K4,15,4737,,65536,0.0722808837890625,,v05 baseline
+N4_COUNT_T1,Count-DT-K4,function-level-Count-K4,8,8963,,65536,0.1367645263671875,,v05 baseline
+N4_COUNT_T1,Count-DT-K4,function-level-Count-K4,12,1801,,65536,0.0274810791015625,,v05 baseline
+N4_COUNT_T1,Count-DT-K4,function-level-Count-K4,15,2871,,65536,0.0438079833984375,,v05 baseline

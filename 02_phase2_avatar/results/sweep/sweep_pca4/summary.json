@@ -1,0 +1,62 @@
+{
+  "args": {
+    "tag": "sweep_pca4",
+    "mode": "pca",
+    "pca_k": 4,
+    "code_k": 0,
+    "steps": 1500,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": "21:00"
+  },
+  "cond_desc": "top 4 PCA coefficients of the face",
+  "cond_dim": 4,
+  "nG": 215040,
+  "nD": 341185,
+  "history": [
+    {
+      "step": 1000,
+      "ce": 2.2039,
+      "acc": 0.2018,
+      "d_acc": 0.9199,
+      "loss_d": 1.7558,
+      "loss_g": 3.4129,
+      "levels": 10.560546875,
+      "nn_med": 21,
+      "nn_min": 8,
+      "dups": 0,
+      "near_real_mean": 40.43359375,
+      "near_real_min": 12,
+      "symmetry": 1.0,
+      "sec": 84.2
+    },
+    {
+      "step": 1500,
+      "ce": 2.1746,
+      "acc": 0.2104,
+      "d_acc": 0.9028,
+      "loss_d": 0.7005,
+      "loss_g": 3.7549,
+      "levels": 10.138671875,
+      "nn_med": 21,
+      "nn_min": 6,
+      "dups": 0,
+      "near_real_mean": 39.4111328125,
+      "near_real_min": 6,
+      "symmetry": 1.0,
+      "sec": 126.5
+    }
+  ],
+  "seconds": 126.5
+}

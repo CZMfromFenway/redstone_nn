@@ -1,0 +1,54 @@
+{
+  "args": {
+    "steps": 80,
+    "batch": 256,
+    "lam": 1.0,
+    "lam_final": 10.0,
+    "adv_weight": 1.0,
+    "decode": "mode",
+    "hid": 256,
+    "threads": 6,
+    "eval_every": 40,
+    "tag": "t_ramp"
+  },
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 40,
+      "lam_now": 5.5,
+      "ce": 2.5958,
+      "acc_mode": 0.1753,
+      "acc_sample": 0.0816,
+      "entropy": 2.6901,
+      "maxprob": 0.1194,
+      "agree_mode": 0.7329,
+      "iso_mode": 4.21,
+      "blobs_mode": 9.12,
+      "agree_sample": 0.138,
+      "iso_sample": 37.365,
+      "blobs_sample": 49.05,
+      "sec": 5.7
+    },
+    {
+      "step": 80,
+      "lam_now": 10.0,
+      "ce": 2.3619,
+      "acc_mode": 0.1729,
+      "acc_sample": 0.112,
+      "entropy": 2.5432,
+      "maxprob": 0.1721,
+      "agree_mode": 0.9166,
+      "iso_mode": 0.82,
+      "blobs_mode": 2.77,
+      "agree_sample": 0.1619,
+      "iso_sample": 34.295,
+      "blobs_sample": 46.61,
+      "sec": 11.3
+    }
+  ],
+  "seconds": 11.4
+}

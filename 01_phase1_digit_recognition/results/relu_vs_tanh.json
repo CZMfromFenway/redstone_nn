@@ -1,0 +1,48 @@
+{
+  "N": 65536,
+  "T1_teacher": 0,
+  "trained": {
+    "tanh_0": 1117,
+    "tanh_1": 1293,
+    "relu_0": 3762,
+    "relu_1": 3741
+  },
+  "compile": [
+    {
+      "case": "T1_tanh_teacher",
+      "S": 2000,
+      "dim": 16,
+      "err": 18436
+    },
+    {
+      "case": "T1_tanh_teacher",
+      "S": 8000,
+      "dim": 16,
+      "err": 18436
+    },
+    {
+      "case": "T1_tanh_teacher",
+      "S": 32000,
+      "dim": 16,
+      "err": 18436
+    },
+    {
+      "case": "R1_relu_teacher",
+      "S": 2000,
+      "dim": 8,
+      "err": 65536
+    },
+    {
+      "case": "R1_relu_teacher",
+      "S": 8000,
+      "dim": 8,
+      "err": 65536
+    },
+    {
+      "case": "R1_relu_teacher",
+      "S": 32000,
+      "dim": 8,
+      "err": 65536
+    }
+  ]
+}

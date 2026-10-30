@@ -1,0 +1,61 @@
+{
+  "n": 1000,
+  "rows": [
+    {
+      "name": "real (reference)",
+      "acc": NaN,
+      "agree": 0.7764910714285714,
+      "detail": 2.128875,
+      "distinct": 37,
+      "multiplies": 0
+    },
+    {
+      "name": "teacher 512 (argmax)",
+      "acc": 0.7150625,
+      "agree": 0.7759107142857142,
+      "detail": 2.02975,
+      "distinct": 27,
+      "multiplies": 202240
+    },
+    {
+      "name": "teacher 512 (expect.round)",
+      "acc": 0.7333125,
+      "agree": 0.7672321428571429,
+      "detail": 1.994732142857143,
+      "distinct": 26,
+      "multiplies": 202240
+    },
+    {
+      "name": "STUDENT distill (no TV)",
+      "acc": 0.73484375,
+      "agree": 0.7297857142857144,
+      "detail": 2.0761607142857144,
+      "distinct": 26,
+      "multiplies": 79360
+    },
+    {
+      "name": "student distill + TV lam=1",
+      "acc": 0.50240625,
+      "agree": 0.7723214285714286,
+      "detail": 1.5123214285714286,
+      "distinct": 26,
+      "multiplies": 79360
+    },
+    {
+      "name": "earlier 32out hard+TV5",
+      "acc": 0.771875,
+      "agree": 0.7280892857142858,
+      "detail": 2.1226964285714285,
+      "distinct": 27,
+      "multiplies": 79360
+    },
+    {
+      "name": "earlier 32out hard+TV30",
+      "acc": 0.7138125,
+      "agree": 0.7493035714285713,
+      "detail": 2.004410714285714,
+      "distinct": 27,
+      "multiplies": 79360
+    }
+  ]
+}

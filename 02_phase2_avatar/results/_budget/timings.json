@@ -1,0 +1,83 @@
+{
+  "sweep_uncond": {
+    "pilot_steps": 100,
+    "pilot_seconds": 10.74,
+    "seconds_per_step": 0.10741,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 185.3,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:43:07"
+  },
+  "sweep_pca4": {
+    "pilot_steps": 100,
+    "pilot_seconds": 17.47,
+    "seconds_per_step": 0.17471,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 301.4,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:43:25"
+  },
+  "sweep_pca8": {
+    "pilot_steps": 100,
+    "pilot_seconds": 17.46,
+    "seconds_per_step": 0.17456,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 301.1,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:43:42"
+  },
+  "sweep_pca16": {
+    "pilot_steps": 100,
+    "pilot_seconds": 17.83,
+    "seconds_per_step": 0.17826,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 307.5,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:44:00"
+  },
+  "sweep_pca22": {
+    "pilot_steps": 100,
+    "pilot_seconds": 18.54,
+    "seconds_per_step": 0.18544,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 319.9,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:44:19"
+  },
+  "sweep_half": {
+    "pilot_steps": 100,
+    "pilot_seconds": 12.45,
+    "seconds_per_step": 0.12451,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 214.8,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:44:31"
+  },
+  "sweep_code3": {
+    "pilot_steps": 100,
+    "pilot_seconds": 24.34,
+    "seconds_per_step": 0.24336,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 419.8,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:44:55"
+  },
+  "sweep_code5": {
+    "pilot_steps": 100,
+    "pilot_seconds": 38.16,
+    "seconds_per_step": 0.38162,
+    "wanted_steps": 1500,
+    "measured_cost_seconds": 658.3,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:45:34"
+  },
+  "kernel_style": {
+    "pilot_steps": 100,
+    "pilot_seconds": 16.67,
+    "seconds_per_step": 0.16669,
+    "wanted_steps": 4000,
+    "measured_cost_seconds": 766.8,
+    "rc_ok": true,
+    "clock": "2026-10-16 19:45:50"
+  }
+}

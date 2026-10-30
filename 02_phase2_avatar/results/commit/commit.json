@@ -1,0 +1,34 @@
+{
+  "rows": [
+    {
+      "acc": 0.7364062666893005,
+      "agree": 0.700125,
+      "detail": 2.1968035714285716,
+      "on_level": 0.2770625054836273,
+      "mean_frac": 0.2260955274105072,
+      "config": "plain continuous (baseline)",
+      "kind": "plain",
+      "seconds": 8.2
+    },
+    {
+      "acc": 0.7348124980926514,
+      "agree": 0.6998928571428571,
+      "detail": 2.1938035714285715,
+      "on_level": 0.26649999618530273,
+      "mean_frac": 0.22853536903858185,
+      "config": "rounded target (ST)",
+      "kind": "rounded",
+      "seconds": 9.8
+    },
+    {
+      "acc": 0.7343437671661377,
+      "agree": 0.6993571428571429,
+      "detail": 2.193107142857143,
+      "on_level": 0.26631250977516174,
+      "mean_frac": 0.22875694930553436,
+      "config": "rounded + soft-start",
+      "kind": "rounded_gauss",
+      "seconds": 10.6
+    }
+  ]
+}

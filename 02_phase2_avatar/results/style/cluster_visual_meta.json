@@ -1,0 +1,52 @@
+{
+  "k": 4,
+  "sizes": [
+    3028,
+    1334,
+    3129,
+    2145
+  ],
+  "profiles": [
+    {
+      "cluster": 0,
+      "n": 3028,
+      "share": 0.31423827314238273,
+      "brightness": 6.743828434610304,
+      "top_minus_bot": -3.336745926904447,
+      "contrast": 4.043633713745998,
+      "edge": 4.586832421211549,
+      "flat_frac": 0.0
+    },
+    {
+      "cluster": 1,
+      "n": 1334,
+      "share": 0.13843918638439187,
+      "brightness": 7.888750937031484,
+      "top_minus_bot": -3.1866879060469766,
+      "contrast": 4.276391584340582,
+      "edge": 5.437834654101521,
+      "flat_frac": 0.0
+    },
+    {
+      "cluster": 2,
+      "n": 3129,
+      "share": 0.32471980074719803,
+      "brightness": 10.006062240332374,
+      "top_minus_bot": -2.0363401512730372,
+      "contrast": 3.273211527043711,
+      "edge": 3.815059580879332,
+      "flat_frac": 0.052732502396931925
+    },
+    {
+      "cluster": 3,
+      "n": 2145,
+      "share": 0.2226027397260274,
+      "brightness": 4.041877913752914,
+      "top_minus_bot": 0.23045843045843045,
+      "contrast": 2.8399644384226868,
+      "edge": 3.488270063270063,
+      "flat_frac": 0.09137529137529138
+    }
+  ],
+  "note": "clusters computed in the PCA-22 style space via k-means; the same centres were used to label the validation split"
+}

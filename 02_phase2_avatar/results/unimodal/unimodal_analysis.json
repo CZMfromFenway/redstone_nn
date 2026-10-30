@@ -1,0 +1,16 @@
+{
+  "tag": "final_lam5_20k",
+  "n": 4000,
+  "strict_unimodal_frac": 0.6225078125,
+  "relaxed_unimodal_frac": 0.9624375,
+  "multipeak_frac": 0.044390625,
+  "mean_peaks": 1.0523515625,
+  "entropy_mean": 0.8955227136611938,
+  "entropy_uniform": 2.772588722239781,
+  "maxprob_mean": 0.6311615705490112,
+  "kl_mode_shape": 0.18231253807956996,
+  "kl_global_shape": 1.8301118612289429,
+  "kl_mode_conf": 0.11870075017213821,
+  "entropy_true": 0.894677996635437,
+  "agree_round_mean_with_mode": 0.8785859375
+}

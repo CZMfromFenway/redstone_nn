@@ -1,0 +1,15 @@
+{"step": 500, "loss_d": 0.4062, "loss_g": 2.9812, "sec": 33.2}
+{"step": 500, "d_acc": 0.9941, "d_logit_std_real": 0.4747, "d_logit_std_fake": 0.1504, "d_real_mean": 2.0414, "d_fake_mean": -2.9204, "levels_per_sample": 13.984375, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 0.0623779296875}
+{"step": 1000, "loss_d": 0.7709, "loss_g": 3.2967, "sec": 72.3}
+{"step": 1000, "d_acc": 0.999, "d_logit_std_real": 0.3259, "d_logit_std_fake": 0.2024, "d_real_mean": 2.2116, "d_fake_mean": -3.2264, "levels_per_sample": 13.97265625, "nn_median": 25, "nn_min": 21, "exact_duplicates": 0, "symmetry": 0.0601806640625}
+{"step": 1000, "frozen_G_scores": [{"snap_step": 1000, "d_acc_on_this_G": 0.0}]}
+{"step": 1500, "loss_d": 0.3494, "loss_g": 4.5524, "sec": 184.6}
+{"step": 1500, "d_acc": 0.9951, "d_logit_std_real": 0.4203, "d_logit_std_fake": 0.2271, "d_real_mean": 1.9805, "d_fake_mean": -4.5451, "levels_per_sample": 14.0078125, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 0.0638427734375}
+{"step": 2000, "loss_d": 0.439, "loss_g": 5.2145, "sec": 317.6}
+{"step": 2000, "d_acc": 0.999, "d_logit_std_real": 0.2475, "d_logit_std_fake": 0.3207, "d_real_mean": 2.1476, "d_fake_mean": -5.2176, "levels_per_sample": 13.9375, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 0.0643310546875}
+{"step": 2000, "frozen_G_scores": [{"snap_step": 1000, "d_acc_on_this_G": 0.0}, {"snap_step": 2000, "d_acc_on_this_G": 0.0}]}
+{"step": 2500, "loss_d": 0.3302, "loss_g": 6.1356, "sec": 350.8}
+{"step": 2500, "d_acc": 0.999, "d_logit_std_real": 0.2587, "d_logit_std_fake": 0.366, "d_real_mean": 2.1512, "d_fake_mean": -6.1304, "levels_per_sample": 13.982421875, "nn_median": 25, "nn_min": 22, "exact_duplicates": 0, "symmetry": 0.0634765625}
+{"step": 3000, "loss_d": 0.409, "loss_g": 5.8662, "sec": 385.6}
+{"step": 3000, "d_acc": 0.999, "d_logit_std_real": 0.1472, "d_logit_std_fake": 0.3765, "d_real_mean": 2.1616, "d_fake_mean": -5.8243, "levels_per_sample": 13.98046875, "nn_median": 25, "nn_min": 21, "exact_duplicates": 0, "symmetry": 0.0570068359375}
+{"step": 3000, "frozen_G_scores": [{"snap_step": 1000, "d_acc_on_this_G": 0.0}, {"snap_step": 2000, "d_acc_on_this_G": 0.0}, {"snap_step": 3000, "d_acc_on_this_G": 0.0}]}

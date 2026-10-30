@@ -1,0 +1,60 @@
+{
+  "args": {
+    "tag": "smoke3",
+    "steps": 40,
+    "batch": 32,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "zdim": 64,
+    "g_hidden": 256,
+    "d_c": 64,
+    "d_embed": 8,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "snap_every": 40,
+    "log_every": 20,
+    "eval_every": 20,
+    "seed": 0,
+    "d_steps": 1,
+    "d_width": 0,
+    "g_zero_init": false,
+    "train_n": 1000,
+    "full_data": false,
+    "freeze_d_after": 0,
+    "no_d": false,
+    "threads": 0
+  },
+  "G_params": 214016,
+  "D_params": 340929,
+  "history": [
+    {
+      "step": 20,
+      "d_acc": 0.8789,
+      "d_logit_std_real": 0.5352,
+      "d_logit_std_fake": 0.1923,
+      "d_real_mean": 0.447,
+      "d_fake_mean": -0.5658,
+      "levels_per_sample": 14.017578125,
+      "nn_median": 25,
+      "nn_min": 22,
+      "exact_duplicates": 0,
+      "symmetry": 1.0,
+      "rows_with_content": 8
+    },
+    {
+      "step": 40,
+      "d_acc": 0.8828,
+      "d_logit_std_real": 0.7603,
+      "d_logit_std_fake": 0.2676,
+      "d_real_mean": 0.6273,
+      "d_fake_mean": -1.1464,
+      "levels_per_sample": 13.91015625,
+      "nn_median": 25,
+      "nn_min": 22,
+      "exact_duplicates": 0,
+      "symmetry": 1.0,
+      "rows_with_content": 8
+    }
+  ],
+  "seconds": 0.8
+}

@@ -1,0 +1,110 @@
+{
+  "ladder": [
+    {
+      "hids": [
+        256,
+        256
+      ],
+      "ternary": false,
+      "params": 203264,
+      "macs": 202240,
+      "acc": 0.76696875,
+      "mae": 0.34146875,
+      "agree": 0.6251071428571429,
+      "seconds": 64.9,
+      "label": "full (256,256)"
+    },
+    {
+      "hids": [
+        128,
+        128
+      ],
+      "ternary": false,
+      "params": 85504,
+      "macs": 84736,
+      "acc": 0.73603125,
+      "mae": 0.38825,
+      "agree": 0.6316964285714286,
+      "seconds": 44.3,
+      "label": "half  (128,128)"
+    },
+    {
+      "hids": [
+        64,
+        64
+      ],
+      "ternary": false,
+      "params": 38912,
+      "macs": 38272,
+      "acc": 0.68390625,
+      "mae": 0.47128125,
+      "agree": 0.6347142857142857,
+      "seconds": 29.8,
+      "label": "small (64,64)"
+    },
+    {
+      "hids": [
+        32
+      ],
+      "ternary": false,
+      "params": 17632,
+      "macs": 17088,
+      "acc": 0.6135,
+      "mae": 0.55534375,
+      "agree": 0.5928571428571429,
+      "seconds": 21.7,
+      "label": "tiny  (32)"
+    },
+    {
+      "hids": [
+        16
+      ],
+      "ternary": false,
+      "params": 9072,
+      "macs": 8544,
+      "acc": 0.48675,
+      "mae": 1.2844375,
+      "agree": 0.7096428571428571,
+      "seconds": 24.1,
+      "label": "micro (16)"
+    },
+    {
+      "hids": [],
+      "ternary": false,
+      "params": 11776,
+      "macs": 11264,
+      "acc": 0.45084375,
+      "mae": 0.7760625,
+      "agree": 0.57925,
+      "seconds": 18.8,
+      "label": "linear only"
+    },
+    {
+      "hids": [
+        32
+      ],
+      "ternary": true,
+      "params": 17634,
+      "macs": 17088,
+      "acc": 0.122375,
+      "mae": 5.8350625,
+      "agree": 0.8928571428571427,
+      "seconds": 105.8,
+      "label": "tiny ternary"
+    },
+    {
+      "hids": [
+        64,
+        64
+      ],
+      "ternary": true,
+      "params": 38915,
+      "macs": 38272,
+      "acc": 0.122375,
+      "mae": 5.8350625,
+      "agree": 0.8928571428571427,
+      "seconds": 66.8,
+      "label": "small ternary"
+    }
+  ]
+}

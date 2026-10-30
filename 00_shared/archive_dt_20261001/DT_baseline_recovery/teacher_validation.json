@@ -1,0 +1,54 @@
+[
+  {
+    "name": "N4_COUNT_T1",
+    "shape": [
+      65536
+    ],
+    "dtype": "int8",
+    "positives": 39056,
+    "json_positives": 39056,
+    "seed": 72000,
+    "json_disagreements": 0,
+    "npy_sha256": "b55ba92f5035797572bce31ff9d8af1c37c49b3e0ad53098bd5c7b54c9e26f1d",
+    "label_sha256": "1eafd24e66125136154578490a8a7b3cf859c262288e93a03081ae28f6483973"
+  },
+  {
+    "name": "N4_COUNT_T2",
+    "shape": [
+      65536
+    ],
+    "dtype": "int8",
+    "positives": 19086,
+    "json_positives": 19086,
+    "seed": 72317,
+    "json_disagreements": 0,
+    "npy_sha256": "0557fbbc8a484d6f6991b1fe87f9541a68de0cb5dc97d4d7246bdc2dac1d7b8f",
+    "label_sha256": "57107d67f7aff9a720ceb9e52950752ca32bc5cfdfb6f6e141f68046043c26dc"
+  },
+  {
+    "name": "N4_MLP_T1",
+    "shape": [
+      65536
+    ],
+    "dtype": "int8",
+    "positives": 18436,
+    "json_positives": 18436,
+    "seed": 71000,
+    "json_disagreements": 0,
+    "npy_sha256": "ee0f49a567d7bec930bc50290a70af7e6ad4ce065338b653161303dfa708ae39",
+    "label_sha256": "4501e51e32b6ad4c12bc16f87bd76a765ee25ad8e1eec5aae87431bfd7335232"
+  },
+  {
+    "name": "N4_MLP_T2",
+    "shape": [
+      65536
+    ],
+    "dtype": "int8",
+    "positives": 42244,
+    "json_positives": 42244,
+    "seed": 71317,
+    "json_disagreements": 0,
+    "npy_sha256": "53df3c27d75bc9e9741f8304d34384caddd0f12254c1b88e74aa8f03466020db",
+    "label_sha256": "5235abcec43854a05caa204fb8467f734fde4e5f14c51b99d9049f3f6ad0706b"
+  }
+]

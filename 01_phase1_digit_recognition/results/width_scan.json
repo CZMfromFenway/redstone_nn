@@ -1,0 +1,58 @@
+{
+  "A": 0,
+  "rows": [
+    {
+      "h": 8,
+      "quantized": true,
+      "err": 971,
+      "time_s": 4.309483051300049
+    },
+    {
+      "h": 8,
+      "quantized": false,
+      "err": 1139,
+      "time_s": 3.7412219047546387
+    },
+    {
+      "h": 16,
+      "quantized": true,
+      "err": 749,
+      "time_s": 13.320234537124634
+    },
+    {
+      "h": 16,
+      "quantized": false,
+      "err": 470,
+      "time_s": 9.689399480819702
+    },
+    {
+      "h": 32,
+      "quantized": true,
+      "err": 662,
+      "time_s": 23.467838764190674
+    },
+    {
+      "h": 32,
+      "quantized": false,
+      "err": 299,
+      "time_s": 16.76678228378296
+    },
+    {
+      "h": 64,
+      "quantized": true,
+      "err": 627,
+      "time_s": 44.780866384506226
+    },
+    {
+      "h": 64,
+      "quantized": false,
+      "err": 191,
+      "time_s": 31.337522983551025
+    }
+  ],
+  "config": {
+    "label": "N4_MLP_T1",
+    "states": 65536,
+    "train": "4->h->1, hidden quantized to 16 levels, STE, Adam, 1500 steps, 2 seeds"
+  }
+}

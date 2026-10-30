@@ -1,0 +1,30 @@
+{
+  "keep": 0.35,
+  "pool": 600,
+  "t_std": 0.38532046640756756,
+  "mu_prime": 1.0582828697119018,
+  "sigma_prime": 0.5364843116279087,
+  "flows": [
+    {
+      "flow": "A: pool + top-35%",
+      "mean_norm": 4.689734683968337,
+      "score_mean": 2.1913960375387136,
+      "score_sd": 0.2311256219918858,
+      "agree": 0.4374642857142858
+    },
+    {
+      "flow": "B: rank-one form",
+      "mean_norm": 4.6708615405814236,
+      "score_mean": 2.1920784544576164,
+      "score_sd": 0.23097624771010575,
+      "agree": 0.4328928571428572
+    }
+  ],
+  "cost": {
+    "flowA_random": 13200,
+    "flowA_mult": 13200,
+    "flowB_random": 22,
+    "flowB_mult": 66,
+    "model_mult": 202240
+  }
+}

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>彩色头像打标</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; background:#12141a; color:#dfe6f0;
+         font-family:"Microsoft YaHei",system-ui,sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:18px 20px 40px; }
+  h1 { font-size:19px; font-weight:600; margin:0 0 4px; }
+  .sub { font-size:12px; color:#8b97a8; margin-bottom:14px; line-height:1.6; }
+  #stats { font-size:12px; color:#93a0b4; margin-bottom:12px; display:flex;
+           gap:14px; flex-wrap:wrap; align-items:center; }
+  #stats b { color:#dfe6f0; font-weight:600; }
+  .stage { display:flex; gap:26px; align-items:flex-start; flex-wrap:wrap; }
+  canvas#cv { width:384px; height:384px; image-rendering:pixelated;
+              border-radius:10px; background:#0c0e12; border:1px solid #232734; }
+  .side { flex:1; min-width:320px; }
+  .grades { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .grades button { border-radius:10px; padding:16px 10px; font-size:16px; cursor:pointer;
+                   background:#171b23; }
+  .grades button:first-child { grid-column:1 / -1; }
+  #receipt { margin-top:11px; font-size:13px; color:#6fd0ff; opacity:.5;
+             transition:opacity .25s; min-height:18px; }
+  #meta { margin-top:10px; font-size:12px; color:#7f8b9d; line-height:1.7; }
+  .err { color:#ff8b73; }
+  .note { margin-top:22px; font-size:12px; color:#7f8b9d; line-height:1.8;
+          border-top:1px solid #232734; padding-top:14px; }
+  kbd { background:#232734; border-radius:4px; padding:1px 5px; font-size:11px; color:#93a0b4; }
+  #bar { display:flex; height:7px; border-radius:4px; overflow:hidden; margin-top:8px; }
+  #bar div { height:100%; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>彩色头像打标</h1>
+  <div class="sub">
+    支持两种模型：调色板分类（输出索引，边界天生是硬的）和连续回归（输出 96 个连续值）。
+  </div>
+  <div id="stats">加载中…</div>
+  <div class="stage">
+    <canvas id="cv" width="8" height="8"></canvas>
+    <div class="side">
+      <div class="grades"><!-- filled by buildGrades() --></div>
+      <div id="receipt">（还没有记录）</div>
+      <div id="meta"></div>
+      <div id="bar"></div>
+    </div>
+  </div>
+  <div class="note">
+    <b>按键</b>　<kbd>1</kbd> 类二次元　<kbd>2</kbd> 类游戏　<kbd>3</kbd> 类三次元　
+    <kbd>4</kbd> 中　<kbd>5</kbd> 差　<kbd>空格</kbd> 跳过不记<br>
+    只有「中」和「差」是要避免的，三种风格都算可接受。
+  </div>
+</div>
+
+<script>
+'use strict';
+
+const SCHEME = [
+  {g:4, label:'类二次元', k:'1', col:'#8fd3ff'},
+  {g:3, label:'类游戏',   k:'2', col:'#c0b0ff'},
+  {g:2, label:'类三次元', k:'3', col:'#5fd68a'},
+  {g:1, label:'中',       k:'4', col:'#e0c05a'},
+  {g:0, label:'差',       k:'5', col:'#e07a5f'},
+];
+const QS = new URLSearchParams(location.search);
+const ROUND = QS.get('round') || '8';
+const STRETCH = QS.get('stretch') !== '0';
+const SINGLE = QS.get('m');            // pin one model file, disables mixing
+
+const POS_ROW = [], POS_COL = [], MIRROR_COL = [];
+for (let p = 0; p < 32; p++) { POS_ROW.push(p % 8); POS_COL.push(Math.floor(p / 8)); }
+for (let p = 0; p < 32; p++) MIRROR_COL.push(7 - POS_COL[p]);
+
+function buildGrades(){
+  const box = document.querySelector('.grades');
+  box.innerHTML = '';
+  SCHEME.forEach(it => {
+    const b = document.createElement('button');
+    b.dataset.g = it.g;
+    b.innerHTML = it.label + ' <kbd>' + it.k + '</kbd>';
+    b.style.cssText = 'border:1px solid ' + it.col + '66;color:' + it.col +
+                      ';background:' + it.col + '14';
+    b.onclick = () => grade(it.g);
+    box.appendChild(b);
+  });
+}
+buildGrades();
+
+// ================================================================ models
+// Every loaded model is reduced to one function: makeFace(pcs) -> 96 RGB values in 0..15.
+const ARMS = {};          // key -> {note, makeFace, kind, nin, K}
+let ARM_KEYS = [];
+let KIN = 8;
+
+function forwardLayers(all, x){
+  let v = x;
+  for (const L of all){
+    const out = new Float32Array(L.nout);
+    for (let o = 0; o < L.nout; o++){
+      const W = L.W[o]; let s = L.b[o];
+      for (let i = 0; i < L.nin; i++) s += W[i] * v[i];
+      out[o] = L.relu && s < 0 ? 0 : s;
+    }
+    v = out;
+  }
+  return v;
+}
+
+function loadPalette(j){
+  // body layers + head, no activation on the head, then per-position argmax into the palette
+  const pal = j.palette, K = pal.length;
+  const all = j.body.map(L => ({W: L.W, b: L.b, relu: true,
+                                nin: L.W[0].length, nout: L.W.length}));
+  all.push({W: j.head.W, b: j.head.b, relu: false,
+            nin: j.head.W[0].length, nout: j.head.W.length});
+  const makeFace = (x) => {
+    const v = forwardLayers(all, x);
+    const rgb = new Array(96);
+    for (let p = 0; p < 32; p++){
+      let best = 0, bv = -Infinity;
+      for (let k = 0; k < K; k++){
+        const s = v[p * K + k];
+        if (s > bv){ bv = s; best = k; }
+      }
+      const c = pal[best];
+      rgb[p*3] = c[0]; rgb[p*3+1] = c[1]; rgb[p*3+2] = c[2];
+    }
+    return {rgb, kind: 'palette'};
+  };
+  return {makeFace, kind: 'palette', nin: all[0].nin, K};
+}
+
+function loadContinuous(j){
+  const Ls = j.gen.layers;
+  const all = Ls.map((L, i) => ({W: L.W, b: L.b, relu: i !== Ls.length - 1,
+                                 nin: L.W[0].length, nout: L.W.length}));
+  const makeFace = (x) => {
+    const v = forwardLayers(all, x);
+    let rgb = Array.from(v).map(z => Math.max(0, Math.min(15, z * 15)));
+    if (STRETCH){
+      let lo = Infinity, hi = -Infinity;
+      for (const q of rgb){ if (q < lo) lo = q; if (q > hi) hi = q; }
+      const kk = 15 / Math.max(hi - lo, 1e-6);
+      rgb = rgb.map(q => Math.max(0, Math.min(15, (q - lo) * kk)));
+    }
+    return {rgb, kind: 'continuous'};
+  };
+  return {makeFace, kind: 'continuous', nin: all[0].nin, K: 0};
+}
+
+function loadModel(key, j, note){
+  const m = (j.type === 'palette') ? loadPalette(j) : loadContinuous(j);
+  ARMS[key] = Object.assign({note}, m);
+  KIN = ARMS[key].nin;
+}
+
+// ================================================================ state
+let cur = null, curPcs = null, modelKey = null, stats = {total:0, counts:[0,0,0,0,0]};
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const off = document.createElement('canvas');
+off.width = 8; off.height = 8;
+const octx = off.getContext('2d');
+
+function drawFace(rgb96){
+  const img = octx.createImageData(8, 8);
+  for (let p = 0; p < 32; p++){
+    const r = Math.round(rgb96[p*3]/15*255);
+    const g = Math.round(rgb96[p*3+1]/15*255);
+    const b = Math.round(rgb96[p*3+2]/15*255);
+    for (const c of [POS_COL[p], MIRROR_COL[p]]){
+      const i = (POS_ROW[p]*8 + c) * 4;
+      img.data[i] = r; img.data[i+1] = g; img.data[i+2] = b; img.data[i+3] = 255;
+    }
+  }
+  octx.putImageData(img, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+  ctx.clearRect(0, 0, 8, 8);
+  ctx.drawImage(off, 0, 0);
+}
+
+function gaussClip(){
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  const z = Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+  return Math.max(-3.5, Math.min(3.5, z));
+}
+
+function nextFace(){
+  const key = ARM_KEYS[Math.floor(Math.random()*ARM_KEYS.length)];
+  const arm = ARMS[key];
+  const pcs = new Float32Array(arm.nin);
+  for (let i = 0; i < arm.nin; i++) pcs[i] = gaussClip();
+  const out = arm.makeFace(pcs);
+  curPcs = pcs; cur = out.rgb; modelKey = key;
+  drawFace(cur);
+  document.getElementById('meta').innerHTML =
+    (arm.kind === 'palette'
+      ? '调色板分类 · ' + arm.K + ' 色 · 索引 ' + Math.ceil(Math.log2(arm.K)) + ' bit'
+      : '连续回归' + (STRETCH ? ' + 逐张拉伸' : '')) +
+    (SINGLE ? '　·　' + key : '　·　臂已隐藏');
+}
+
+// ================================================================ grading
+async function grade(g){
+  if (!cur) return;
+  const nin = ARMS[modelKey].nin;
+  const body = {
+    model: modelKey,
+    grade: g,
+    pca: Array.from(curPcs).concat(new Array(Math.max(0, 22 - nin)).fill(0)).slice(0, 22),
+    predicted_levels: cur.map(v => Math.round(v)),
+    note: 'colour',
+    scheme: 'style',
+    round: ROUND
+  };
+  try {
+    const r = await fetch('/label', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'rejected');
+    stats.total = j.total;
+    const el = document.getElementById('receipt');
+    const nm = (SCHEME.find(s => s.g === g) || {}).label || g;
+    el.textContent = '已记录：' + nm + '　（服务器共 ' + j.total + ' 条）';
+    el.style.opacity = '1';
+    clearTimeout(window._rcptT);
+    window._rcptT = setTimeout(() => { el.style.opacity = '0.5'; }, 1400);
+    renderStats();
+    nextFace();
+  } catch(e){
+    document.getElementById('meta').innerHTML =
+      '<span class="err">保存失败：' + e.message + '</span>';
+  }
+}
+
+// ================================================================ progress
+async function renderStats(){
+  let total = 0, counts = [0,0,0,0,0], byModel = {}, ok = true;
+  try {
+    const r = await fetch('/labelstats?round=' + encodeURIComponent(ROUND));
+    const j = await r.json();
+    total = j.total; counts = j.counts; byModel = j.byModel || {};
+  } catch(e){ ok = false; }
+  const scope = ARM_KEYS.length > 1 ? '（' + ARM_KEYS.join(' / ') + ' 混合）' : '';
+  const per = ARM_KEYS.length > 1
+    ? ARM_KEYS.map(k => {
+        const v = byModel[k] || [0,0,0,0,0];
+        const n = v.reduce((a,b) => a+b, 0);
+        const acc = (v[2]||0)+(v[3]||0)+(v[4]||0);
+        return k + ' ' + n + '张/' + (n ? (100*acc/n).toFixed(0) : '—') + '%';
+      }).join('　')
+    : '';
+  const names = SCHEME.map(s => s.label).join(' / ');
+  const nums = SCHEME.map(s => counts[s.g] || 0).join(' / ');
+  const good = SCHEME.filter(s => s.g >= 2).reduce((a, s) => a + (counts[s.g] || 0), 0);
+  document.getElementById('stats').innerHTML =
+    '<span>本轮</span><b>' + total + ' 张</b><span style="opacity:.6">round=' + ROUND +
+    scope + '</span><span>' + names + '</span><b>' + nums + '</b>' +
+    '<span>可接受</span><b>' + (total ? (100*good/total).toFixed(1) : '—') + '%</b>' +
+    (per ? '<span style="opacity:.75">' + per + '</span>' : '') +
+    (ok ? '' : '<span class="err">（统计不可用）</span>');
+  const bar = document.getElementById('bar');
+  const cols = ['#e07a5f','#e0c05a','#5fd68a','#c0b0ff','#8fd3ff'];
+  bar.innerHTML = total ? SCHEME.map(s =>
+    '<div style="width:' + (100*(counts[s.g]||0)/total) + '%;background:' +
+    cols[s.g] + '"></div>').join('') : '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.altKey || e.metaKey) return;
+  const byKey = {};
+  SCHEME.forEach(s => { byKey[s.k] = s.g; });
+  if (byKey[e.key] !== undefined) { e.preventDefault(); grade(byKey[e.key]); }
+  else if (e.key === ' ') { e.preventDefault(); nextFace(); }
+});
+
+// ================================================================ init
+(async function init(){
+  const metaEl = document.getElementById('meta');
+  const fail = (msg) => { metaEl.innerHTML = '<span class="err">' + msg + '</span>'; };
+  const qp = new URLSearchParams(location.search);
+  if (SINGLE){
+    const r = await fetch(SINGLE);
+    if (!r.ok) return fail('无法加载 ' + SINGLE);
+    loadModel(SINGLE.replace('_model.json',''), await r.json(), '');
+    ARM_KEYS = [Object.keys(ARMS)[0]];
+  } else {
+    const manFile = qp.get('man') || 'colour_manifest.json';
+    const r = await fetch(manFile);
+    if (!r.ok) return fail('缺少 ' + manFile);
+    const man = await r.json();
+    for (const a of man){
+      const rr = await fetch(a.file);
+      if (!rr.ok){ console.warn('missing', a.file); continue; }
+      loadModel(a.key, await rr.json(), a.note || '');
+    }
+    ARM_KEYS = man.map(a => a.key).filter(k => ARMS[k]);
+    if (!ARM_KEYS.length) return fail('没有可用的彩色模型');
+  }
+  nextFace();
+  renderStats();
+  if (!SINGLE && (qp.get('man') || ''))
+    metaEl.innerHTML += '　·　清单 <b>' + qp.get('man') + '</b>';
+  window.LABEL = {
+    getState: () => ({cur, curPcs, stats, kin: KIN, model: modelKey,
+                      arms: ARM_KEYS, kinds: ARM_KEYS.map(k => ARMS[k].kind)}),
+    grade: g => grade(g), next: () => nextFace()
+  };
+})();
+</script>
+</body>
+</html>

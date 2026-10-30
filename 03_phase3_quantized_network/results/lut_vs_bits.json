@@ -1,0 +1,32 @@
+{
+ "lut": {
+  "containers_per_weight": 16,
+  "max_du": 0.0032383980423702496
+ },
+ "bits": {
+  "4": {
+   "containers_per_weight": 4,
+   "max_du": 0.01868180958800636
+  },
+  "6": {
+   "containers_per_weight": 6,
+   "max_du": 0.01473551600958345
+  },
+  "8": {
+   "containers_per_weight": 8,
+   "max_du": 0.016271396232450996
+  },
+  "10": {
+   "containers_per_weight": 10,
+   "max_du": 0.013290795901063746
+  },
+  "12": {
+   "containers_per_weight": 12,
+   "max_du": 0.014456030195873382
+  },
+  "16": {
+   "containers_per_weight": 16,
+   "max_du": 0.013234156063125724
+  }
+ }
+}

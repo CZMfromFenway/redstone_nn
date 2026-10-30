@@ -1,0 +1,6 @@
+{
+ "dust_columns": 11,
+ "comparator_columns": 5,
+ "lut_containers_per_column": 15,
+ "free_parameters_per_column": 1
+}

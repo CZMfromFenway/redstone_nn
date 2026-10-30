@@ -1,0 +1,11 @@
+{
+  "teacher": "N4_MLP_T1",
+  "h": 12,
+  "K": 4,
+  "errors": 5257,
+  "direct_errors": 5257,
+  "historical_errors": 5257,
+  "match": true,
+  "wall_s": 10.525704622268677,
+  "total_evaluations": 57981
+}

@@ -1,0 +1,336 @@
+{
+  "args": {
+    "tag": "s_k4_8k",
+    "steps": 8000,
+    "batch": 256,
+    "k": 4,
+    "lam": 2.0,
+    "lam_final": 8.0,
+    "hid": 256,
+    "threads": 10,
+    "seed": 0
+  },
+  "cluster_sizes_train": [
+    97212,
+    43634,
+    101734,
+    69003
+  ],
+  "cluster_sizes_val": [
+    3028,
+    1334,
+    3129,
+    2145
+  ],
+  "results": {
+    "global": {
+      "history": [
+        {
+          "step": 2000,
+          "acc_mode": 0.5522,
+          "agree_mode": 0.5597,
+          "iso_mode": 8.863,
+          "blobs_mode": 16.73,
+          "lam_now": 3.5
+        },
+        {
+          "step": 4000,
+          "acc_mode": 0.6099,
+          "agree_mode": 0.5621,
+          "iso_mode": 8.987,
+          "blobs_mode": 16.79,
+          "lam_now": 5.0
+        },
+        {
+          "step": 6000,
+          "acc_mode": 0.6238,
+          "agree_mode": 0.5874,
+          "iso_mode": 7.95,
+          "blobs_mode": 15.34,
+          "lam_now": 6.5
+        },
+        {
+          "step": 8000,
+          "acc_mode": 0.6378,
+          "agree_mode": 0.5998,
+          "iso_mode": 7.567,
+          "blobs_mode": 14.6,
+          "lam_now": 8.0
+        }
+      ],
+      "seconds": 573.2,
+      "acc_all": 0.6374375,
+      "per_cluster": {
+        "0": {
+          "n": 626,
+          "acc": 0.6704772364217252
+        },
+        "1": {
+          "n": 281,
+          "acc": 0.652135231316726
+        },
+        "2": {
+          "n": 635,
+          "acc": 0.6249015748031496
+        },
+        "3": {
+          "n": 458,
+          "acc": 0.6006413755458515
+        }
+      },
+      "agree": 0.5994464285714287,
+      "iso": 7.576,
+      "blobs": 14.5325
+    },
+    "per_cluster": {
+      "0": {
+        "n_train": 97212,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.3963,
+            "agree_mode": 0.4926,
+            "iso_mode": 11.387,
+            "blobs_mode": 20.54,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.447,
+            "agree_mode": 0.5009,
+            "iso_mode": 10.91,
+            "blobs_mode": 20.02,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.4683,
+            "agree_mode": 0.5111,
+            "iso_mode": 10.347,
+            "blobs_mode": 19.18,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.4822,
+            "agree_mode": 0.5203,
+            "iso_mode": 9.923,
+            "blobs_mode": 18.59,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 573.2,
+        "acc_all": 0.488125,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.7164536741214057
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.49054715302491103
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.36983267716535434
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.33856441048034935
+          }
+        },
+        "agree": 0.5265803571428571,
+        "iso": 9.72,
+        "blobs": 18.271,
+        "global_on_this_cluster": 0.6704772364217252,
+        "specialist_gain": -0.1823522364217252
+      },
+      "1": {
+        "n_train": 43634,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.4022,
+            "agree_mode": 0.4675,
+            "iso_mode": 12.79,
+            "blobs_mode": 22.12,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.4508,
+            "agree_mode": 0.4936,
+            "iso_mode": 11.89,
+            "blobs_mode": 20.72,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.4732,
+            "agree_mode": 0.5079,
+            "iso_mode": 11.22,
+            "blobs_mode": 19.91,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.4864,
+            "agree_mode": 0.5214,
+            "iso_mode": 10.857,
+            "blobs_mode": 19.24,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 579.5,
+        "acc_all": 0.49034375,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.5263578274760383
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.7015124555160143
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.44010826771653544
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.3812090611353712
+          }
+        },
+        "agree": 0.5227857142857143,
+        "iso": 10.709,
+        "blobs": 19.0515,
+        "global_on_this_cluster": 0.652135231316726,
+        "specialist_gain": -0.161791481316726
+      },
+      "2": {
+        "n_train": 101734,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.3633,
+            "agree_mode": 0.5595,
+            "iso_mode": 8.83,
+            "blobs_mode": 16.54,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.3902,
+            "agree_mode": 0.5434,
+            "iso_mode": 9.197,
+            "blobs_mode": 17.23,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.4058,
+            "agree_mode": 0.5586,
+            "iso_mode": 8.75,
+            "blobs_mode": 16.51,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.4198,
+            "agree_mode": 0.5879,
+            "iso_mode": 7.53,
+            "blobs_mode": 14.98,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 572.4,
+        "acc_all": 0.41028125,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.24900159744408945
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.3527580071174377
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.6674704724409449
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.3094295851528384
+          }
+        },
+        "agree": 0.5906785714285716,
+        "iso": 7.453,
+        "blobs": 14.7815,
+        "global_on_this_cluster": 0.6249015748031496,
+        "specialist_gain": -0.21462032480314958
+      },
+      "3": {
+        "n_train": 69003,
+        "history": [
+          {
+            "step": 2000,
+            "acc_mode": 0.299,
+            "agree_mode": 0.6151,
+            "iso_mode": 7.943,
+            "blobs_mode": 14.28,
+            "lam_now": 3.5
+          },
+          {
+            "step": 4000,
+            "acc_mode": 0.3366,
+            "agree_mode": 0.5879,
+            "iso_mode": 8.067,
+            "blobs_mode": 15.26,
+            "lam_now": 5.0
+          },
+          {
+            "step": 6000,
+            "acc_mode": 0.3597,
+            "agree_mode": 0.5785,
+            "iso_mode": 7.773,
+            "blobs_mode": 15.32,
+            "lam_now": 6.5
+          },
+          {
+            "step": 8000,
+            "acc_mode": 0.368,
+            "agree_mode": 0.5855,
+            "iso_mode": 7.62,
+            "blobs_mode": 14.88,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 570.8,
+        "acc_all": 0.360671875,
+        "per_cluster": {
+          "0": {
+            "n": 626,
+            "acc": 0.2643270766773163
+          },
+          "1": {
+            "n": 281,
+            "acc": 0.25722864768683273
+          },
+          "2": {
+            "n": 635,
+            "acc": 0.27244094488188975
+          },
+          "3": {
+            "n": 458,
+            "acc": 0.6781522925764192
+          }
+        },
+        "agree": 0.5931964285714286,
+        "iso": 7.469,
+        "blobs": 14.572,
+        "global_on_this_cluster": 0.6006413755458515,
+        "specialist_gain": -0.23996950054585153
+      }
+    }
+  }
+}

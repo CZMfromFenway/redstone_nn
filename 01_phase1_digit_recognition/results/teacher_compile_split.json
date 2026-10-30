@@ -1,0 +1,146 @@
+{
+  "A": 0,
+  "N": 65536,
+  "base": [
+    {
+      "b": 4,
+      "compile_err": 1518,
+      "train_err": 1508
+    },
+    {
+      "b": 6,
+      "compile_err": 368,
+      "train_err": 354
+    },
+    {
+      "b": 8,
+      "compile_err": 379,
+      "train_err": 75
+    },
+    {
+      "b": 12,
+      "compile_err": 1793,
+      "train_err": 153
+    },
+    {
+      "b": 16,
+      "compile_err": 47100,
+      "train_err": 684
+    }
+  ],
+  "rows": [
+    {
+      "b": 4,
+      "channels": 8,
+      "s": 16,
+      "compile_err": 39685,
+      "train_err": 1641
+    },
+    {
+      "b": 4,
+      "channels": 8,
+      "s": 64,
+      "compile_err": 3794,
+      "train_err": 1479
+    },
+    {
+      "b": 4,
+      "channels": 8,
+      "s": 256,
+      "compile_err": 1880,
+      "train_err": 1498
+    },
+    {
+      "b": 4,
+      "channels": 8,
+      "s": 1024,
+      "compile_err": 1585,
+      "train_err": 1510
+    },
+    {
+      "b": 8,
+      "channels": 16,
+      "s": 16,
+      "compile_err": 39235,
+      "train_err": 824
+    },
+    {
+      "b": 8,
+      "channels": 16,
+      "s": 64,
+      "compile_err": 3536,
+      "train_err": 217
+    },
+    {
+      "b": 8,
+      "channels": 16,
+      "s": 256,
+      "compile_err": 3100,
+      "train_err": 83
+    },
+    {
+      "b": 8,
+      "channels": 16,
+      "s": 1024,
+      "compile_err": 211,
+      "train_err": 68
+    },
+    {
+      "b": 12,
+      "channels": 24,
+      "s": 16,
+      "compile_err": 39209,
+      "train_err": 877
+    },
+    {
+      "b": 12,
+      "channels": 24,
+      "s": 64,
+      "compile_err": 3540,
+      "train_err": 204
+    },
+    {
+      "b": 12,
+      "channels": 24,
+      "s": 256,
+      "compile_err": 5122,
+      "train_err": 31
+    },
+    {
+      "b": 12,
+      "channels": 24,
+      "s": 1024,
+      "compile_err": 292,
+      "train_err": 10
+    },
+    {
+      "b": 16,
+      "channels": 32,
+      "s": 16,
+      "compile_err": 39209,
+      "train_err": 886
+    },
+    {
+      "b": 16,
+      "channels": 32,
+      "s": 64,
+      "compile_err": 3532,
+      "train_err": 195
+    },
+    {
+      "b": 16,
+      "channels": 32,
+      "s": 256,
+      "compile_err": 5122,
+      "train_err": 77
+    },
+    {
+      "b": 16,
+      "channels": 32,
+      "s": 1024,
+      "compile_err": 287,
+      "train_err": 7
+    }
+  ],
+  "margin": 2.8192721393788256e-05
+}

@@ -1,0 +1,256 @@
+{
+  "args": {
+    "tag": "pilot_s_k3_8k_n120",
+    "steps": 120,
+    "batch": 256,
+    "k": 3,
+    "lam": 2.0,
+    "lam_final": 8.0,
+    "hid": 256,
+    "threads": 10,
+    "seed": 0
+  },
+  "cluster_sizes_train": [
+    211764,
+    75052,
+    24767
+  ],
+  "cluster_sizes_val": [
+    6567,
+    2345,
+    724
+  ],
+  "results": {
+    "global": {
+      "history": [
+        {
+          "step": 30,
+          "acc_mode": 0.1628,
+          "agree_mode": 0.5764,
+          "iso_mode": 5.84,
+          "blobs_mode": 13.74,
+          "lam_now": 3.5
+        },
+        {
+          "step": 60,
+          "acc_mode": 0.1867,
+          "agree_mode": 0.798,
+          "iso_mode": 2.667,
+          "blobs_mode": 6.24,
+          "lam_now": 5.0
+        },
+        {
+          "step": 90,
+          "acc_mode": 0.2016,
+          "agree_mode": 0.8376,
+          "iso_mode": 2.06,
+          "blobs_mode": 5.39,
+          "lam_now": 6.5
+        },
+        {
+          "step": 120,
+          "acc_mode": 0.209,
+          "agree_mode": 0.8436,
+          "iso_mode": 2.293,
+          "blobs_mode": 5.25,
+          "lam_now": 8.0
+        }
+      ],
+      "seconds": 9.7,
+      "acc_all": 0.200328125,
+      "per_cluster": {
+        "0": {
+          "n": 1341,
+          "acc": 0.18544929157345263
+        },
+        "1": {
+          "n": 506,
+          "acc": 0.24147727272727273
+        },
+        "2": {
+          "n": 153,
+          "acc": 0.19464869281045752
+        }
+      },
+      "agree": 0.846625,
+      "iso": 2.156,
+      "blobs": 5.1035
+    },
+    "per_cluster": {
+      "0": {
+        "n_train": 211764,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1431,
+            "agree_mode": 0.5271,
+            "iso_mode": 8.19,
+            "blobs_mode": 17.43,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1631,
+            "agree_mode": 0.6394,
+            "iso_mode": 5.9,
+            "blobs_mode": 12.62,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1702,
+            "agree_mode": 0.6351,
+            "iso_mode": 6.58,
+            "blobs_mode": 13.35,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.1811,
+            "agree_mode": 0.6764,
+            "iso_mode": 5.09,
+            "blobs_mode": 11.02,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 9.7,
+        "acc_all": 0.179,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.20651565995525728
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.11159832015810277
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.1607434640522876
+          }
+        },
+        "agree": 0.6787857142857142,
+        "iso": 5.039,
+        "blobs": 11.0025,
+        "global_on_this_cluster": 0.18544929157345263,
+        "specialist_gain": -0.006449291573452642
+      },
+      "1": {
+        "n_train": 75052,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1105,
+            "agree_mode": 0.9969,
+            "iso_mode": 0.087,
+            "blobs_mode": 1.1,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1213,
+            "agree_mode": 0.919,
+            "iso_mode": 2.173,
+            "blobs_mode": 4.11,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1424,
+            "agree_mode": 0.8705,
+            "iso_mode": 2.62,
+            "blobs_mode": 5.33,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.1443,
+            "agree_mode": 0.8586,
+            "iso_mode": 2.437,
+            "blobs_mode": 5.39,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 9.7,
+        "acc_all": 0.131546875,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.08412565249813572
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.2471590909090909
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.16482843137254902
+          }
+        },
+        "agree": 0.85125,
+        "iso": 2.539,
+        "blobs": 5.6485,
+        "global_on_this_cluster": 0.24147727272727273,
+        "specialist_gain": -0.10993039772727273
+      },
+      "2": {
+        "n_train": 24767,
+        "history": [
+          {
+            "step": 30,
+            "acc_mode": 0.1051,
+            "agree_mode": 0.6639,
+            "iso_mode": 3.63,
+            "blobs_mode": 8.85,
+            "lam_now": 3.5
+          },
+          {
+            "step": 60,
+            "acc_mode": 0.1397,
+            "agree_mode": 0.7025,
+            "iso_mode": 3.423,
+            "blobs_mode": 8.36,
+            "lam_now": 5.0
+          },
+          {
+            "step": 90,
+            "acc_mode": 0.1611,
+            "agree_mode": 0.7968,
+            "iso_mode": 2.673,
+            "blobs_mode": 6.46,
+            "lam_now": 6.5
+          },
+          {
+            "step": 120,
+            "acc_mode": 0.1643,
+            "agree_mode": 0.8427,
+            "iso_mode": 2.323,
+            "blobs_mode": 5.38,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 9.6,
+        "acc_all": 0.1451875,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.10349086502609993
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.233201581027668
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.21956699346405228
+          }
+        },
+        "agree": 0.8366964285714287,
+        "iso": 2.558,
+        "blobs": 5.621,
+        "global_on_this_cluster": 0.19464869281045752,
+        "specialist_gain": -0.04946119281045752
+      }
+    }
+  }
+}

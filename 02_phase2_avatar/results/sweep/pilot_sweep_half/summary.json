@@ -1,0 +1,46 @@
+{
+  "args": {
+    "tag": "pilot_sweep_half",
+    "mode": "half",
+    "pca_k": 0,
+    "code_k": 0,
+    "steps": 100,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": ""
+  },
+  "cond_desc": "the 32 real left-half levels (one-hot, 512)",
+  "cond_dim": 512,
+  "nG": 345088,
+  "nD": 373697,
+  "history": [
+    {
+      "step": 100,
+      "ce": 1.3831,
+      "acc": 0.5804,
+      "d_acc": 0.6558,
+      "loss_d": 1.2401,
+      "loss_g": 2.3531,
+      "levels": 9.091796875,
+      "nn_med": 16,
+      "nn_min": 1,
+      "dups": 0,
+      "near_real_mean": 29.810546875,
+      "near_real_min": 0,
+      "symmetry": 1.0,
+      "sec": 8.6
+    }
+  ],
+  "seconds": 8.6
+}

@@ -1,0 +1,39 @@
+{
+  "gallery_size": 240,
+  "cols": 12,
+  "seed": 2024,
+  "gallery_rows_hash": 36372406,
+  "user24_rows_hash": 2830988,
+  "splits": "uniformly sampled from the val split of data_v2_canonical",
+  "embeddings": {
+    "pca22": [
+      240,
+      22
+    ],
+    "k3": [
+      240,
+      27
+    ],
+    "k2": [
+      240,
+      27
+    ],
+    "kernels_all": [
+      240,
+      54
+    ],
+    "stats": [
+      240,
+      11
+    ],
+    "hist": [
+      240,
+      16
+    ],
+    "stats_hist": [
+      240,
+      27
+    ]
+  },
+  "note": "index i of the gallery = row i of the contact sheet (row-major, 12 per row)"
+}

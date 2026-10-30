@@ -1,0 +1,46 @@
+{
+  "args": {
+    "tag": "pilot_sweep_code5",
+    "mode": "code",
+    "pca_k": 0,
+    "code_k": 5,
+    "steps": 100,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": ""
+  },
+  "cond_desc": "learned 5-bit style code (32 clusters, continuous centre)",
+  "cond_dim": 16,
+  "nG": 218112,
+  "nD": 341953,
+  "history": [
+    {
+      "step": 100,
+      "ce": 2.1679,
+      "acc": 0.2286,
+      "d_acc": 0.9014,
+      "loss_d": 0.8567,
+      "loss_g": 3.5166,
+      "levels": 11.33203125,
+      "nn_med": 22,
+      "nn_min": 13,
+      "dups": 0,
+      "near_real_mean": 42.14453125,
+      "near_real_min": 14,
+      "symmetry": 1.0,
+      "sec": 7.9
+    }
+  ],
+  "seconds": 7.9
+}

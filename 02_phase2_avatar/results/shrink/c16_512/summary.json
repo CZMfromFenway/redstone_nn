@@ -1,0 +1,108 @@
+{
+  "args": {
+    "tag": "c16_512",
+    "mode": "color16",
+    "steps": 12000,
+    "batch": 256,
+    "hid": 256,
+    "layers": 2,
+    "lam": 5.0,
+    "gauss_target": false,
+    "sigma": 0.35,
+    "adv_weight": 1.0,
+    "eval_every": 2000,
+    "threads": 5
+  },
+  "n_params": 203264,
+  "reference": {
+    "agree": 0.6609598214285713,
+    "iso": 4.0525,
+    "blobs": 10.35
+  },
+  "history": [
+    {
+      "step": 2000,
+      "acc": 0.5683,
+      "mae_levels": 1.761,
+      "d_acc": 0.8375,
+      "agree": 0.7044,
+      "iso": 3.545,
+      "blobs": 8.9,
+      "sec": 327.4,
+      "params": 203264,
+      "mode": "color16",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 4000,
+      "acc": 0.6039,
+      "mae_levels": 1.686,
+      "d_acc": 0.83,
+      "agree": 0.6932,
+      "iso": 3.885,
+      "blobs": 9.31,
+      "sec": 909.9,
+      "params": 203264,
+      "mode": "color16",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 6000,
+      "acc": 0.6209,
+      "mae_levels": 1.63,
+      "d_acc": 0.835,
+      "agree": 0.6861,
+      "iso": 4.08,
+      "blobs": 9.68,
+      "sec": 1440.6,
+      "params": 203264,
+      "mode": "color16",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 8000,
+      "acc": 0.6329,
+      "mae_levels": 1.574,
+      "d_acc": 0.8188,
+      "agree": 0.6841,
+      "iso": 4.055,
+      "blobs": 9.64,
+      "sec": 1855.9,
+      "params": 203264,
+      "mode": "color16",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 10000,
+      "acc": 0.6441,
+      "mae_levels": 1.533,
+      "d_acc": 0.8275,
+      "agree": 0.6858,
+      "iso": 4.125,
+      "blobs": 9.78,
+      "sec": 2196.6,
+      "params": 203264,
+      "mode": "color16",
+      "layers": 2,
+      "hid": 256
+    },
+    {
+      "step": 12000,
+      "acc": 0.6475,
+      "mae_levels": 1.55,
+      "d_acc": 0.8313,
+      "agree": 0.6871,
+      "iso": 3.92,
+      "blobs": 9.6,
+      "sec": 2498.4,
+      "params": 203264,
+      "mode": "color16",
+      "layers": 2,
+      "hid": 256
+    }
+  ]
+}

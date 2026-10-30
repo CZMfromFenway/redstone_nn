@@ -1,0 +1,258 @@
+{
+  "main": {
+    "id": "26ebf008d6cc263c",
+    "type": "split",
+    "children": [
+      {
+        "id": "515c67cb4e5e635b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "851369d780044d09",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "A New Idea of Training - DT Boosting.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "A New Idea of Training - DT Boosting"
+            }
+          },
+          {
+            "id": "1cd1d6e3c02d6006",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "StrongAnalog_LUT_Network/docs/00_文档索引.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "00_文档索引"
+            }
+          },
+          {
+            "id": "48e56d060c922fd7",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.14.4"
+              },
+              "icon": "lucide-book-up",
+              "title": "版本说明 1.14.4"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "68e3dcd68cb35f52",
+    "type": "split",
+    "children": [
+      {
+        "id": "2ea019bee22c876b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "60a89345cef41109",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "701bbc20c6c91ebd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "e93608f87846f34e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 338.16668701171875
+  },
+  "right": {
+    "id": "563e0488ce7f65b6",
+    "type": "split",
+    "children": [
+      {
+        "id": "1021fc2500fba6fe",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1b4febaffd44b5ec",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "StrongAnalog_LUT_Network/docs/04_强模LUT数学解析_三次修正定稿.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "9e468e1881f5166c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Interim Review and Further Questions.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "55cb5c6559713326",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "75a6cad714c9c87d",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "0e7114cc9b2091b0",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Interim Review and Further Questions.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "48e56d060c922fd7",
+  "lastOpenFiles": [
+    "StrongAnalog_LUT_Network/docs/20_工程总结报告.md",
+    "StrongAnalog_LUT_Network/docs/12_强模LUT研究_阶段总结报告.md",
+    "StrongAnalog_LUT_Network/avatar_gan/results/capacity_cifar.json",
+    "StrongAnalog_LUT_Network/avatar_gan/src/capacity_cifar.py",
+    "StrongAnalog_LUT_Network/avatar_gan/results/capacity_ae2.json",
+    "StrongAnalog_LUT_Network/avatar_gan/src/capacity_ae2.py",
+    "StrongAnalog_LUT_Network/avatar_gan/results/capacity_ae.json",
+    "StrongAnalog_LUT_Network/avatar_gan/src/capacity_ae.py",
+    "StrongAnalog_LUT_Network/avatar_gan/results/capacity.json",
+    "StrongAnalog_LUT_Network/avatar_gan/data/mc8.npy",
+    "StrongAnalog_LUT_Network/avatar_gan/src/build_dataset.py",
+    "StrongAnalog_LUT_Network/avatar_gan/data/cifar-10-binary.tar.gz",
+    "StrongAnalog_LUT_Network/docs/10_实验_鸢尾花编译.md",
+    "StrongAnalog_LUT_Network/docs/11_手写数字识别探索记录.md",
+    "StrongAnalog_LUT_Network/docs/09_强模LUT与MLP的逼近程度_可建造方案对比.md",
+    "StrongAnalog_LUT_Network/docs/08_实验_编译到可建造结构_受控比较与误差归因.md",
+    "StrongAnalog_LUT_Network/docs/06_实验_强模LUT逼近同结构MLP.md",
+    "StrongAnalog_LUT_Network/docs/07_强模LUT速查约束表.md",
+    "StrongAnalog_LUT_Network/docs/05_强模LUT数学性质_定稿.md",
+    "StrongAnalog_LUT_Network/docs/03_强模LUT数学解析_二次修正定稿.md",
+    "StrongAnalog_LUT_Network/docs/04_强模LUT数学解析_三次修正定稿.md",
+    "Another Path of Comparator Network - analytical LUT network.md",
+    "StrongAnalog_LUT_Network/docs/02_强模LUT数学解析_修正版.md",
+    "StrongAnalog_LUT_Network/docs/01_强模LUT网络能多接近MLP_分析.md",
+    "StrongAnalog_LUT_Network/README.md",
+    "A New Idea of Training - DT Boosting.md",
+    "DT矩阵训练研究阶段性总报告_2026-10-01_v1.md",
+    "Interim Review and Further Questions 9.27.md",
+    "DT矩阵和MLP性能初步对比_旧基线重建_v1.md",
+    "Interim Review and Further Questions 9.30.md",
+    "DT_Minecraft_Network_阶段性总报告_2026-09-27.md",
+    "czm意见逐条核查_2026-10-02.md",
+    "多比较器结构及其数学性质调研_2026-10-01_v2.md",
+    "DT_Redstone_Research_Archive_20261001/DT_baseline_recovery/DT矩阵训练研究阶段性总报告_2026-10-01_v1.md",
+    "DT_Redstone_Research_Archive_20261001/DT_baseline_recovery/DT矩阵和MLP性能初步对比_旧基线重建_v1.md",
+    "DT_Redstone_Research_Archive_20261001/DT_baseline_recovery/DT训练研究_v23_fullT函数池与多重重启协议_2026-10-01.md",
+    "DT_Redstone_Research_Archive_20261001/plot/DTF004_representative_functions.png"
+  ]
+}

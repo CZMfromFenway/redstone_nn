@@ -1,0 +1,41 @@
+{
+  "args": {
+    "tag": "cond_smoke",
+    "steps": 200,
+    "batch": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "hid": 256,
+    "zdim": 64,
+    "d_c": 64,
+    "d_embed": 8,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "ce_weight": 1.0,
+    "eval_every": 100,
+    "seed": 0,
+    "threads": 8
+  },
+  "history": [
+    {
+      "step": 100,
+      "ce": 1.6466288566589355,
+      "acc": 0.5358734130859375,
+      "d_acc": 0.7958984375
+    },
+    {
+      "step": 200,
+      "ce": 1.2503173351287842,
+      "acc": 0.6152801513671875,
+      "d_acc": 0.796142578125
+    }
+  ],
+  "seconds": 4.7,
+  "layout": "canonical p = col*8 + row (src/layout.py)",
+  "condition": "observed left half (32 of 64 gray levels)",
+  "rendering": {
+    "top_band": "real faces, forced symmetric",
+    "bottom_band": "generated right half + real left half, forced symmetric",
+    "third": "generated right half mirrored on both sides"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "args": {
+    "tag": "pilot_sweep_pca8",
+    "mode": "pca",
+    "pca_k": 8,
+    "code_k": 0,
+    "steps": 100,
+    "batch": 256,
+    "hid": 256,
+    "zdim": 64,
+    "lr_g": 0.0003,
+    "lr_d": 0.0002,
+    "d_c": 64,
+    "ce_weight": 1.0,
+    "r1_every": 8,
+    "r1_gamma": 2.0,
+    "eval_every": 1000,
+    "seed": 0,
+    "threads": 8,
+    "nmatch": 2000,
+    "deadline": ""
+  },
+  "cond_desc": "top 8 PCA coefficients of the face",
+  "cond_dim": 8,
+  "nG": 216064,
+  "nD": 341441,
+  "history": [
+    {
+      "step": 100,
+      "ce": 2.4051,
+      "acc": 0.2019,
+      "d_acc": 0.9214,
+      "loss_d": 0.8189,
+      "loss_g": 3.8007,
+      "levels": 12.916015625,
+      "nn_med": 23,
+      "nn_min": 20,
+      "dups": 0,
+      "near_real_mean": 45.0859375,
+      "near_real_min": 32,
+      "symmetry": 1.0,
+      "sec": 7.0
+    }
+  ],
+  "seconds": 7.1
+}

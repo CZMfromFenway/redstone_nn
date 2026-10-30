@@ -1,0 +1,14 @@
+{
+  "continuous_MSE": {
+    "variance_reproduced": 0.7681097610678155,
+    "distinct_levels": 8.869
+  },
+  "softmax_argmax": {
+    "variance_reproduced": 1.0104446680559316,
+    "distinct_levels": 7.177
+  },
+  "softmax_sample": {
+    "variance_reproduced": 0.9891257934907713,
+    "distinct_levels": 10.23575
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "args": {
+    "tag": "pilot_s_k3_8k_n40",
+    "steps": 40,
+    "batch": 256,
+    "k": 3,
+    "lam": 2.0,
+    "lam_final": 8.0,
+    "hid": 256,
+    "threads": 10,
+    "seed": 0
+  },
+  "cluster_sizes_train": [
+    211764,
+    75052,
+    24767
+  ],
+  "cluster_sizes_val": [
+    6567,
+    2345,
+    724
+  ],
+  "results": {
+    "global": {
+      "history": [
+        {
+          "step": 10,
+          "acc_mode": 0.1137,
+          "agree_mode": 0.1895,
+          "iso_mode": 30.57,
+          "blobs_mode": 43.73,
+          "lam_now": 3.5
+        },
+        {
+          "step": 20,
+          "acc_mode": 0.1521,
+          "agree_mode": 0.3794,
+          "iso_mode": 13.37,
+          "blobs_mode": 26.02,
+          "lam_now": 5.0
+        },
+        {
+          "step": 30,
+          "acc_mode": 0.1635,
+          "agree_mode": 0.6046,
+          "iso_mode": 5.913,
+          "blobs_mode": 12.86,
+          "lam_now": 6.5
+        },
+        {
+          "step": 40,
+          "acc_mode": 0.1715,
+          "agree_mode": 0.7786,
+          "iso_mode": 2.8,
+          "blobs_mode": 7.18,
+          "lam_now": 8.0
+        }
+      ],
+      "seconds": 3.1,
+      "acc_all": 0.166140625,
+      "per_cluster": {
+        "0": {
+          "n": 1341,
+          "acc": 0.14224459358687547
+        },
+        "1": {
+          "n": 506,
+          "acc": 0.23221343873517786
+        },
+        "2": {
+          "n": 153,
+          "acc": 0.15706699346405228
+        }
+      },
+      "agree": 0.7735267857142857,
+      "iso": 2.886,
+      "blobs": 7.2825
+    },
+    "per_cluster": {
+      "0": {
+        "n_train": 211764,
+        "history": [
+          {
+            "step": 10,
+            "acc_mode": 0.1173,
+            "agree_mode": 0.2158,
+            "iso_mode": 28.467,
+            "blobs_mode": 41.15,
+            "lam_now": 3.5
+          },
+          {
+            "step": 20,
+            "acc_mode": 0.1394,
+            "agree_mode": 0.391,
+            "iso_mode": 13.523,
+            "blobs_mode": 25.36,
+            "lam_now": 5.0
+          },
+          {
+            "step": 30,
+            "acc_mode": 0.1414,
+            "agree_mode": 0.6135,
+            "iso_mode": 6.057,
+            "blobs_mode": 12.0,
+            "lam_now": 6.5
+          },
+          {
+            "step": 40,
+            "acc_mode": 0.137,
+            "agree_mode": 0.7522,
+            "iso_mode": 3.8,
+            "blobs_mode": 7.71,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 3.2,
+        "acc_all": 0.14190625,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.17020879940343028
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.06984930830039526
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.13214869281045752
+          }
+        },
+        "agree": 0.7561517857142857,
+        "iso": 3.745,
+        "blobs": 7.617,
+        "global_on_this_cluster": 0.14224459358687547,
+        "specialist_gain": -0.00033834358687545585
+      },
+      "1": {
+        "n_train": 75052,
+        "history": [
+          {
+            "step": 10,
+            "acc_mode": 0.0879,
+            "agree_mode": 0.2678,
+            "iso_mode": 23.65,
+            "blobs_mode": 36.53,
+            "lam_now": 3.5
+          },
+          {
+            "step": 20,
+            "acc_mode": 0.1086,
+            "agree_mode": 0.8473,
+            "iso_mode": 3.373,
+            "blobs_mode": 5.28,
+            "lam_now": 5.0
+          },
+          {
+            "step": 30,
+            "acc_mode": 0.1103,
+            "agree_mode": 0.9994,
+            "iso_mode": 0.02,
+            "blobs_mode": 1.02,
+            "lam_now": 6.5
+          },
+          {
+            "step": 40,
+            "acc_mode": 0.1103,
+            "agree_mode": 0.9975,
+            "iso_mode": 0.09,
+            "blobs_mode": 1.09,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 3.5,
+        "acc_all": 0.10346875,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.053621364653243846
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.23357213438735178
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.11008986928104575
+          }
+        },
+        "agree": 0.9973125,
+        "iso": 0.095,
+        "blobs": 1.098,
+        "global_on_this_cluster": 0.23221343873517786,
+        "specialist_gain": -0.12874468873517786
+      },
+      "2": {
+        "n_train": 24767,
+        "history": [
+          {
+            "step": 10,
+            "acc_mode": 0.0954,
+            "agree_mode": 0.2547,
+            "iso_mode": 24.147,
+            "blobs_mode": 37.17,
+            "lam_now": 3.5
+          },
+          {
+            "step": 20,
+            "acc_mode": 0.0972,
+            "agree_mode": 0.5693,
+            "iso_mode": 7.277,
+            "blobs_mode": 14.8,
+            "lam_now": 5.0
+          },
+          {
+            "step": 30,
+            "acc_mode": 0.1015,
+            "agree_mode": 0.7465,
+            "iso_mode": 2.783,
+            "blobs_mode": 6.88,
+            "lam_now": 6.5
+          },
+          {
+            "step": 40,
+            "acc_mode": 0.108,
+            "agree_mode": 0.7779,
+            "iso_mode": 1.893,
+            "blobs_mode": 5.64,
+            "lam_now": 8.0
+          }
+        ],
+        "seconds": 3.5,
+        "acc_all": 0.09359375,
+        "per_cluster": {
+          "0": {
+            "n": 1341,
+            "acc": 0.0754334451901566
+          },
+          "1": {
+            "n": 506,
+            "acc": 0.11382164031620554
+          },
+          "2": {
+            "n": 153,
+            "acc": 0.18586601307189543
+          }
+        },
+        "agree": 0.7756071428571429,
+        "iso": 2.016,
+        "blobs": 5.7645,
+        "global_on_this_cluster": 0.15706699346405228,
+        "specialist_gain": -0.06347324346405228
+      }
+    }
+  }
+}

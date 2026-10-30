@@ -1,0 +1,38 @@
+{
+  "args": {
+    "steps": 40,
+    "batch": 256,
+    "lam": 1.0,
+    "lam_final": 5.0,
+    "adv_weight": 1.0,
+    "decode": "mode",
+    "hid": 256,
+    "threads": 10,
+    "eval_every": 1000,
+    "tag": "pilot_n_ramp_1_5"
+  },
+  "reference": {
+    "agree": 0.6049107142857143,
+    "iso": 6.7975,
+    "blobs": 13.8475
+  },
+  "history": [
+    {
+      "step": 40,
+      "lam_now": 5.0,
+      "ce": 2.5821,
+      "acc_mode": 0.1794,
+      "acc_sample": 0.0802,
+      "entropy": 2.6841,
+      "maxprob": 0.1208,
+      "agree_mode": 0.6976,
+      "iso_mode": 4.86,
+      "blobs_mode": 9.81,
+      "agree_sample": 0.1399,
+      "iso_sample": 37.34,
+      "blobs_sample": 48.89,
+      "sec": 2.8
+    }
+  ],
+  "seconds": 2.8
+}

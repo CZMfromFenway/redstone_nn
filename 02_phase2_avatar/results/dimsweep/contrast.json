@@ -1,0 +1,38 @@
+[
+  {
+    "label": "w128 (labelled before, no complaint)",
+    "k": 22,
+    "contrast": 12.242,
+    "median": 12.0,
+    "bright": 7.4261640625,
+    "flat": 0.0,
+    "washed": 0.005
+  },
+  {
+    "label": "dim22 (same recipe, k=22)",
+    "k": 22,
+    "contrast": 12.19425,
+    "median": 12.0,
+    "bright": 7.4269765625,
+    "flat": 0.00025,
+    "washed": 0.00575
+  },
+  {
+    "label": "dim8  (k=8)",
+    "k": 8,
+    "contrast": 11.08025,
+    "median": 11.0,
+    "bright": 7.4002265625,
+    "flat": 0.00125,
+    "washed": 0.027
+  },
+  {
+    "label": "dim4  (k=4)",
+    "k": 4,
+    "contrast": 8.759,
+    "median": 9.0,
+    "bright": 7.3709765625,
+    "flat": 0.025,
+    "washed": 0.1845
+  }
+]

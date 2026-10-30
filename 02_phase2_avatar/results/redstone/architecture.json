@@ -1,0 +1,53 @@
+{
+  "model": "final_lam5_20k",
+  "steps": 20000,
+  "lam": 5.0,
+  "decode": "mode",
+  "layers": [
+    {
+      "name": "Linear 22->256",
+      "W": [
+        256,
+        22
+      ],
+      "b": [
+        256
+      ],
+      "multiplies": 5632,
+      "relu": 256
+    },
+    {
+      "name": "Linear 256->256",
+      "W": [
+        256,
+        256
+      ],
+      "b": [
+        256
+      ],
+      "multiplies": 65536,
+      "relu": 256
+    },
+    {
+      "name": "Linear 256->512",
+      "W": [
+        512,
+        256
+      ],
+      "b": [
+        512
+      ],
+      "multiplies": 131072,
+      "relu": 0
+    }
+  ],
+  "total_params": 203264,
+  "total_multiplies": 202240,
+  "bias_additions": 1024,
+  "relu_comparisons": 512,
+  "argmax_comparisons": 480,
+  "input_dim": 22,
+  "output_dim": 512,
+  "positions": 32,
+  "levels": 16
+}
