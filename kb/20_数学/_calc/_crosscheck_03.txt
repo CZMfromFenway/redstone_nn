@@ -1,0 +1,46 @@
+=== w_ref = 882 ===
+  [层1 4→64] kind=relu
+    sigma      max|Δ|=0            不一致元素=0
+    W          max|Δ|=0            不一致元素=0
+    Cmin       max|Δ|=0            不一致元素=0
+    Nmax       max|Δ|=0            不一致元素=0
+    P          max|Δ|=0            不一致元素=0
+    step       max|Δ|=0            不一致元素=0
+    delta_out  max|Δ|=0            不一致元素=0
+    out_bits   max|Δ|=0            不一致元素=0
+    out_max    max|Δ|=0            不一致元素=0
+  [层2 64→32] kind=clip
+    sigma      max|Δ|=0            不一致元素=0
+    W          max|Δ|=0            不一致元素=0
+    Cmin       max|Δ|=0            不一致元素=0
+    Nmax       max|Δ|=0            不一致元素=0
+    P          max|Δ|=0            不一致元素=0
+    step       max|Δ|=0            不一致元素=0
+    delta_out  max|Δ|=0            不一致元素=0
+    out_bits   max|Δ|=0            不一致元素=0
+    out_max    max|Δ|=0            不一致元素=0
+    约束: |W|非最高位=882 (应≤882)  最高位=1764  超 882 的位(需环)=138 个  N_max 最大=12432
+    约束: |W|非最高位=882 (应≤882)  最高位=1764  超 882 的位(需环)=26 个  N_max 最大=30269
+=== w_ref = 441 ===
+  [层1 4→64] kind=relu
+    sigma      max|Δ|=0            不一致元素=0
+    W          max|Δ|=0            不一致元素=0
+    Cmin       max|Δ|=0            不一致元素=0
+    Nmax       max|Δ|=0            不一致元素=0
+    P          max|Δ|=0            不一致元素=0
+    step       max|Δ|=0            不一致元素=0
+    delta_out  max|Δ|=0            不一致元素=0
+    out_bits   max|Δ|=0            不一致元素=0
+    out_max    max|Δ|=0            不一致元素=0
+  [层2 64→32] kind=clip
+    sigma      max|Δ|=0            不一致元素=0
+    W          max|Δ|=0            不一致元素=0
+    Cmin       max|Δ|=0            不一致元素=0
+    Nmax       max|Δ|=0            不一致元素=0
+    P          max|Δ|=0            不一致元素=0
+    step       max|Δ|=0            不一致元素=0
+    delta_out  max|Δ|=0            不一致元素=0
+    out_bits   max|Δ|=0            不一致元素=0
+    out_max    max|Δ|=0            不一致元素=0
+    约束: |W|非最高位=441 (应≤882)  最高位=882  超 882 的位(需环)=0 个  N_max 最大=6216
+    约束: |W|非最高位=441 (应≤882)  最高位=882  超 882 的位(需环)=0 个  N_max 最大=14925
