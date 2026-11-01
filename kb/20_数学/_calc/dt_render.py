@@ -48,7 +48,7 @@ def get_tex():
     return out
 
 
-def draw_part(name, z0, z1, grid, tex, cell=72):
+def draw_part(name, z0, z1, grid, tex, cell=72, modes=None, sub=''):
     xs = [x for (x, y, z) in grid if z0 <= z <= z1]
     x0, x1 = min(xs), max(xs)
     W = x1 - x0 + 1
@@ -96,7 +96,8 @@ def draw_part(name, z0, z1, grid, tex, cell=72):
             dr.polygon([(ax + dx * 10, ay + dz * 10),
                         (ax + perp[0] * 8, ay + perp[1] * 8),
                         (ax - perp[0] * 8, ay - perp[1] * 8)], fill=(30, 30, 40, 245))
-            mode = 'C' if props['mode'] == 'compare' else 'S'
+            md = (modes or {}).get((x, y, z), props['mode'])
+            mode = 'C' if md == 'compare' else 'S'
             dr.rectangle([px + 2, py + 2, px + 20, py + 20], fill=(255, 255, 255, 215))
             dr.text((px + 7, py + 5), mode, fill=(20, 20, 20))
 
