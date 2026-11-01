@@ -18,7 +18,7 @@ ROOT = r'E:\redstone_nn'
 P2 = os.path.join(ROOT, '02_phase2_avatar', 'webapp')
 SPEC = os.path.join(ROOT, '03_phase3_quantized_network', 'results',
                     'direct_shape_spec.json')
-OUT = os.path.join(ROOT, 'kb', 'figures', 'dropper_fit_shape.png')
+OUT = os.path.join(ROOT, 'kb', 'figures', 'dropper_fit_4ch.png')
 
 STYLE = '少女'          # 这一页要举的那个应用
 DELTA, NB, NG = 7.0, 256, 400_000
