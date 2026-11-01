@@ -1,0 +1,94 @@
+尺寸 7 x 1 x 30  方块数 210
+调色板 10 种
+    136  minecraft:air
+     20  minecraft:light_blue_concrete
+     14  minecraft:barrel[facing=up,open=false]
+     14  minecraft:comparator[facing=north,mode=compare,powered=false]
+      7  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+      7  minecraft:comparator[facing=east,mode=compare,powered=false]
+      4  minecraft:white_concrete
+      4  minecraft:black_concrete
+      2  minecraft:redstone_wire[east=side,north=side,power=0,south=side,west=side]
+      2  minecraft:orange_concrete
+
+=== 非空气方块按 x 段的分组（x 可能是四个部分的分区轴）===
+  x -> 计数: 0:11, 1:24, 2:20, 3:9, 4:5, 5:4, 6:1
+
+=== 各 y 层的非空气数 ===
+  y0:74
+
+=== 全部非空气方块（x,y,z) -> 方块 ===
+  ( 1, 0, 0)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0, 1)  minecraft:light_blue_concrete
+  ( 2, 0, 1)  minecraft:white_concrete
+  ( 1, 0, 2)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 2, 0, 2)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 1, 0, 3)  minecraft:light_blue_concrete
+  ( 2, 0, 3)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 3, 0, 3)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 4, 0, 3)  minecraft:light_blue_concrete
+  ( 5, 0, 3)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0, 4)  minecraft:redstone_wire[east=side,north=side,power=0,south=side,west=side]
+  ( 2, 0, 4)  minecraft:light_blue_concrete
+  ( 1, 0, 5)  minecraft:black_concrete
+  ( 1, 0, 7)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0, 8)  minecraft:light_blue_concrete
+  ( 2, 0, 8)  minecraft:white_concrete
+  ( 0, 0, 9)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0, 9)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 2, 0, 9)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 0, 0,10)  minecraft:light_blue_concrete
+  ( 1, 0,10)  minecraft:light_blue_concrete
+  ( 2, 0,10)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 3, 0,10)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 4, 0,10)  minecraft:light_blue_concrete
+  ( 5, 0,10)  minecraft:barrel[facing=up,open=false]
+  ( 0, 0,11)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 1, 0,11)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 2, 0,11)  minecraft:light_blue_concrete
+  ( 0, 0,12)  minecraft:light_blue_concrete
+  ( 1, 0,12)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 2, 0,12)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 3, 0,12)  minecraft:light_blue_concrete
+  ( 4, 0,12)  minecraft:barrel[facing=up,open=false]
+  ( 0, 0,13)  minecraft:redstone_wire[east=side,north=side,power=0,south=side,west=side]
+  ( 1, 0,13)  minecraft:light_blue_concrete
+  ( 0, 0,14)  minecraft:black_concrete
+  ( 1, 0,15)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0,16)  minecraft:orange_concrete
+  ( 2, 0,16)  minecraft:white_concrete
+  ( 1, 0,17)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 2, 0,17)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 1, 0,18)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 2, 0,18)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 3, 0,18)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0,19)  minecraft:black_concrete
+  ( 2, 0,21)  minecraft:barrel[facing=up,open=false]
+  ( 2, 0,22)  minecraft:light_blue_concrete
+  ( 3, 0,22)  minecraft:white_concrete
+  ( 1, 0,23)  minecraft:barrel[facing=up,open=false]
+  ( 2, 0,23)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 3, 0,23)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 1, 0,24)  minecraft:light_blue_concrete
+  ( 2, 0,24)  minecraft:light_blue_concrete
+  ( 3, 0,24)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 4, 0,24)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 5, 0,24)  minecraft:light_blue_concrete
+  ( 6, 0,24)  minecraft:barrel[facing=up,open=false]
+  ( 0, 0,25)  minecraft:barrel[facing=up,open=false]
+  ( 1, 0,25)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 2, 0,25)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 3, 0,25)  minecraft:light_blue_concrete
+  ( 0, 0,26)  minecraft:orange_concrete
+  ( 1, 0,26)  minecraft:light_blue_concrete
+  ( 2, 0,26)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 3, 0,26)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 4, 0,26)  minecraft:light_blue_concrete
+  ( 5, 0,26)  minecraft:barrel[facing=up,open=false]
+  ( 0, 0,27)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 1, 0,27)  minecraft:redstone_wire[east=none,north=none,power=0,south=side,west=side]
+  ( 2, 0,27)  minecraft:light_blue_concrete
+  ( 0, 0,28)  minecraft:comparator[facing=north,mode=compare,powered=false]
+  ( 1, 0,28)  minecraft:comparator[facing=east,mode=compare,powered=false]
+  ( 2, 0,28)  minecraft:barrel[facing=up,open=false]
+  ( 0, 0,29)  minecraft:black_concrete
