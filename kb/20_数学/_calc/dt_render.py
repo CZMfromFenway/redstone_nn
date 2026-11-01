@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-"""把 dt_demo.schem 画成"具体"的俯视图：贴 MC 材质 + 红石粉连接 + 比较器指向。
+"""把 dt_demo.schem 按部分画成 4 张俯视图（贴 MC 1.21 材质）。
 
 材质从 99_mc_texture 的 jar 里现取（不落库，解到临时目录）。
-比较器：箭头从**输入端（facing 侧）**指向**它充能的那一格**，并标 C（比较）/ S（减法）。
-红石粉：按方块状态里的 east/north/south/west 逐边画线——这正是它在游戏里的连接形状。
+比较器材质按 `facing` 旋转：材质本身的"前"要对上输出侧。
+红石粉按方块状态逐边画线，L 形/十字形即游戏里的实际连接。
+箭头：短尾在输入端（facing 侧），长箭头指向它充能的那一格，左上角 C/S 是模式。
 
 用法： python dt_render.py
-输出： kb/figures/dt_demo_map.png
+输出： kb/figures/dt_map_{D,DD,T,DDT}.png
 """
 import os
 import sys
@@ -19,7 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dt_sim as sim
 
 JAR = r'E:\redstone_nn\99_mc_texture\1.21.11-Fabric 0.19.5.jar'
-OUT = r'E:\redstone_nn\kb\figures\dt_demo_map.png'
+FIG = r'E:\redstone_nn\kb\figures'
 TEXDIR = os.path.join(tempfile.gettempdir(), 'dt_tex')
 
 TEX = {
@@ -30,6 +31,8 @@ TEX = {
     'barrel': 'assets/minecraft/textures/block/barrel_top.png',
     'comparator': 'assets/minecraft/textures/block/comparator.png',
 }
+# 材质默认朝"南"（输出朝南）；按 facing 转到对应方向（逆时针为正）
+ROT = {'north': 180, 'east': 90, 'south': 0, 'west': 270}
 
 
 def get_tex():
@@ -45,97 +48,84 @@ def get_tex():
     return out
 
 
-def main():
-    W, H, L, grid = sim.load_schem(sim.SRC)
-    tex = get_tex()
-    CELL = 64
-    pad, head = 16, 30
-    right = 190
-    cw = pad * 2 + W * CELL + right
-    chh = head + pad * 2 + L * CELL
-    im = Image.new('RGB', (cw, chh), (18, 18, 22))
+def draw_part(name, z0, z1, grid, tex, cell=72):
+    xs = [x for (x, y, z) in grid if z0 <= z <= z1]
+    x0, x1 = min(xs), max(xs)
+    W = x1 - x0 + 1
+    Hh = z1 - z0 + 1
+    pad, head = 14, 26
+    im = Image.new('RGB', (pad * 2 + W * cell + 8, head + pad * 2 + Hh * cell), (18, 18, 22))
     dr = ImageDraw.Draw(im, 'RGBA')
+    dr.text((pad, 6), f'{name}   top view   {W} x {Hh}   (MC 1.21 textures)',
+            fill=(235, 235, 245))
 
-    dr.text((pad, 8), 'dt_demo.schem   top view  7 x 30  (MC 1.21 textures)', fill=(235, 235, 245))
-
-    # 部分框
-    for nm, z0, z1, col in sim.PARTS:
-        y0 = head + pad + z0 * CELL
-        y1 = head + pad + (z1 + 1) * CELL
-        dr.rectangle([pad - 8, y0 - 3, pad + W * CELL + 6, y1 - 3], outline=col, width=2)
-        dr.text((pad + W * CELL + 14, y0 + 10), nm, fill=col)
-
-    for (x, y, z), name in sorted(grid.items(), key=lambda kv: (kv[0][2], kv[0][0])):
-        if name.endswith('air'):
+    for (x, y, z), nm in sorted(grid.items(), key=lambda kv: (kv[0][2], kv[0][0])):
+        if not (z0 <= z <= z1) or nm.endswith('air'):
             continue
-        base = name.split('[')[0].replace('minecraft:', '')
-        px = pad + x * CELL
-        py = head + pad + z * CELL
-        key = 'barrel' if base == 'barrel' else base
-        if key in tex:
-            t = tex[key].resize((CELL, CELL), Image.NEAREST)
-            im.paste(t, (px, py), t)
-        else:
-            dr.rectangle([px, py, px + CELL - 1, py + CELL - 1], fill=(60, 60, 66))
-
+        base = nm.split('[')[0].replace('minecraft:', '')
+        px = pad + (x - x0) * cell
+        py = head + pad + (z - z0) * cell
         props = {}
-        if '[' in name:
-            for kv in name[name.index('[') + 1:-1].split(','):
+        if '[' in nm:
+            for kv in nm[nm.index('[') + 1:-1].split(','):
                 a, b = kv.split('=', 1); props[a] = b
 
+        key = 'barrel' if base == 'barrel' else base
+        if key in tex:
+            t = tex[key]
+            if key == 'comparator':
+                t = t.rotate(ROT.get(props.get('facing', 'south'), 0), expand=False)
+            t = t.resize((cell, cell), Image.NEAREST)
+            im.paste(t, (px, py), t)
+        else:
+            dr.rectangle([px, py, px + cell - 1, py + cell - 1], fill=(60, 60, 66))
+
         if base == 'comparator':
-            # facing = 输入端；输出 = 反方向，箭头指向"它充能的那一格"
-            fin = props['facing']
-            out = sim.FLIP[fin]
-            dx, dz = sim.D[out]
-            cx, cy = px + CELL / 2, py + CELL / 2
-            # 输入端小勾
+            fin, out = props['facing'], sim.FLIP[props['facing']]
+            cx, cy = px + cell / 2, py + cell / 2
             ix, iz = sim.D[fin]
-            dr.line([cx - ix * 26, cy - iz * 26, cx - ix * 8, cy - iz * 8],
-                    fill=(20, 20, 30, 220), width=4)
-            # 输出箭头
-            dr.line([cx, cy, cx + dx * 26, cy + dz * 26], fill=(15, 15, 25, 230), width=5)
-            ax, ay = cx + dx * 26, cy + dz * 26
+            dx, dz = sim.D[out]
+            dr.line([cx - ix * cell * .42, cy - iz * cell * .42,
+                     cx - ix * cell * .12, cy - iz * cell * .12],
+                    fill=(240, 240, 250, 235), width=5)
+            dr.line([cx + dx * cell * .02, cy + dz * cell * .02,
+                     cx + dx * cell * .40, cy + dz * cell * .40],
+                    fill=(30, 30, 40, 245), width=6)
+            ax, ay = cx + dx * cell * .40, cy + dz * cell * .40
             perp = (-dz, dx)
-            dr.polygon([(ax + dx * 9, ay + dz * 9),
-                        (ax + perp[0] * 7, ay + perp[1] * 7),
-                        (ax - perp[0] * 7, ay - perp[1] * 7)], fill=(15, 15, 25, 235))
+            dr.polygon([(ax + dx * 10, ay + dz * 10),
+                        (ax + perp[0] * 8, ay + perp[1] * 8),
+                        (ax - perp[0] * 8, ay - perp[1] * 8)], fill=(30, 30, 40, 245))
             mode = 'C' if props['mode'] == 'compare' else 'S'
-            dr.rectangle([px + 2, py + 2, px + 18, py + 18], fill=(255, 255, 255, 210))
-            dr.text((px + 6, py + 4), mode, fill=(20, 20, 20))
+            dr.rectangle([px + 2, py + 2, px + 20, py + 20], fill=(255, 255, 255, 215))
+            dr.text((px + 7, py + 5), mode, fill=(20, 20, 20))
 
         elif base == 'redstone_wire':
-            cx, cy = px + CELL / 2, py + CELL / 2
+            cx, cy = px + cell / 2, py + cell / 2
             col = (200, 30, 30, 255)
-            n = 0
             for side, d in (('north', (0, -1)), ('south', (0, 1)),
                             ('east', (1, 0)), ('west', (-1, 0))):
                 if props.get(side, 'none') in ('side', 'up'):
-                    n += 1
-                    dr.line([cx, cy, cx + d[0] * CELL / 2, cy + d[1] * CELL / 2],
-                            fill=col, width=8)
-            dr.ellipse([cx - 6, cy - 6, cx + 6, cy + 6], fill=col)
-            if n == 0:
-                dr.ellipse([cx - 10, cy - 10, cx + 10, cy + 10], fill=col)
+                    dr.line([cx, cy, cx + d[0] * cell / 2, cy + d[1] * cell / 2],
+                            fill=col, width=9)
+            dr.ellipse([cx - 7, cy - 7, cx + 7, cy + 7], fill=col)
 
         elif base == 'white_concrete':
-            dr.text((px + 16, py + 24), 'IN', fill=(20, 20, 20))
+            dr.text((px + cell * .30, py + cell * .40), 'IN', fill=(20, 20, 20))
         elif base == 'black_concrete':
-            dr.text((px + 12, py + 24), 'OUT', fill=(245, 245, 245))
+            dr.text((px + cell * .24, py + cell * .40), 'OUT', fill=(245, 245, 245))
 
-    for z in range(0, L, 5):
-        dr.text((pad - 14, head + pad + z * CELL + 26), f'{z}', fill=(160, 160, 170))
+    return im
 
-    # 图例
-    lx = pad + W * CELL + 14
-    ly = head + pad + L * CELL - 210
-    dr.text((lx, ly), 'barrel   = constant branch', fill=(210, 210, 220))
-    dr.text((lx, ly + 16), 'C = compare   S = subtract', fill=(210, 210, 220))
-    dr.text((lx, ly + 32), 'arrow: input side -> charged block', fill=(210, 210, 220))
-    dr.text((lx, ly + 48), 'red lines = real dust connections', fill=(230, 130, 130))
-    dr.text((lx, ly + 64), 'textures: MC 1.21 jar', fill=(150, 150, 165))
-    im.save(OUT)
-    print('wrote', OUT, im.size)
+
+def main():
+    W, H, L, grid = sim.load_schem(sim.SRC)
+    tex = get_tex()
+    for nm, z0, z1, col in sim.PARTS:
+        im = draw_part(nm, z0, z1, grid, tex)
+        p = os.path.join(FIG, f'dt_map_{nm}.png')
+        im.save(p)
+        print('wrote', p, im.size)
 
 
 if __name__ == '__main__':
