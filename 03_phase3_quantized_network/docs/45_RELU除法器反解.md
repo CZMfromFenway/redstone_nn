@@ -1,5 +1,10 @@
 # 反解 `data/relu.schem`：8 位除法器（restoring division）
 
+> **2026-10-31 追注**：这个文件已按新视角重学一遍——它其实是「强模 → 8 位数电」的转换器，
+> 取 $c=1$ 时就是 CLIP 那一步。接口坐标、$c$ 的两种用法、以及求值模型的坑
+> （环要写成**比较器源**，不能写块后迭代）见 `docs/48_重学relu_schem_强模转数电.md`。
+> 本文"8 级 restoring division"的结论仍然成立。
+
 **阶段**：P3 输出级
 **日期**：2026-10-25
 **脚本**：`src/relu_probe.py`、`src/schem_grid.py`
