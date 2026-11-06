@@ -66,15 +66,20 @@ def one_layer(n, m, b, rng, wref=WREF):
     eta, y, y_hat = r['eta'], r['y'], r['y_hat']
 
     eps_x = np.sqrt(np.mean((r['xhat'] - x) ** 2)) / DELTA
-    # 权重取整：用逆回 input 的精确路径对比（排除 eps_x）
+
+    # 权重取整：输入用"量化后输入的逆回值" xhat，对比精确路径 —— 排除 eps_x
     eta_w = (r['xhat'] - r['xhat0'][None, :]) @ w.T
     eta_w_hat = (r['N'] - r['P'][None, :]) / r['sigma'][None, :]
     d_eta = params['eta'].max(0) - params['eta'].min(0)
     eps_w = float(np.mean(np.sqrt(np.mean((eta_w_hat - eta_w) ** 2, axis=0)) / np.maximum(d_eta, 1e-12)))
-    # 输出量化：末级逆回与 relu 前的真实值之差
-    dY = y.max(0) - y.min(0)
-    eps_y = float(np.mean((r['Gamma'] / r['sigma']) / (2 * np.maximum(dY, 1e-12))))
-    # 单层输出逆回误差：逆回值与真实输出（relu 之后）之差
+
+    # 输出量化：参考值是 "N-P 的逆回"，即 eta_hat；不含 eps_x / eps_w
+    eta_int = (r['N'] - r['P'][None, :]) / r['sigma'][None, :]
+    y_ref = np.maximum(eta_int, 0)
+    dY = y_ref.max(0) - y_ref.min(0)
+    eps_y = float(np.mean(np.sqrt(np.mean((y_hat - y_ref) ** 2, axis=0)) / np.maximum(dY, 1e-12)))
+
+    # 单层输出逆回误差（判据）：逆回值 vs 真实输出，此时三类误差都在里面
     eps_out = float(np.mean(np.sqrt(np.mean((y_hat - y) ** 2, axis=0)) / np.maximum(dY, 1e-12)))
     return eps_x, eps_w, eps_y, eps_out
 
@@ -186,7 +191,7 @@ def main():
     dr.text((14, 10), 'random baseline: log10(eps) vs b   (m=16, W_ref=882)', fill=(235, 235, 245))
     bx0, by0, bw, bh = 70, 40, W - 150, H - 110
     dr.rectangle([bx0, by0, bx0 + bw, by0 + bh], outline=(70, 70, 80))
-    allv = [r[2] for r in rows] + [r[3] for r in rows] + [r[4] for r in rows] + [r[5] for r in rows]
+    allv = [max(v, 1e-12) for v in ([r[2] for r in rows] + [r[3] for r in rows] + [r[4] for r in rows] + [r[5] for r in rows])]
     lo, hi = np.floor(np.log10(min(allv))), np.ceil(np.log10(max(allv)))
 
     def px(b):
