@@ -18,7 +18,9 @@
 
 | 子目录 | 内容 | 对应 |
 |---|---|---|
-| `phase2_avatar/` | 二期训练头像生成模型时敲定的东西：结构、损失、良率、被证伪的做法 | 二期 |
+| [`phase2_avatar/`](phase2_avatar/README.md) | 二期训练头像生成模型时敲定的东西：结构、损失、良率、被证伪的做法 | 二期 |
+
+`phase2_avatar/` 内部三页：[取舍路线](phase2_avatar/01_训练取舍路线.md)（为什么最后是这个模型）·[里程碑档案](phase2_avatar/02_里程碑模型档案.md)（十个模型的超参与效果图）·[复验与口径](phase2_avatar/03_复验与口径.md)（哪些数字能放心引）。复验脚本 `phase2_avatar/tools/phase2_figs.py`，图在 `kb/figures/phase2/`。
 
 > 新主题开新子目录，一个主题一个目录，别混。
 
