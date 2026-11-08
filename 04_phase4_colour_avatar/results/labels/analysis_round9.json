@@ -1,0 +1,123 @@
+{
+  "file": "colour_round9.jsonl",
+  "n": 240,
+  "arms": {
+    "n_stretch": {
+      "n": 80,
+      "mean": 2.812,
+      "accept": {
+        "k": 78,
+        "rate": 0.975,
+        "ci": [
+          0.9134,
+          0.9931
+        ]
+      },
+      "good": {
+        "k": 57,
+        "rate": 0.7125,
+        "ci": [
+          0.6054,
+          0.8001
+        ]
+      },
+      "hist": [
+        0,
+        2,
+        21,
+        47,
+        10
+      ],
+      "median": 3.0
+    },
+    "n_keepwhite": {
+      "n": 80,
+      "mean": 2.712,
+      "accept": {
+        "k": 77,
+        "rate": 0.9625,
+        "ci": [
+          0.8955,
+          0.9872
+        ]
+      },
+      "good": {
+        "k": 50,
+        "rate": 0.625,
+        "ci": [
+          0.5155,
+          0.7231
+        ]
+      },
+      "hist": [
+        1,
+        2,
+        27,
+        39,
+        11
+      ],
+      "median": 3.0
+    },
+    "n_s50": {
+      "n": 80,
+      "mean": 2.413,
+      "accept": {
+        "k": 71,
+        "rate": 0.8875,
+        "ci": [
+          0.7998,
+          0.9397
+        ]
+      },
+      "good": {
+        "k": 40,
+        "rate": 0.5,
+        "ci": [
+          0.393,
+          0.607
+        ]
+      },
+      "hist": [
+        1,
+        8,
+        31,
+        37,
+        3
+      ],
+      "median": 2.5
+    }
+  },
+  "pairs": [
+    {
+      "a": "n_keepwhite",
+      "b": "n_stretch",
+      "d_mean": -0.1,
+      "p_mean": 0.4549,
+      "d_good": -0.088,
+      "p_good": 0.3183,
+      "d_accept": -0.012,
+      "p_fisher_accept": 1.0,
+      "n_a": 80,
+      "n_b": 80,
+      "p_mean_holm": 0.4549,
+      "p_good_holm": 0.3183
+    },
+    {
+      "a": "n_s50",
+      "b": "n_stretch",
+      "d_mean": -0.4,
+      "p_mean": 0.0016,
+      "d_good": -0.213,
+      "p_good": 0.0101,
+      "d_accept": -0.088,
+      "p_fisher_accept": 0.0564,
+      "n_a": 80,
+      "n_b": 80,
+      "p_mean_holm": 0.0032,
+      "p_good_holm": 0.0202
+    }
+  ],
+  "order_corr": {
+    "pearson_grade_vs_index": -0.032
+  }
+}

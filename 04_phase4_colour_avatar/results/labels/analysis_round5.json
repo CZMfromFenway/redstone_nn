@@ -1,0 +1,165 @@
+{
+  "file": "colour_round5.jsonl",
+  "n": 400,
+  "arms": {
+    "two_sel4": {
+      "n": 100,
+      "mean": 2.84,
+      "accept": {
+        "k": 99,
+        "rate": 0.99,
+        "ci": [
+          0.9455,
+          0.9982
+        ]
+      },
+      "good": {
+        "k": 76,
+        "rate": 0.76,
+        "ci": [
+          0.6677,
+          0.8331
+        ]
+      },
+      "hist": [
+        0,
+        1,
+        23,
+        67,
+        9
+      ],
+      "median": 3.0
+    },
+    "snap_sel4": {
+      "n": 100,
+      "mean": 2.48,
+      "accept": {
+        "k": 96,
+        "rate": 0.96,
+        "ci": [
+          0.9016,
+          0.9843
+        ]
+      },
+      "good": {
+        "k": 50,
+        "rate": 0.5,
+        "ci": [
+          0.4038,
+          0.5962
+        ]
+      },
+      "hist": [
+        2,
+        2,
+        46,
+        46,
+        4
+      ],
+      "median": 2.5
+    },
+    "k8snap": {
+      "n": 100,
+      "mean": 2.38,
+      "accept": {
+        "k": 94,
+        "rate": 0.94,
+        "ci": [
+          0.8752,
+          0.9722
+        ]
+      },
+      "good": {
+        "k": 42,
+        "rate": 0.42,
+        "ci": [
+          0.328,
+          0.5179
+        ]
+      },
+      "hist": [
+        2,
+        4,
+        52,
+        38,
+        4
+      ],
+      "median": 2.0
+    },
+    "two_pal16": {
+      "n": 100,
+      "mean": 2.27,
+      "accept": {
+        "k": 90,
+        "rate": 0.9,
+        "ci": [
+          0.8256,
+          0.9448
+        ]
+      },
+      "good": {
+        "k": 37,
+        "rate": 0.37,
+        "ci": [
+          0.2818,
+          0.4678
+        ]
+      },
+      "hist": [
+        3,
+        7,
+        53,
+        34,
+        3
+      ],
+      "median": 2.0
+    }
+  },
+  "pairs": [
+    {
+      "a": "two_sel4",
+      "b": "k8snap",
+      "d_mean": 0.46,
+      "p_mean": 0.0001,
+      "d_good": 0.34,
+      "p_good": 0.0001,
+      "d_accept": 0.05,
+      "p_fisher_accept": 0.1184,
+      "n_a": 100,
+      "n_b": 100,
+      "p_mean_holm": 0.0003,
+      "p_good_holm": 0.0003
+    },
+    {
+      "a": "snap_sel4",
+      "b": "k8snap",
+      "d_mean": 0.1,
+      "p_mean": 0.3698,
+      "d_good": 0.08,
+      "p_good": 0.3197,
+      "d_accept": 0.02,
+      "p_fisher_accept": 0.7475,
+      "n_a": 100,
+      "n_b": 100,
+      "p_mean_holm": 0.6734,
+      "p_good_holm": 0.6394
+    },
+    {
+      "a": "two_pal16",
+      "b": "k8snap",
+      "d_mean": -0.11,
+      "p_mean": 0.3367,
+      "d_good": -0.05,
+      "p_good": 0.5589,
+      "d_accept": -0.04,
+      "p_fisher_accept": 0.4353,
+      "n_a": 100,
+      "n_b": 100,
+      "p_mean_holm": 0.6734,
+      "p_good_holm": 0.6394
+    }
+  ],
+  "order_corr": {
+    "pearson_grade_vs_index": 0.076
+  }
+}

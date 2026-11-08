@@ -1,0 +1,81 @@
+{
+  "file": "colour_round10.jsonl",
+  "n": 160,
+  "arms": {
+    "cur_64": {
+      "n": 80,
+      "mean": 2.8,
+      "accept": {
+        "k": 79,
+        "rate": 0.9875,
+        "ci": [
+          0.9325,
+          0.9978
+        ]
+      },
+      "good": {
+        "k": 59,
+        "rate": 0.7375,
+        "ci": [
+          0.6318,
+          0.8214
+        ]
+      },
+      "hist": [
+        0,
+        1,
+        20,
+        53,
+        6
+      ],
+      "median": 3.0
+    },
+    "cur_base": {
+      "n": 80,
+      "mean": 2.688,
+      "accept": {
+        "k": 77,
+        "rate": 0.9625,
+        "ci": [
+          0.8955,
+          0.9872
+        ]
+      },
+      "good": {
+        "k": 55,
+        "rate": 0.6875,
+        "ci": [
+          0.5793,
+          0.7785
+        ]
+      },
+      "hist": [
+        0,
+        3,
+        22,
+        52,
+        3
+      ],
+      "median": 3.0
+    }
+  },
+  "pairs": [
+    {
+      "a": "cur_64",
+      "b": "cur_base",
+      "d_mean": 0.112,
+      "p_mean": 0.296,
+      "d_good": 0.05,
+      "p_good": 0.6077,
+      "d_accept": 0.025,
+      "p_fisher_accept": 0.6202,
+      "n_a": 80,
+      "n_b": 80,
+      "p_mean_holm": 0.296,
+      "p_good_holm": 0.6077
+    }
+  ],
+  "order_corr": {
+    "pearson_grade_vs_index": -0.043
+  }
+}

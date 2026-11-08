@@ -1,0 +1,26 @@
+{
+  "n": 321219,
+  "uniform": 7703,
+  "near_flat": 27995,
+  "black": 932,
+  "low_chroma": 2650,
+  "duplicate": 12739,
+  "bad_union": 15698,
+  "bad_frac": 0.0489,
+  "keep": 305521,
+  "distinct_hist": {
+    "0": 0,
+    "1": 7703,
+    "2": 19791,
+    "3": 24388,
+    "4": 28488,
+    "5": 29971,
+    "6": 31315,
+    "7": 33690,
+    "8": 33818
+  },
+  "distinct_gt8": 112055,
+  "train_removed": 15227,
+  "train_removed_frac": 0.0489,
+  "val_removed": 471
+}

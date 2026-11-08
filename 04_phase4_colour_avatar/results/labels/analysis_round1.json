@@ -1,0 +1,263 @@
+{
+  "file": "colour_round1.jsonl",
+  "n": 302,
+  "arms": {
+    "k8snap": {
+      "n": 60,
+      "mean": 2.533,
+      "accept": {
+        "k": 49,
+        "rate": 0.8167,
+        "ci": [
+          0.7008,
+          0.8944
+        ]
+      },
+      "good": {
+        "k": 32,
+        "rate": 0.5333,
+        "ci": [
+          0.4089,
+          0.6537
+        ]
+      },
+      "hist": [
+        2,
+        9,
+        17,
+        19,
+        13
+      ],
+      "median": 3.0
+    },
+    "k8": {
+      "n": 61,
+      "mean": 2.377,
+      "accept": {
+        "k": 49,
+        "rate": 0.8033,
+        "ci": [
+          0.6869,
+          0.8837
+        ]
+      },
+      "good": {
+        "k": 31,
+        "rate": 0.5082,
+        "ci": [
+          0.386,
+          0.6294
+        ]
+      },
+      "hist": [
+        6,
+        6,
+        18,
+        21,
+        10
+      ],
+      "median": 3.0
+    },
+    "k24": {
+      "n": 60,
+      "mean": 2.183,
+      "accept": {
+        "k": 53,
+        "rate": 0.8833,
+        "ci": [
+          0.7782,
+          0.9423
+        ]
+      },
+      "good": {
+        "k": 16,
+        "rate": 0.2667,
+        "ci": [
+          0.1713,
+          0.3901
+        ]
+      },
+      "hist": [
+        0,
+        7,
+        37,
+        14,
+        2
+      ],
+      "median": 2.0
+    },
+    "k16": {
+      "n": 61,
+      "mean": 2.131,
+      "accept": {
+        "k": 50,
+        "rate": 0.8197,
+        "ci": [
+          0.7053,
+          0.8962
+        ]
+      },
+      "good": {
+        "k": 17,
+        "rate": 0.2787,
+        "ci": [
+          0.1819,
+          0.4017
+        ]
+      },
+      "hist": [
+        1,
+        10,
+        33,
+        14,
+        3
+      ],
+      "median": 2.0
+    },
+    "k32": {
+      "n": 60,
+      "mean": 2.1,
+      "accept": {
+        "k": 49,
+        "rate": 0.8167,
+        "ci": [
+          0.7008,
+          0.8944
+        ]
+      },
+      "good": {
+        "k": 15,
+        "rate": 0.25,
+        "ci": [
+          0.1578,
+          0.3723
+        ]
+      },
+      "hist": [
+        0,
+        11,
+        34,
+        13,
+        2
+      ],
+      "median": 2.0
+    }
+  },
+  "pairs": [
+    {
+      "a": "k8",
+      "b": "k8snap",
+      "d_mean": -0.156,
+      "p_mean": 0.47,
+      "d_good": -0.025,
+      "p_good": 0.8603,
+      "d_accept": -0.013,
+      "p_fisher_accept": 1.0,
+      "n_a": 61,
+      "n_b": 60,
+      "p_mean_holm": 1.0,
+      "p_good_holm": 1.0
+    },
+    {
+      "a": "k24",
+      "b": "k8snap",
+      "d_mean": -0.35,
+      "p_mean": 0.0498,
+      "d_good": -0.267,
+      "p_good": 0.005,
+      "d_accept": 0.067,
+      "p_fisher_accept": 0.4439,
+      "n_a": 60,
+      "n_b": 60,
+      "p_mean_holm": 0.2988,
+      "p_good_holm": 0.035
+    },
+    {
+      "a": "k16",
+      "b": "k8snap",
+      "d_mean": -0.402,
+      "p_mean": 0.0243,
+      "d_good": -0.255,
+      "p_good": 0.0054,
+      "d_accept": 0.003,
+      "p_fisher_accept": 1.0,
+      "n_a": 61,
+      "n_b": 60,
+      "p_mean_holm": 0.1701,
+      "p_good_holm": 0.035
+    },
+    {
+      "a": "k32",
+      "b": "k8snap",
+      "d_mean": -0.433,
+      "p_mean": 0.0183,
+      "d_good": -0.283,
+      "p_good": 0.0028,
+      "d_accept": 0.0,
+      "p_fisher_accept": 1.0,
+      "n_a": 60,
+      "n_b": 60,
+      "p_mean_holm": 0.1464,
+      "p_good_holm": 0.0224
+    },
+    {
+      "a": "k8",
+      "b": "k16",
+      "d_mean": 0.246,
+      "p_mean": 0.2002,
+      "d_good": 0.23,
+      "p_good": 0.0161,
+      "d_accept": -0.016,
+      "p_fisher_accept": 1.0,
+      "n_a": 61,
+      "n_b": 61,
+      "p_mean_holm": 0.8008,
+      "p_good_holm": 0.0644
+    },
+    {
+      "a": "k16",
+      "b": "k24",
+      "d_mean": -0.052,
+      "p_mean": 0.7164,
+      "d_good": 0.012,
+      "p_good": 1.0,
+      "d_accept": -0.064,
+      "p_fisher_accept": 0.4446,
+      "n_a": 61,
+      "n_b": 60,
+      "p_mean_holm": 1.0,
+      "p_good_holm": 1.0
+    },
+    {
+      "a": "k24",
+      "b": "k32",
+      "d_mean": 0.083,
+      "p_mean": 0.5996,
+      "d_good": 0.017,
+      "p_good": 1.0,
+      "d_accept": 0.067,
+      "p_fisher_accept": 0.4439,
+      "n_a": 60,
+      "n_b": 60,
+      "p_mean_holm": 1.0,
+      "p_good_holm": 1.0
+    },
+    {
+      "a": "k8",
+      "b": "k32",
+      "d_mean": 0.277,
+      "p_mean": 0.1392,
+      "d_good": 0.258,
+      "p_good": 0.0053,
+      "d_accept": -0.013,
+      "p_fisher_accept": 1.0,
+      "n_a": 61,
+      "n_b": 60,
+      "p_mean_holm": 0.696,
+      "p_good_holm": 0.035
+    }
+  ],
+  "order_corr": {
+    "pearson_grade_vs_index": -0.049
+  }
+}

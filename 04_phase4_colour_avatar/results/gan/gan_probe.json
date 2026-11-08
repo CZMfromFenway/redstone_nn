@@ -1,0 +1,46 @@
+{
+  "16色调色板 k8（argmax）": {
+    "D_acc": 0.815,
+    "D_auc": 0.8793,
+    "logit6_auc": 0.7919,
+    "sat": 0.369,
+    "ncol": 4.55,
+    "edge": 14.17,
+    "lum_mean": 7.45,
+    "lum_std": 4.92,
+    "hue_ent": 1.001
+  },
+  "16色 k8（softmax 期望色）": {
+    "D_acc": 0.9533,
+    "D_auc": 0.9895,
+    "logit6_auc": 0.9777,
+    "sat": 0.342,
+    "ncol": 17.21,
+    "edge": 9.18,
+    "lum_mean": 7.41,
+    "lum_std": 4.29,
+    "hue_ent": 1.321
+  },
+  "二期 k8snap（8 色）": {
+    "D_acc": 0.8808,
+    "D_auc": 0.9413,
+    "logit6_auc": 0.8467,
+    "sat": 0.295,
+    "ncol": 3.66,
+    "edge": 12.92,
+    "lum_mean": 7.43,
+    "lum_std": 4.64,
+    "hue_ent": 0.632
+  },
+  "真实数据": {
+    "sat": 0.314,
+    "ncol": 7.25,
+    "edge": 15.59,
+    "lum_mean": 7.31,
+    "lum_std": 4.99,
+    "hue_ent": 1.477
+  },
+  "counts": {
+    "n": 3000
+  }
+}

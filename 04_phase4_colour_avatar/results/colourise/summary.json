@@ -1,0 +1,45 @@
+{
+  "args": {
+    "k": 8,
+    "hid": 128,
+    "steps": 12000,
+    "batch": 256,
+    "lr": 0.0003,
+    "seed": 0,
+    "tag": "c8"
+  },
+  "mults": 33792,
+  "evals": {
+    "A_recon_true": {
+      "rgb_mae": 0.623,
+      "hue_err_deg": 10.12,
+      "sat_mean": 3.006,
+      "hue_px_frac": 0.398
+    },
+    "B_gen_sampled": {
+      "rgb_mae": 5.676,
+      "hue_err_deg": 83.7,
+      "sat_mean": 7.313,
+      "hue_px_frac": 0.398
+    },
+    "C_gen_prior": {
+      "rgb_mae": 5.237,
+      "hue_err_deg": 39.21,
+      "sat_mean": 1.956,
+      "hue_px_frac": 0.214
+    },
+    "D_prior_resample": {
+      "rgb_mae": 5.327,
+      "hue_err_deg": 64.73,
+      "sat_mean": 3.239,
+      "hue_px_frac": 0.31
+    },
+    "E6_cpc_only": {
+      "rgb_mae": 1.355,
+      "hue_err_deg": 9.84,
+      "sat_mean": 2.974,
+      "hue_px_frac": 0.386
+    }
+  },
+  "note": "A=真值灰度+真值颜色PCA；B=生成器灰度+采样颜色PCA；C=生成器灰度+灰度预测的颜色PCA；E6=只有颜色PCA"
+}

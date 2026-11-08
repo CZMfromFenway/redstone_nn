@@ -1,0 +1,165 @@
+{
+  "file": "colour_round14.jsonl",
+  "n": 160,
+  "arms": {
+    "cur_a": {
+      "n": 40,
+      "mean": 2.95,
+      "accept": {
+        "k": 40,
+        "rate": 1.0,
+        "ci": [
+          0.9124,
+          1.0
+        ]
+      },
+      "good": {
+        "k": 34,
+        "rate": 0.85,
+        "ci": [
+          0.7093,
+          0.9294
+        ]
+      },
+      "hist": [
+        0,
+        0,
+        6,
+        30,
+        4
+      ],
+      "median": 3.0
+    },
+    "cur_b": {
+      "n": 40,
+      "mean": 2.825,
+      "accept": {
+        "k": 39,
+        "rate": 0.975,
+        "ci": [
+          0.8712,
+          0.9956
+        ]
+      },
+      "good": {
+        "k": 31,
+        "rate": 0.775,
+        "ci": [
+          0.625,
+          0.8768
+        ]
+      },
+      "hist": [
+        0,
+        1,
+        8,
+        28,
+        3
+      ],
+      "median": 3.0
+    },
+    "real": {
+      "n": 40,
+      "mean": 2.6,
+      "accept": {
+        "k": 37,
+        "rate": 0.925,
+        "ci": [
+          0.8014,
+          0.9742
+        ]
+      },
+      "good": {
+        "k": 29,
+        "rate": 0.725,
+        "ci": [
+          0.5716,
+          0.8389
+        ]
+      },
+      "hist": [
+        2,
+        1,
+        8,
+        29,
+        0
+      ],
+      "median": 3.0
+    },
+    "tokM_rand": {
+      "n": 40,
+      "mean": 2.2,
+      "accept": {
+        "k": 32,
+        "rate": 0.8,
+        "ci": [
+          0.6524,
+          0.895
+        ]
+      },
+      "good": {
+        "k": 16,
+        "rate": 0.4,
+        "ci": [
+          0.2635,
+          0.554
+        ]
+      },
+      "hist": [
+        0,
+        8,
+        16,
+        16,
+        0
+      ],
+      "median": 2.0
+    }
+  },
+  "pairs": [
+    {
+      "a": "cur_a",
+      "b": "real",
+      "d_mean": 0.35,
+      "p_mean": 0.0284,
+      "d_good": 0.125,
+      "p_good": 0.2664,
+      "d_accept": 0.075,
+      "p_fisher_accept": 0.2405,
+      "n_a": 40,
+      "n_b": 40,
+      "p_mean_holm": 0.0852,
+      "p_good_holm": 0.5328
+    },
+    {
+      "a": "cur_b",
+      "b": "real",
+      "d_mean": 0.225,
+      "p_mean": 0.206,
+      "d_good": 0.05,
+      "p_good": 0.8037,
+      "d_accept": 0.05,
+      "p_fisher_accept": 0.6153,
+      "n_a": 40,
+      "n_b": 40,
+      "p_mean_holm": 0.206,
+      "p_good_holm": 0.8037
+    },
+    {
+      "a": "tokM_rand",
+      "b": "real",
+      "d_mean": -0.4,
+      "p_mean": 0.0328,
+      "d_good": -0.325,
+      "p_good": 0.0052,
+      "d_accept": -0.125,
+      "p_fisher_accept": 0.1927,
+      "n_a": 40,
+      "n_b": 40,
+      "p_mean_holm": 0.0852,
+      "p_good_holm": 0.0156
+    }
+  ],
+  "order_corr": {
+    "pearson_grade_vs_index": -0.09
+  }
+}

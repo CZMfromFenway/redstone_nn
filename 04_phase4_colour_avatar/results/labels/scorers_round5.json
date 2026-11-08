@@ -1,0 +1,95 @@
+{
+  "note": "由第三、四轮同一模型的全部标签合并拟合；分数越高越好",
+  "families": {
+    "two_stage": {
+      "family": "two_stage",
+      "kind": "quad",
+      "lam": 20.0,
+      "n_terms": 15,
+      "k": 4,
+      "n": 240,
+      "base_rate": 0.517,
+      "cv_auc": 0.7589,
+      "in_sample_top50": 0.7,
+      "in_sample_top30": 0.764,
+      "weights": [
+        0.090723,
+        0.155856,
+        -0.179823,
+        0.016738,
+        0.002562,
+        -0.079504,
+        0.03924,
+        0.039766,
+        -0.071914,
+        -0.15306,
+        -0.290105,
+        0.06024,
+        0.189297,
+        0.001789,
+        -0.016188
+      ],
+      "feature_names": [
+        "const",
+        "PC0",
+        "PC1",
+        "PC2",
+        "PC3",
+        "PC0^2",
+        "PC1^2",
+        "PC2^2",
+        "PC3^2",
+        "PC0*PC1",
+        "PC0*PC2",
+        "PC0*PC3",
+        "PC1*PC2",
+        "PC1*PC3",
+        "PC2*PC3"
+      ],
+      "sources": [
+        "r3:two_pal16",
+        "r4:two_pal16",
+        "r4:two_sel"
+      ]
+    },
+    "k8snap": {
+      "family": "k8snap",
+      "kind": "linear",
+      "lam": 1.0,
+      "n_terms": 9,
+      "k": 8,
+      "n": 240,
+      "base_rate": 0.417,
+      "cv_auc": 0.6152,
+      "in_sample_top50": 0.5,
+      "in_sample_top30": 0.569,
+      "weights": [
+        -0.139405,
+        0.14727,
+        -0.153848,
+        0.041295,
+        -0.002232,
+        0.015126,
+        -0.165255,
+        -0.117833,
+        0.015619
+      ],
+      "feature_names": [
+        "const",
+        "PC0",
+        "PC1",
+        "PC2",
+        "PC3",
+        "PC4",
+        "PC5",
+        "PC6",
+        "PC7"
+      ],
+      "sources": [
+        "r3:k8snap",
+        "r4:k8snap",
+        "r4:snap_sel"
+      ]
+    }
+  }
+}

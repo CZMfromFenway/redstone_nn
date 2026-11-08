@@ -1,0 +1,626 @@
+{
+  "kind": "palette_scheme",
+  "version": 2,
+  "created": "2026-11-07T04:10:08",
+  "semantics": "每槽有 p 的概率被替换；替换时在 alts 里按 weight 抽一个；p=0 或 alts 为空则该槽永远用原色",
+  "slots": [
+    {
+      "slot": 3,
+      "from": "MAGENTA",
+      "from_rgb": [
+        10.471,
+        4.471,
+        12.706
+      ],
+      "from_L": 7.2,
+      "p": 0.35,
+      "usage": 0.00006,
+      "alts": [
+        {
+          "rgb": [
+            5.176,
+            7.765,
+            10.962
+          ],
+          "name": "地图色",
+          "mod": "MAP",
+          "L": 7.36,
+          "dL": 0.16,
+          "dhue": 71,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            15,
+            0,
+            0
+          ],
+          "name": "FIRE",
+          "mod": "HIGH",
+          "L": 4.48,
+          "dL": -2.72,
+          "dhue": 76,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            1.176,
+            10.588,
+            7.824
+          ],
+          "name": "WARPED_WART_BLOCK",
+          "mod": "HIGH",
+          "L": 7.46,
+          "dL": 0.26,
+          "dhue": 121,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            0,
+            12.765,
+            3.412
+          ],
+          "name": "EMERALD",
+          "mod": "HIGH",
+          "L": 7.88,
+          "dL": 0.68,
+          "dhue": 148,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            13.471,
+            13.471,
+            3
+          ],
+          "name": "YELLOW",
+          "mod": "HIGH",
+          "L": 12.28,
+          "dL": 5.08,
+          "dhue": 136,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            5.412,
+            12.882,
+            12.529
+          ],
+          "name": "DIAMOND",
+          "mod": "HIGH",
+          "L": 10.61,
+          "dL": 3.41,
+          "dhue": 107,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 4,
+      "from": "GRAY",
+      "from_rgb": [
+        4.471,
+        4.471,
+        4.471
+      ],
+      "from_L": 4.47,
+      "p": 0.6,
+      "usage": 0.15528,
+      "alts": [
+        {
+          "rgb": [
+            5.412,
+            1.471,
+            1.706
+          ],
+          "name": "CRIMSON_HYPHAE",
+          "mod": "HIGH",
+          "L": 2.68,
+          "dL": -1.79,
+          "dhue": 4,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            4.471,
+            4.824,
+            2.471
+          ],
+          "name": "TERRACOTTA_GREEN",
+          "mod": "HIGH",
+          "L": 4.45,
+          "dL": -0.02,
+          "dhue": 69,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            4.471,
+            3.647,
+            5.412
+          ],
+          "name": "TERRACOTTA_BLUE",
+          "mod": "HIGH",
+          "L": 4.09,
+          "dL": -0.38,
+          "dhue": 92,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 6,
+      "from": "BLUE",
+      "from_rgb": [
+        3,
+        4.471,
+        10.471
+      ],
+      "from_L": 4.71,
+      "p": 0.45,
+      "usage": 0.00013,
+      "alts": [
+        {
+          "rgb": [
+            7.471,
+            3.706,
+            10.471
+          ],
+          "name": "PURPLE",
+          "mod": "HIGH",
+          "L": 5.6,
+          "dL": 0.89,
+          "dhue": 45,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            1.294,
+            7.412,
+            7.882
+          ],
+          "name": "WARPED_NYLIUM",
+          "mod": "HIGH",
+          "L": 5.64,
+          "dL": 0.93,
+          "dhue": 44,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            4.471,
+            4.824,
+            2.471
+          ],
+          "name": "TERRACOTTA_GREEN",
+          "mod": "HIGH",
+          "L": 4.45,
+          "dL": -0.26,
+          "dhue": 159,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            9,
+            3,
+            3
+          ],
+          "name": "RED",
+          "mod": "HIGH",
+          "L": 4.79,
+          "dL": 0.08,
+          "dhue": 132,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 7,
+      "from": "TERRACOTTA_LIGHT_GREEN",
+      "from_rgb": [
+        6.059,
+        6.882,
+        3.118
+      ],
+      "from_L": 6.21,
+      "p": 0.6,
+      "usage": 0.02609,
+      "alts": [
+        {
+          "rgb": [
+            8.765,
+            5.118,
+            6.353
+          ],
+          "name": "TERRACOTTA_MAGENTA",
+          "mod": "HIGH",
+          "L": 6.35,
+          "dL": 0.14,
+          "dhue": 93,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            9.412,
+            4.529,
+            4.588
+          ],
+          "name": "TERRACOTTA_PINK",
+          "mod": "HIGH",
+          "L": 6,
+          "dL": -0.21,
+          "dhue": 74,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            9.353,
+            4.824,
+            2.118
+          ],
+          "name": "TERRACOTTA_ORANGE",
+          "mod": "HIGH",
+          "L": 5.87,
+          "dL": -0.34,
+          "dhue": 51,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            1.294,
+            7.412,
+            7.882
+          ],
+          "name": "WARPED_NYLIUM",
+          "mod": "HIGH",
+          "L": 5.64,
+          "dL": -0.57,
+          "dhue": 111,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            7.471,
+            3.706,
+            10.471
+          ],
+          "name": "PURPLE",
+          "mod": "HIGH",
+          "L": 5.6,
+          "dL": -0.61,
+          "dhue": 160,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 8,
+      "from": "YELLOW",
+      "from_rgb": [
+        13.471,
+        13.471,
+        3
+      ],
+      "from_L": 12.28,
+      "p": 1,
+      "usage": 0.00028,
+      "alts": [
+        {
+          "rgb": [
+            5.412,
+            12.882,
+            12.529
+          ],
+          "name": "DIAMOND",
+          "mod": "HIGH",
+          "L": 10.61,
+          "dL": -1.67,
+          "dhue": 117,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            10.471,
+            4.471,
+            12.706
+          ],
+          "name": "MAGENTA",
+          "mod": "HIGH",
+          "L": 7.2,
+          "dL": -5.08,
+          "dhue": 136,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 9,
+      "from": "DIAMOND",
+      "from_rgb": [
+        5.412,
+        12.882,
+        12.529
+      ],
+      "from_L": 10.61,
+      "p": 1,
+      "usage": 0.00286,
+      "alts": [
+        {
+          "rgb": [
+            12.687,
+            12.078,
+            3.908
+          ],
+          "name": "地图色",
+          "mod": "MAP",
+          "L": 11.33,
+          "dL": 0.72,
+          "dhue": 121,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            9.412,
+            9.412,
+            15
+          ],
+          "name": "ICE",
+          "mod": "HIGH",
+          "L": 10.05,
+          "dL": -0.56,
+          "dhue": 63,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            10.471,
+            4.471,
+            12.706
+          ],
+          "name": "MAGENTA",
+          "mod": "HIGH",
+          "L": 7.2,
+          "dL": -3.41,
+          "dhue": 107,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 12,
+      "from": "FIRE",
+      "from_rgb": [
+        15,
+        0,
+        0
+      ],
+      "from_L": 4.48,
+      "p": 0.5,
+      "usage": 0,
+      "alts": [
+        {
+          "rgb": [
+            3,
+            4.471,
+            10.471
+          ],
+          "name": "BLUE",
+          "mod": "HIGH",
+          "L": 4.71,
+          "dL": 0.23,
+          "dhue": 132,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            6,
+            4.471,
+            3
+          ],
+          "name": "BROWN",
+          "mod": "HIGH",
+          "L": 4.76,
+          "dL": 0.28,
+          "dhue": 29,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 13,
+      "from": "BLACK",
+      "from_rgb": [
+        1.471,
+        1.471,
+        1.471
+      ],
+      "from_L": 1.47,
+      "p": 0.55,
+      "usage": 0,
+      "alts": [
+        {
+          "rgb": [
+            2.176,
+            1.294,
+            0.941
+          ],
+          "name": "TERRACOTTA_BLACK",
+          "mod": "HIGH",
+          "L": 1.52,
+          "dL": 0.05,
+          "dhue": 17,
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "slot": 14,
+      "from": "LIGHT_GRAY",
+      "from_rgb": [
+        9,
+        9,
+        9
+      ],
+      "from_L": 9,
+      "p": 0.45,
+      "usage": 0.10869,
+      "alts": [
+        {
+          "rgb": [
+            7.471,
+            10.471,
+            3.294
+          ],
+          "name": "GRASS/HIGH",
+          "mod": "MAP",
+          "L": 8.76,
+          "dL": -0.24,
+          "dhue": 85,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            6,
+            9,
+            12.706
+          ],
+          "name": "LIGHT_BLUE",
+          "mod": "HIGH",
+          "L": 8.53,
+          "dL": -0.47,
+          "dhue": 147,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            14.235,
+            7.471,
+            9.706
+          ],
+          "name": "PINK",
+          "mod": "HIGH",
+          "L": 9.75,
+          "dL": 0.75,
+          "dhue": 20,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            9.412,
+            9.412,
+            15
+          ],
+          "name": "ICE",
+          "mod": "HIGH",
+          "L": 10.05,
+          "dL": 1.05,
+          "dhue": 120,
+          "weight": 1
+        },
+        {
+          "rgb": [
+            12.706,
+            7.471,
+            3
+          ],
+          "name": "ORANGE",
+          "mod": "HIGH",
+          "L": 8.53,
+          "dL": -0.47,
+          "dhue": 28,
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "palette_first_alt": [
+    [
+      14.529,
+      13.706,
+      9.588
+    ],
+    [
+      12.706,
+      7.471,
+      3
+    ],
+    [
+      1.471,
+      1.471,
+      1.471
+    ],
+    [
+      5.176,
+      7.765,
+      10.962
+    ],
+    [
+      5.412,
+      1.471,
+      1.706
+    ],
+    [
+      11.706,
+      11.706,
+      11.706
+    ],
+    [
+      7.471,
+      3.706,
+      10.471
+    ],
+    [
+      8.765,
+      5.118,
+      6.353
+    ],
+    [
+      5.412,
+      12.882,
+      12.529
+    ],
+    [
+      12.687,
+      12.078,
+      3.908
+    ],
+    [
+      12.706,
+      10.294,
+      8.647
+    ],
+    [
+      8.353,
+      3.529,
+      2.706
+    ],
+    [
+      3,
+      4.471,
+      10.471
+    ],
+    [
+      2.176,
+      1.294,
+      0.941
+    ],
+    [
+      7.471,
+      10.471,
+      3.294
+    ],
+    [
+      15,
+      14.824,
+      14.412
+    ]
+  ],
+  "summary": {
+    "n_slots": 9,
+    "n_alts": 31,
+    "mean_abs_dL": 1.06,
+    "affected_pixel_share": 0.161
+  },
+  "note": "多候选方案：tools/apply_palette_scheme.py 会写成 palette_sets，页面按每张脸抽样"
+}

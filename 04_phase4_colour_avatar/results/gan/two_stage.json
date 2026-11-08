@@ -1,0 +1,18 @@
+{
+  "two_stage": {
+    "sat": 0.321,
+    "ncol": 12.06,
+    "edge": 16.2,
+    "lum_mean": 7.74,
+    "lum_std": 5.04,
+    "hue_ent": 1.21
+  },
+  "real": {
+    "sat": 0.314,
+    "ncol": 7.25,
+    "edge": 15.59,
+    "lum_mean": 7.31,
+    "lum_std": 4.99,
+    "hue_ent": 1.477
+  }
+}

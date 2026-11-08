@@ -1,0 +1,38 @@
+{
+  "target": "grade>=3",
+  "kind": "linear",
+  "n_terms": 9,
+  "weights": [
+    0.070819,
+    0.208312,
+    -0.198599,
+    0.08647,
+    0.086587,
+    -0.21406,
+    -0.139381,
+    0.01615,
+    0.095066
+  ],
+  "coef_names": [
+    "const",
+    "PC0",
+    "PC1",
+    "PC2",
+    "PC3",
+    "PC4",
+    "PC5",
+    "PC6",
+    "PC7"
+  ],
+  "n": 121,
+  "positive_rate": 0.5207,
+  "cv_auc": 0.7083,
+  "in_sample_auc": 0.7627,
+  "lam": 10.0,
+  "source": "colour_round1.jsonl",
+  "arms": [
+    "k8",
+    "k8snap"
+  ],
+  "note": "分数越高越好；红石成本 = 8 次乘加 + 1 次常数（共 9 项）"
+}
