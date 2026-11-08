@@ -79,3 +79,54 @@ desktop.ini
 *.tmp
 *.bak
 ~$*
+
+# ═════════════════════════════════════════════
+# 四期：只收「文档引用到的图 + 部署权重 + 盲测标签」
+#   训练产物（可重训）、采样池（可重采）、过程稿一律不入库
+# ═════════════════════════════════════════════
+04_phase4_colour_avatar/_work/
+# （_work/digest/ 的四份摘要已入库：它们是 docs/00 引用的整理留档；其余过程稿忽略）
+
+# 实验臂的训练产物（一批 3.5 MB，重训命令见 docs/13 §9）
+04_phase4_colour_avatar/results/train/
+04_phase4_colour_avatar/results/colourise/model_*.json
+
+# 扩散权重（单份最大 7.9 MB，可重训）与样本池（可重采）；只留代理指标
+04_phase4_colour_avatar/results/diffusion/*.json
+!04_phase4_colour_avatar/results/diffusion/*_stats.json
+
+# 两阶段实验臂：只留部署必需的灰度模型与颜色头
+04_phase4_colour_avatar/results/twostage/*.json
+!04_phase4_colour_avatar/results/twostage/gray_pca4.json
+!04_phase4_colour_avatar/results/twostage/pal16_curated64.json
+
+# 过程稿（下划线开头 = 中间产物；`sample_baselines.py --verify` 会自动重生成）
+04_phase4_colour_avatar/results/labels/_*.json
+
+# ── 四期结论图白名单（= docs/ 里引用到的那些，共 25 张 1.9 MB）──
+!04_phase4_colour_avatar/results/diffusion/compare_arms.png
+!04_phase4_colour_avatar/results/diffusion/cur_n200.png
+!04_phase4_colour_avatar/results/diffusion/jim_n200_s10.png
+!04_phase4_colour_avatar/results/diffusion/mlp96_h256x_s10.png
+!04_phase4_colour_avatar/results/diffusion/tokM_h192_conf_s10.png
+!04_phase4_colour_avatar/results/diffusion/tokM_h192_rand_s10.png
+!04_phase4_colour_avatar/results/labels/near_duplicates.png
+!04_phase4_colour_avatar/results/labels/round14_badtail.png
+!04_phase4_colour_avatar/results/labels/round14_graded.png
+!04_phase4_colour_avatar/results/labels/round1_dist.png
+!04_phase4_colour_avatar/results/labels/round1_graded.png
+!04_phase4_colour_avatar/results/labels/round2_graded.png
+!04_phase4_colour_avatar/results/labels/round3_graded.png
+!04_phase4_colour_avatar/results/labels/round4_graded.png
+!04_phase4_colour_avatar/results/labels/round5_graded.png
+!04_phase4_colour_avatar/results/palette_shift/ba_good.png
+!04_phase4_colour_avatar/results/palette_shift/high_colours.png
+!04_phase4_colour_avatar/results/palette_shift/preview.png
+!04_phase4_colour_avatar/results/palette_shift/shift.png
+!04_phase4_colour_avatar/results/palette_shift/slot_candidates.png
+!04_phase4_colour_avatar/results/pca4map/COLOUR_MAP_p3_p0_5.png
+!04_phase4_colour_avatar/results/pca4map/EXTREMES.png
+!04_phase4_colour_avatar/results/pca4map/SCORE_MAP.png
+!04_phase4_colour_avatar/results/twostage/pipeline.png
+!04_phase4_colour_avatar/results/twostage/selection_ba.png
+!04_phase4_colour_avatar/webapp/preview.png
