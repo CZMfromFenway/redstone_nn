@@ -1,0 +1,30 @@
+{
+  "round": 13,
+  "note": "四期第十三轮：修正 cur 采样器后重测「现役 vs 扩散」，并第一次量本轮噪声地板（同一配置两条独立臂）",
+  "arms": [
+    {
+      "name": "real",
+      "precomputed": true,
+      "file": "../results/diffusion/real_n200.json",
+      "note": "真实数据（4bit 原样，吸附 16 槽）——人判基线"
+    },
+    {
+      "name": "cur_a",
+      "precomputed": true,
+      "file": "../results/diffusion/cur_n200.json",
+      "note": "现役全档（灰度+16色头+逐张换调色板+4选1），采样器已与页面对账"
+    },
+    {
+      "name": "cur_b",
+      "precomputed": true,
+      "file": "../results/diffusion/cur_b_n200.json",
+      "note": "同一配置、另一条独立采样流——用来量本轮噪声地板（与 cur_a 理论上应完全相同）"
+    },
+    {
+      "name": "tokM_rand",
+      "precomputed": true,
+      "file": "../results/diffusion/tokM_h192_rand_s10.json",
+      "note": "纯 MLP token(mask) 扩散 + 采样揭盖，10 步，体积 187,392（2.12×）"
+    }
+  ]
+}

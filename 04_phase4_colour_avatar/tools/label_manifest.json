@@ -1,0 +1,67 @@
+{
+  "round": 11,
+  "note": "四期第十一轮（2 臂）：精选 64 组合之上，加「画面里没有 QUARTZ 时把 WOOL 换成 QUARTZ」这条规则（不管 SAND）；主判据 grade>=3",
+  "arms": [
+    {
+      "name": "cur64",
+      "file": "../results/twostage/pal16_curated64.json",
+      "k": 4,
+      "pipe": {
+        "gray": "../results/twostage/gray_pca4.json"
+      },
+      "select": {
+        "weights": [
+          0.090723,
+          0.155856,
+          -0.179823,
+          0.016738,
+          0.002562,
+          -0.079504,
+          0.03924,
+          0.039766,
+          -0.071914,
+          -0.15306,
+          -0.290105,
+          0.06024,
+          0.189297,
+          0.001789,
+          -0.016188
+        ],
+        "kind": "quad",
+        "candidates": 4
+      },
+      "norm": 1.0
+    },
+    {
+      "name": "cur64_rule",
+      "file": "../results/twostage/pal16_curated64.json",
+      "k": 4,
+      "pipe": {
+        "gray": "../results/twostage/gray_pca4.json"
+      },
+      "select": {
+        "weights": [
+          0.090723,
+          0.155856,
+          -0.179823,
+          0.016738,
+          0.002562,
+          -0.079504,
+          0.03924,
+          0.039766,
+          -0.071914,
+          -0.15306,
+          -0.290105,
+          0.06024,
+          0.189297,
+          0.001789,
+          -0.016188
+        ],
+        "kind": "quad",
+        "candidates": 4
+      },
+      "norm": 1.0,
+      "post": "wool2white"
+    }
+  ]
+}

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>四期 · 彩色头像盲测</title>
+<style>
+  body{background:#111317;color:#dfe6f2;font:14px/1.6 "Microsoft YaHei",system-ui,sans-serif;margin:0;padding:24px}
+  #wrap{max-width:760px;margin:0 auto}
+  h1{font-size:18px;margin:0 0 6px}
+  .sub{color:#93a0b4;font-size:12px;margin-bottom:16px}
+  #stage{display:flex;gap:24px;align-items:center;margin:18px 0}
+  canvas{image-rendering:pixelated;border:1px solid #2a3140;background:#000}
+  .btns{display:flex;flex-direction:column;gap:8px;flex:1}
+  button{background:#1b2130;color:#dfe6f2;border:1px solid #2f3a4d;border-radius:6px;
+         padding:10px 14px;text-align:left;cursor:pointer;font-size:14px}
+  button:hover{border-color:#4a6b9a;background:#212a3c}
+  button b{color:#7fb2ff;margin-right:8px}
+  #bar{height:6px;background:#1b2130;border-radius:3px;overflow:hidden;margin:10px 0 4px}
+  #bar>i{display:block;height:100%;background:#4a86e8;width:0}
+  #msg{font-size:12px;color:#8fa0b8;min-height:18px}
+  .ok{color:#6fcf97}.bad{color:#eb5757}
+  code{background:#1b2130;padding:1px 5px;border-radius:3px}
+  #done{display:none;margin-top:18px;line-height:1.8}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h1 id="h1">四期 · 彩色头像盲测</h1>
+  <div class="sub" id="sub">
+    每张脸来自一个未知的臂，臂在最后才揭晓。<br>
+    定级：<b>0</b> 废 · <b>1</b> 差 · <b>2</b> 能看但不值 · <b>3</b> 好（会想展示） · <b>4</b> 很好。<br>
+    <b>本轮主判据 = 3 及以上</b>。一张脸只出现一次。<br>
+    <b>每轮种子都不同</b>（打开页面的时刻决定），脸的顺序也打乱过——不会再看一遍同样的图。
+  </div>
+
+  <div id="stage">
+    <canvas id="cv" width="8" height="8" style="width:256px;height:256px"></canvas>
+    <div class="btns">
+      <button data-g="4"><b>4</b>很好</button>
+      <button data-g="3"><b>3</b>好（会展示）</button>
+      <button data-g="2"><b>2</b>能看但不值</button>
+      <button data-g="1"><b>1</b>差</button>
+      <button data-g="0"><b>0</b>废</button>
+      <button id="skip" style="color:#93a0b4"><b>s</b>跳过这一张</button>
+    </div>
+  </div>
+
+  <div id="bar"><i></i></div>
+  <div id="msg">正在载入模型…</div>
+  <div id="done"></div>
+</div>
+
+<script>
+const P = new URLSearchParams(location.search);
+const QUOTA = parseInt(P.get('n') || '60', 10);
+const ROUND = P.get('round') || '1';
+const MANIFEST = P.get('man') || 'label_manifest.json';
+let arms = [], counts = {}, item = null, done = 0, totalQuota = 0, ptr = 0, schedule = [];
+
+/* ---- 随机种子 ------------------------------------------------------------
+   默认 **每次打开页面都换一个**（把当前时间戳与 Math.random 混起来），
+   这样"每秒钟刷新一次就是一轮新的盲测"，不会再出现十几轮图都一样、都审美疲劳。
+   想复现某一轮：在地址后面加 ?seed=<那一轮显示的数>。 */
+function freshSeed(){
+  const t = Date.now() >>> 0;
+  const r = (Math.random() * 0xffffffff) >>> 0;
+  return (t ^ r) >>> 0;
+}
+const SEED_FROM_URL = P.get('seed');
+let seed = SEED_FROM_URL ? (parseInt(SEED_FROM_URL, 10) >>> 0) : freshSeed();
+const seed0 = seed;          // 本轮起始种子：显示与记录用（seed 本身会被 LCG 推着走）
+function rnd(){ seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+function gauss(){ let u=0,v=0; while(u===0) u=rnd(); while(v===0) v=rnd();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function clip(v,a,b){ return v<a?a:(v>b?b:v); }
+
+// layers = [{W,b}]，最后一层不带 ReLU
+function fwdLayers(layers, x){
+  let h = x;
+  for (let li=0; li<layers.length; li++){
+    const L = layers[li], last = (li === layers.length-1);
+    const o = new Float64Array(L.b.length);
+    for (let j=0;j<L.b.length;j++){
+      let s = L.b[j]; const row = L.W[j];
+      for (let i=0;i<h.length;i++) s += row[i]*h[i];
+      o[j] = last ? s : (s>0 ? s : 0);
+    }
+    h = o;
+  }
+  return h;
+}
+
+function samplePalette(model){
+  const base = model.palette;
+  let pal = base.slice();
+  const fixed = {};
+  // 精选先验：先从固定组合里抽一个（保留"哪几个颜色搭在一起"的相关性）
+  if (model.configs && model.configs.length){
+    const c = model.configs[Math.floor(rnd() * model.configs.length)];
+    for (const k in c.cfg){ pal[Number(k)] = c.cfg[k]; fixed[k] = 1; }
+  }
+  if (model.palette_sets){
+    pal = pal.map((cur, i) => {
+      if (fixed[i]) return cur;                       // 已被组合固定
+      const set = model.palette_sets[i];
+      if (!set || set.length <= 1) return (set && set[0]) || base[i];
+      const p = (model.slot_p && model.slot_p[i] != null) ? model.slot_p[i] : 1;
+      if (rnd() >= p) return base[i];
+      const w = (model.slot_w && model.slot_w[i]) ? model.slot_w[i] : set.map(() => 1);
+      const tot = w.reduce((a, b) => a + b, 0);
+      if (tot <= 0) return base[i];
+      let r = rnd() * tot;
+      for (let k = 0; k < set.length; k++) { r -= w[k]; if (r <= 0) return set[k]; }
+      return set[set.length - 1];
+    });
+  }
+  return pal;
+}
+
+function paletteColours(model, x, post){
+  const pal = samplePalette(model);
+  let h = x;
+  for (const L of model.body){
+    const o = new Float64Array(L.b.length);
+    for (let j=0;j<L.b.length;j++){
+      let s = L.b[j]; const row = L.W[j];
+      for (let i=0;i<h.length;i++) s += row[i]*h[i];
+      o[j] = s>0?s:0;
+    }
+    h = o;
+  }
+  const K = pal.length;
+  const lg = new Float64Array(model.head.b.length);
+  for (let j=0;j<lg.length;j++){
+    let s = model.head.b[j]; const row = model.head.W[j];
+    for (let i=0;i<h.length;i++) s += row[i]*h[i];
+    lg[j] = s;
+  }
+  const idx = new Uint8Array(32);
+  for (let p=0;p<32;p++){
+    let bi=0, bv=-1e18;
+    for (let c=0;c<K;c++){ const v = lg[p*K+c]; if (v>bv){bv=v; bi=c;} }
+    idx[p]=bi;
+  }
+  if (post === 'wool2white'){          // 画面没有白时，把 WOOL(5) 提到 QUARTZ(15)
+    let hasWhite=false, hasWool=false;
+    for (let i=0;i<32;i++){ if (idx[i]===15) hasWhite=true; if (idx[i]===5) hasWool=true; }
+    if (!hasWhite && hasWool) for (let i=0;i<32;i++) if (idx[i]===5) idx[i]=15;
+  }
+  if (post === 'wool2brightest'){
+    // 一般化：若画面里没有任何"比 WOOL 更亮"的颜色，就把 WOOL 提到当前最亮的那个颜色
+    const L = pal.map(c => 0.299*c[0] + 0.587*c[1] + 0.114*c[2]);
+    const iWool = 5;
+    let brightest = 0;
+    for (let k=1;k<L.length;k++) if (L[k] > L[brightest] + 1e-9) brightest = k;
+    let maxUsed = -1, hasWool = false;
+    for (let i=0;i<32;i++){
+      if (idx[i] === iWool) hasWool = true;
+      if (L[idx[i]] > maxUsed) maxUsed = L[idx[i]];
+    }
+    if (hasWool && maxUsed <= L[iWool] + 1e-6){
+      for (let i=0;i<32;i++) if (idx[i] === iWool) idx[i] = brightest;
+    }
+  }
+  const out = new Float64Array(96);
+  for (let p=0;p<32;p++){
+    const col = pal[idx[p]];
+    out[p*3] = col[0]; out[p*3+1] = col[1]; out[p*3+2] = col[2];
+  }
+  return out;
+}
+
+function rgbColours(model, x){
+  let h = x;
+  for (const L of model.body){
+    const o = new Float64Array(L.b.length);
+    for (let j=0;j<L.b.length;j++){
+      let s = L.b[j]; const row = L.W[j];
+      for (let i=0;i<h.length;i++) s += row[i]*h[i];
+      o[j] = s>0?s:0;
+    }
+    h = o;
+  }
+  const out = new Float64Array(model.head.b.length);
+  for (let j=0;j<out.length;j++){
+    let s = model.head.b[j]; const row = model.head.W[j];
+    for (let i=0;i<h.length;i++) s += row[i]*h[i];
+    out[j] = clip(s * 15.0, 0, 15);   // 导出的 rgb96 模型输出是 0..1
+  }
+  return out;
+}
+
+// 一条完整的臂：可选先过灰度模型（两阶段）
+function coloursOf(arm, z){
+  let x = z;
+  if (arm.__gray){
+    const g = fwdLayers(arm.__gray.layers, z);
+    let lo = 1e9, hi = -1e9;
+    for (const v of g){ if (v<lo) lo=v; if (v>hi) hi=v; }
+    const span = Math.max(hi-lo, 1e-6);
+    const alpha = (arm.__norm === undefined ? 1.0 : arm.__norm);   // 归一化强度
+    x = new Float64Array(32);
+    for (let i=0;i<32;i++){
+      const raw = clip(g[i], 0, 15);
+      const full = clip((g[i]-lo)/span*15, 0, 15);
+      x[i] = Math.round(raw + alpha*(full-raw)) / 15.0;
+    }
+  }
+  const mode = (arm.meta && arm.meta.output_mode) || 'palette';
+  return mode === 'rgb96' ? rgbColours(arm, x)
+                          : paletteColours(arm, x, arm.__post);
+}
+
+function drawColours(cols){
+  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const id = ctx.createImageData(8,8);
+  for (let p=0;p<32;p++){
+    const row = p % 8, c0 = (p - row) / 8;
+    for (const c of [c0, 7-c0]){
+      const q = (row*8 + c)*4;
+      id.data[q]   = clip(Math.round(cols[p*3]*17), 0, 255);
+      id.data[q+1] = clip(Math.round(cols[p*3+1]*17), 0, 255);
+      id.data[q+2] = clip(Math.round(cols[p*3+2]*17), 0, 255);
+      id.data[q+3] = 255;
+    }
+  }
+  ctx.putImageData(id,0,0);
+}
+
+/* 直接画 64 个 "#rrggbb"（预计算臂用） */
+function drawHexes(list){
+  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const id = ctx.createImageData(8,8);
+  for (let k=0;k<64;k++){
+    const h = (list[k] || '#000000').replace('#','');
+    const q = k*4;
+    id.data[q]   = parseInt(h.slice(0,2),16);
+    id.data[q+1] = parseInt(h.slice(2,4),16);
+    id.data[q+2] = parseInt(h.slice(4,6),16);
+    id.data[q+3] = 255;
+  }
+  ctx.putImageData(id,0,0);
+}
+
+async function boot(){
+  const man = await (await fetch(MANIFEST)).json();
+  if (man.note){
+    const h = document.getElementById('h1');
+    h.textContent = '四期 · 彩色头像盲测（第 ' + (man.round || ROUND) + ' 轮）';
+    document.getElementById('sub').innerHTML =
+      '<b>' + man.note + '</b><br>' +
+      '定级：<b>0</b> 废 · <b>1</b> 差 · <b>2</b> 能看但不值 · <b>3</b> 好（会想展示） · <b>4</b> 很好。' +
+      '<b>主判据 = 3 及以上</b>；臂最后才揭晓；<b>每轮种子都不同、顺序已打乱</b>。';
+  }
+  totalQuota = QUOTA * man.arms.length;
+  for (const a of man.arms){
+    if (a.precomputed){
+      /* 预计算臂：样本已经是一组组固定色号（扩散、真实数据这类页面算不出来的臂）。
+         页面只负责"从池子里随机抽一张画出来"，不跑前向。 */
+      const pj = await (await fetch(a.file)).json();
+      const m = { __name: a.name, __pool: pj.samples.map(s => s.snapped),
+                  meta: { note: a.note || '' } };
+      arms.push(m);
+      counts[a.name] = 0;
+      continue;
+    }
+    const m = await (await fetch(a.file)).json();
+    m.__name = a.name;
+    m.__k = a.k || (m.meta && m.meta.k) || 8;
+    if (a.pipe && a.pipe.gray){
+      m.__gray = await (await fetch(a.pipe.gray)).json();
+    }
+    if (a.norm !== undefined) m.__norm = a.norm;
+    if (a.post) m.__post = a.post;
+    if (a.select){                      // FIX: 必须把清单里的 select 拷到臂对象上，
+      m.select = a.select;              // 否则 next() 里 arm.select 为 undefined，筛选静默失效
+    }
+    arms.push(m);
+    counts[a.name] = 0;
+  }
+  try{
+    const ref = await (await fetch('selftest.json')).json();
+    let bad = [];
+    for (const arm of arms){
+      const r = ref[arm.__name]; if (!r) continue;
+      if (arm.palette_sets) continue;   // 逐张抽样，无法与固定参考对账
+      const got = Array.from(coloursOf(arm, r.z));
+      const want = r.colours;
+      let ok = got.length === want.length;
+      if (ok) for (let i=0;i<got.length;i++) if (Math.abs(got[i]-want[i]) > 2e-3){ ok=false; break; }
+      if (!ok) bad.push(arm.__name);
+    }
+    show(bad.length === 0 ? '✓ 前向自检通过（与 Python 参考一致）'
+                          : '✗ 前向自检失败：' + bad.join(','), bad.length > 0);
+  }catch(e){ show('自检跳过（无 selftest.json）'); }
+  buildSchedule();
+  show(`本轮种子 ${seed0} · 共 ${totalQuota} 张（臂顺序已打乱）`);
+  next();
+}
+
+function scoreOf(arm, z){
+  const w = arm.select.weights, k = z.length;
+  const f = [1];
+  for (let i=0;i<k;i++) f.push(z[i]);
+  if (arm.select.kind === 'quad'){
+    for (let i=0;i<k;i++) f.push(z[i]*z[i]);
+    for (let i=0;i<k;i++) for (let j=i+1;j<k;j++) f.push(z[i]*z[j]);
+  }
+  let sc = 0;
+  for (let i=0;i<w.length;i++) sc += w[i]*f[i];
+  return sc;
+}
+
+/* 配额表：每个臂各 QUOTA 张，并且**整轮顺序先洗一遍**。
+   这样换一个种子 → 不只是换脸，连臂的出场顺序也变，避免"每次都是同样的排列顺序"。 */
+function buildSchedule(){
+  schedule = [];
+  for (const a of arms) for (let i = 0; i < QUOTA; i++) schedule.push(a.__name);
+  for (let i = schedule.length - 1; i > 0; i--){        // Fisher-Yates（用同一条种子流）
+    const j = Math.floor(rnd() * (i + 1));
+    const t = schedule[i]; schedule[i] = schedule[j]; schedule[j] = t;
+  }
+  totalQuota = schedule.length;
+}
+
+function armByName(n){ for (const a of arms) if (a.__name === n) return a; return null; }
+
+function next(){
+  if (ptr >= schedule.length){ finish(); return; }
+  const arm = armByName(schedule[ptr]);
+  if (!arm){ finish(); return; }
+  /* 预计算臂：从样本池里随机取一张（用同一条种子流，所以可复现）。
+     **不放回**：先把整池洗一遍再逐个取，避免一轮里同一张图出现两次。
+     （第一版是「有放回」抽样，200 池里抽 40 张，生日悖论下平均会重复 ~4 次/臂 —— 作者看到的"几乎一样的图"就是这个。） */
+  if (arm.__pool){
+    if (!arm.__order || arm.__order.length === 0){
+      arm.__order = arm.__pool.map((_, i) => i);
+      for (let i = arm.__order.length - 1; i > 0; i--){       // Fisher-Yates
+        const j = Math.floor(rnd() * (i + 1));
+        const t = arm.__order[i]; arm.__order[i] = arm.__order[j]; arm.__order[j] = t;
+      }
+    }
+    const si = arm.__order.pop();
+    drawHexes(arm.__pool[si]);
+    item = { arm: arm.__name, k: 16, z: [si, 0, 0, 0], score: null,
+             candidates: 0, cand: 0, seat: ptr, seed: seed, sample: si };
+    document.getElementById('bar').firstElementChild.style.width =
+      (100 * ptr / Math.max(1, totalQuota)).toFixed(1) + '%';
+    show(`第 ${ptr + 1} / ${totalQuota} 张 · 本轮种子 ${seed0}`);
+    return;
+  }
+  const k = arm.__k;
+  let z = null, score = null, cand = 0;
+  if (arm.select){
+    let best = -1e18;
+    for (let c=0;c<arm.select.candidates;c++){
+      const zz = [];
+      for (let i=0;i<k;i++) zz.push(clip(gauss(), -3.5, 3.5));
+      const sc = scoreOf(arm, zz);
+      if (sc > best){ best = sc; z = zz; score = sc; cand = c; }
+    }
+  } else {
+    z = [];
+    for (let i=0;i<k;i++) z.push(clip(gauss(), -3.5, 3.5));
+  }
+  const cols = Array.from(coloursOf(arm, z));
+  drawColours(cols);
+  item = { arm: arm.__name, k: k, z: Array.from(z), score: score,
+           candidates: arm.select ? arm.select.candidates : 0, cand: cand,
+           seat: ptr, seed: seed, cols: cols };
+  document.getElementById('bar').firstElementChild.style.width =
+    (100 * ptr / Math.max(1, totalQuota)).toFixed(1) + '%';
+  show(`第 ${ptr + 1} / ${totalQuota} 张 · 本轮种子 ${seed0}`);
+}
+
+async function grade(g){
+  if (!item) return;
+  const z = item.z.slice(0, 22);
+  while (z.length < 22) z.push(0);
+  const rec = { round: ROUND, model: item.arm, k: item.k, grade: g,
+                pca: z, z: item.z.slice(), score: item.score, candidates: item.candidates,
+                scheme: 'style', note: 'phase4-r' + ROUND,
+                seed0: seed0, seat: item.seat,
+                sample: (item.sample === undefined ? null : item.sample),
+                cols: item.cols ? item.cols.map(v => Math.round(v*1000)/1000) : null };
+  item = null;
+  try{
+    await fetch('/label', {method:'POST', headers:{'Content-Type':'application/json'},
+                           body: JSON.stringify(rec)});
+  }catch(e){ show('标签没能写入服务，但仍继续：' + e, true); }
+  counts[rec.model] = (counts[rec.model] || 0) + 1; done++; ptr++;
+  if (done >= totalQuota || ptr >= schedule.length) { finish(); return; }
+  try{ next(); }catch(e){ show('出图失败：' + e, true); }
+}
+
+/* 跳过：**不动 ptr**，同一个臂重抽一张脸——这样配额不会歪 */
+function skipOne(){
+  item = null;
+  try{ next(); }catch(e){ show('出图失败：' + e, true); }
+}
+
+function show(t, bad){
+  const m = document.getElementById('msg');
+  m.textContent = t;
+  m.className = bad ? 'bad' : '';
+}
+window.addEventListener('error', e => show('页面报错：' + (e.message || e), true));
+
+function finish(){
+  document.getElementById('stage').style.display = 'none';
+  const d = document.getElementById('done');
+  d.style.display = 'block';
+  const rows = arms.map(a => `${a.__name}: ${counts[a.__name]||0} 张`).join(' · ');
+  d.innerHTML = `<b>本轮完成。</b>（种子 <code>${seed0}</code>）<br>${rows}<br>
+    标签已写到 <code>04_phase4_colour_avatar/results/labels/colour_round${ROUND}.jsonl</code>。<br>
+    看统计：<a href="/stats" target="_blank">/stats</a><br>
+    <span style="color:#93a0b4">再跑一轮：直接刷新这一页即可（种子每秒都不同）。
+    想复现这一轮的图：<code>?seed=${seed0}</code></span>`;
+  show('完成。种子 ' + seed0);
+}
+
+document.querySelectorAll('button[data-g]').forEach(b =>
+  b.addEventListener('click', () => grade(parseInt(b.dataset.g,10))));
+document.getElementById('skip').addEventListener('click', skipOne);
+document.addEventListener('keydown', e => {
+  if (['0','1','2','3','4'].includes(e.key)) grade(parseInt(e.key,10));
+  if (e.key === 's') skipOne();
+});
+boot();
+</script>
+</body>
+</html>

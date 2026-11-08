@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>四期 · 彩色头像生成器（全开关版）</title>
+<style>
+  :root{--bg:#101216;--panel:#171b23;--line:#2a3140;--txt:#dfe6f2;--dim:#93a0b4;--acc:#4a86e8}
+  *{box-sizing:border-box}
+  body{margin:0;padding:20px;background:var(--bg);color:var(--txt);
+       font:13px/1.6 "Microsoft YaHei",system-ui,sans-serif}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:12px;margin-bottom:14px}
+  .cols{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .left{flex:0 0 380px}
+  .right{flex:1 1 420px;min-width:400px}
+  canvas{image-rendering:pixelated;display:block;border:1px solid var(--line);background:#000}
+  #one{width:340px;height:340px;margin:0 auto}
+  #batch{width:100%;height:auto;margin-top:8px}
+  .row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:12px}
+  .row label{flex:0 0 76px;color:var(--dim)}
+  input[type=range]{flex:1;accent-color:var(--acc)}
+  .val{flex:0 0 46px;text-align:right;font-variant-numeric:tabular-nums;font-size:12px}
+  select{background:#1b2130;color:var(--txt);border:1px solid #2f3a4d;border-radius:6px;padding:4px 7px;font-size:12px}
+  button{background:#1b2130;color:var(--txt);border:1px solid #2f3a4d;border-radius:7px;
+         padding:7px 11px;cursor:pointer;font-size:12px}
+  button:hover{border-color:#4a6b9a;background:#212a3c}
+  button.primary{background:#1d3b66;border-color:#3a6ea5}
+  .btnrow{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}
+  .chk{display:flex;align-items:center;gap:7px;font-size:12px;margin:6px 0}
+  .chk input{width:15px;height:15px;accent-color:var(--acc)}
+  hr{border:0;border-top:1px solid var(--line);margin:11px 0}
+  .stat{font-size:12px;color:var(--dim);min-height:20px;line-height:1.7}
+  .stat b{color:var(--txt)}
+  .hint{color:#5d6879;font-size:10px}
+  .legend{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .sw{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--dim)}
+  .sw i{width:13px;height:13px;border-radius:3px;border:1px solid #000}
+  code{background:#1b2130;padding:1px 4px;border-radius:3px}
+</style>
+</head>
+<body>
+<h1>彩色头像生成器 · 全开关版</h1>
+<div class="sub">
+  4 旋钮 → 灰度 → 16 色。下面每个开关都对应一次真实的实验结论，可以随便组合着玩。
+</div>
+
+<div class="cols">
+  <div class="panel left">
+    <canvas id="one" width="8" height="8"></canvas>
+    <div class="stat" id="stat">—</div>
+    <hr>
+    <div class="row" style="justify-content:space-between">
+      <span style="color:var(--dim)">批量（当前开关）</span>
+      <span id="binfo" class="hint"></span>
+    </div>
+    <canvas id="batch" width="64" height="64"></canvas>
+  </div>
+
+  <div class="panel right">
+    <div class="row"><label>PC0</label><input id="p0" type="range" min="-3.5" max="3.5" step="0.05" value="0.5"><span class="val" id="v0">0.50</span></div>
+    <div class="row"><label>PC1</label><input id="p1" type="range" min="-3.5" max="3.5" step="0.05" value="-1.0"><span class="val" id="v1">-1.00</span></div>
+    <div class="row"><label>PC2</label><input id="p2" type="range" min="-3.5" max="3.5" step="0.05" value="0.25"><span class="val" id="v2">0.25</span></div>
+    <div class="row"><label>PC3</label><input id="p3" type="range" min="-3.5" max="3.5" step="0.05" value="1.5"><span class="val" id="v3">1.50</span></div>
+
+    <div class="btnrow">
+      <button class="primary" id="bRand">随机一张</button>
+      <button id="bSel">随机 + 筛选</button>
+      <button id="bBatch">批量出图</button>
+      <button id="bZero">归零</button>
+    </div>
+
+    <hr>
+    <label class="chk"><input type="checkbox" id="colour" checked>上色<span class="hint">关掉显示颜色头读到的灰度半成品</span></label>
+
+    <div class="row"><label>调色板</label>
+      <select id="variant">
+        <option value="curated" selected>精选 64 组合（你的打分）</option>
+        <option value="user">你的原始方案（多候选）</option>
+        <option value="base">原色板（16 槽）</option>
+      </select></div>
+    <label class="chk"><input type="checkbox" id="revive" checked>先验校正<span class="hint">把被压制的颜色按数据占比放出来（只改 bias）</span></label>
+    <label class="chk"><input type="checkbox" id="wool">WOOL→QUARTZ<span class="hint">画面里没有 QUARTZ 时，把 WOOL 提成 QUARTZ</span></label>
+
+    <div class="row"><label>归一化 α</label><input id="alpha" type="range" min="0" max="1" step="0.05" value="1"><span class="val" id="va">1.00</span></div>
+
+    <label class="chk"><input type="checkbox" id="selOn" checked>筛选<span class="hint">生成前先抽几组旋钮，按打分器留最高</span></label>
+    <div class="row"><label>力度</label><input id="cands" type="range" min="1" max="16" step="1" value="4"><span class="val" id="vc">4 选 1</span></div>
+    <div class="row"><label>批量张数</label>
+      <select id="bn"><option>16</option><option selected>64</option><option>144</option><option>256</option></select></div>
+
+    <hr>
+    <div class="stat" id="stats"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const ROW = [], COL = [];
+for (let p=0;p<32;p++){ ROW.push(p%8); COL.push((p-(p%8))/8); }
+const S = { z:[0.5,-1.0,0.25,1.5], colour:true, variant:'curated', revive:true,
+            wool:false, alpha:1, selOn:true, cands:4, batchN:64 };
+
+function fwdOne(L, h, relu){
+  const o = new Float64Array(L.b.length);
+  for (let j=0;j<L.b.length;j++){
+    let s = L.b[j]; const row = L.W[j];
+    for (let i=0;i<h.length;i++) s += row[i]*h[i];
+    o[j] = relu ? Math.max(0, s) : s;
+  }
+  return o;
+}
+function grayLevels(z){
+  let h = z;
+  for (let i=0;i<D.gray.layers.length;i++) h = fwdOne(D.gray.layers[i], h, i < D.gray.layers.length-1);
+  let lo=1e9, hi=-1e9;
+  for (const v of h){ if (v<lo) lo=v; if (v>hi) hi=v; }
+  const span = Math.max(hi-lo, 1e-6), lv = new Float64Array(32);
+  for (let i=0;i<32;i++){
+    const raw = Math.min(15, Math.max(0, h[i]));
+    const full = Math.min(15, Math.max(0, (h[i]-lo)/span*15));
+    lv[i] = Math.round(raw + S.alpha*(full-raw));
+  }
+  return lv;
+}
+function scoreOf(z){
+  const w = D.scorer.weights;
+  const f = [1, z[0],z[1],z[2],z[3], z[0]*z[0],z[1]*z[1],z[2]*z[2],z[3]*z[3],
+             z[0]*z[1],z[0]*z[2],z[0]*z[3],z[1]*z[2],z[1]*z[3],z[2]*z[3]];
+  let s = 0; for (let i=0;i<w.length;i++) s += w[i]*f[i];
+  return s;
+}
+function gauss(){ let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function sampleZ(){ const z=new Float64Array(4);
+  for (let i=0;i<4;i++) z[i]=Math.min(3.5,Math.max(-3.5,gauss())); return z; }
+function pickBest(n){
+  let bz=null, bs=-1e18;
+  for (let i=0;i<Math.max(1,n);i++){
+    const z=sampleZ(), s=scoreOf(z);
+    if (s>bs){ bs=s; bz=z; }
+  }
+  return {z:bz, score:bs};
+}
+function samplePalette(){
+  const V = D.variants[S.variant];
+  let pal = V.palette.map(c => c.slice());
+  const fixed = {};
+  if (V.configs && V.configs.length){
+    const c = V.configs[Math.floor(Math.random()*V.configs.length)];
+    for (const k in c.cfg){ pal[Number(k)] = c.cfg[k].slice(); fixed[k]=1; }
+  }
+  if (V.palette_sets){
+    for (let i=0;i<pal.length;i++){
+      if (fixed[i]) continue;
+      const set = V.palette_sets[i];
+      if (!set || set.length <= 1){ if (set && set[0]) pal[i] = set[0].slice(); continue; }
+      const p = (V.slot_p && V.slot_p[i] != null) ? V.slot_p[i] : 1;
+      if (Math.random() >= p) continue;
+      const w = (V.slot_w && V.slot_w[i]) ? V.slot_w[i] : set.map(()=>1);
+      const tot = w.reduce((a,b)=>a+b,0);
+      if (tot <= 0) continue;
+      let r = Math.random()*tot;
+      for (let k=0;k<set.length;k++){ r -= w[k]; if (r<=0){ pal[i]=set[k].slice(); break; } }
+    }
+  }
+  return pal;
+}
+function colourIdx(lv, pal){
+  const x = new Float64Array(32);
+  for (let i=0;i<32;i++) x[i] = lv[i]/15;
+  let h = x;
+  for (const L of D.colour.body) h = fwdOne(L, h, true);
+  const b = S.revive ? D.colour.bRev : D.colour.bOrig;
+  const lg = new Float64Array(D.colour.headW.length);
+  for (let j=0;j<lg.length;j++){
+    let s = b[j]; const row = D.colour.headW[j];
+    for (let i=0;i<h.length;i++) s += row[i]*h[i];
+    lg[j] = s;
+  }
+  const K = pal.length, idx = new Uint8Array(32);
+  for (let p=0;p<32;p++){
+    let bi=0, bv=-1e18;
+    for (let c=0;c<K;c++){ const v=lg[p*K+c]; if (v>bv){ bv=v; bi=c; } }
+    idx[p]=bi;
+  }
+  if (S.wool){
+    let hasQ=false, hasW=false;
+    for (let i=0;i<32;i++){ if (idx[i]===15) hasQ=true; if (idx[i]===5) hasW=true; }
+    if (!hasQ && hasW) for (let i=0;i<32;i++) if (idx[i]===5) idx[i]=15;
+  }
+  return idx;
+}
+function facePixels(lv, idx, pal, colour){
+  const out = new Array(64), q = new Array(32);
+  for (let p=0;p<32;p++){
+    if (colour){ const c = pal[idx[p]]; q[p] = [Math.round(c[0]*17), Math.round(c[1]*17), Math.round(c[2]*17)]; }
+    else { const g = Math.round(lv[p]*17); q[p] = [g,g,g]; }
+  }
+  for (let p=0;p<32;p++){
+    const row = p%8, col = (p-row)/8;
+    out[row*8+col] = q[p]; out[row*8+(7-col)] = q[p];
+  }
+  return out;
+}
+function paint(ctx, x0, y0, px, img){
+  for (let i=0;i<64;i++){
+    const r=(i/8)|0, c=i%8, v=img[i];
+    ctx.fillStyle = 'rgb('+v[0]+','+v[1]+','+v[2]+')';
+    ctx.fillRect(x0+c*px, y0+r*px, px, px);
+  }
+}
+function stats(idx, pal){
+  const K = pal.length;
+  const cnt = new Float64Array(K);
+  for (const i of idx) cnt[i]++;
+  const n = 32;
+  let H = 0;
+  for (let c=0;c<K;c++){ const p=cnt[c]/n; if (p>0) H -= p*Math.log(p); }
+  let ncol = 0;
+  const seen = new Set();
+  for (const i of idx){ const k = pal[i].map(v=>v.toFixed(2)).join(','); if (!seen.has(k)){ seen.add(k); ncol++; } }
+  return {expH: Math.exp(H), ncol, wool: cnt[5]/n, quartz: cnt[15]/n};
+}
+
+const cvOne = document.getElementById('one'), ctxOne = cvOne.getContext('2d');
+const cvBatch = document.getElementById('batch'), ctxBatch = cvBatch.getContext('2d');
+
+function readUI(){
+  S.colour = document.getElementById('colour').checked;
+  S.variant = document.getElementById('variant').value;
+  S.revive = document.getElementById('revive').checked;
+  S.wool = document.getElementById('wool').checked;
+  S.alpha = parseFloat(document.getElementById('alpha').value);
+  S.selOn = document.getElementById('selOn').checked;
+  S.cands = parseInt(document.getElementById('cands').value, 10);
+  S.batchN = parseInt(document.getElementById('bn').value, 10);
+  S.z = [0,1,2,3].map(i => parseFloat(document.getElementById('p'+i).value));
+}
+function renderOne(msg){
+  readUI();
+  const lv = grayLevels(Float64Array.from(S.z));
+  const pal = samplePalette();
+  const idx = colourIdx(lv, pal);
+  paint(ctxOne, 0, 0, 1, facePixels(lv, idx, pal, S.colour));
+  const st = stats(idx, pal);
+  const sc = scoreOf(Float64Array.from(S.z));
+  document.getElementById('stat').innerHTML =
+    (S.colour ? '彩色' : '<b>灰度半成品</b>') +
+    ' · 分数 <b>' + sc.toFixed(2) + '</b> · 色数 ' + st.ncol +
+    ' · exp(H) ' + st.expH.toFixed(1) +
+    ' · 白 ' + (st.quartz*100).toFixed(0) + '% / WOOL ' + (st.wool*100).toFixed(0) + '%' +
+    (msg ? '<br>' + msg : '');
+}
+function renderBatch(){
+  readUI();
+  const n = S.batchN, cols = Math.ceil(Math.sqrt(n)), rows = Math.ceil(n/cols);
+  cvBatch.width = cols*8; cvBatch.height = rows*8;
+  ctxBatch.clearRect(0,0,cvBatch.width,cvBatch.height);
+  let sc=[], H=[], nc=[];
+  for (let i=0;i<n;i++){
+    let z, s;
+    if (S.selOn){ const r = pickBest(S.cands); z = r.z; s = r.score; }
+    else { z = sampleZ(); s = scoreOf(z); }
+    const lv = grayLevels(z), pal = samplePalette(), idx = colourIdx(lv, pal);
+    const st = stats(idx, pal);
+    sc.push(s); H.push(st.expH); nc.push(st.ncol);
+    paint(ctxBatch, (i%cols)*8, ((i/cols)|0)*8, 1, facePixels(lv, idx, pal, S.colour));
+  }
+  const mean = a => a.reduce((x,y)=>x+y,0)/a.length;
+  document.getElementById('binfo').textContent =
+    n + ' 张 · 平均分 ' + mean(sc).toFixed(2) + ' · 色数 ' + mean(nc).toFixed(1) +
+    ' · exp(H) ' + mean(H).toFixed(1);
+}
+
+for (let i=0;i<4;i++){
+  document.getElementById('p'+i).addEventListener('input', e => {
+    document.getElementById('v'+i).textContent = parseFloat(e.target.value).toFixed(2);
+    renderOne();
+  });
+}
+document.getElementById('alpha').addEventListener('input', e => {
+  document.getElementById('va').textContent = parseFloat(e.target.value).toFixed(2);
+  renderOne(); renderBatch();
+});
+document.getElementById('cands').addEventListener('input', e => {
+  const v = parseInt(e.target.value,10);
+  document.getElementById('vc').textContent = v + ' 选 1';
+  S.cands = v;
+});
+['colour','variant','revive','wool','selOn','bn'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => { renderOne(); renderBatch(); });
+});
+document.getElementById('bRand').onclick = () => {
+  const z = sampleZ();
+  for (let i=0;i<4;i++){
+    document.getElementById('p'+i).value = Math.min(3.5,Math.max(-3.5,z[i])).toFixed(2);
+    document.getElementById('v'+i).textContent = parseFloat(document.getElementById('p'+i).value).toFixed(2);
+  }
+  renderOne();
+};
+document.getElementById('bSel').onclick = () => {
+  const n = parseInt(document.getElementById('cands').value,10);
+  const r = pickBest(n);
+  for (let i=0;i<4;i++){
+    document.getElementById('p'+i).value = Math.min(3.5,Math.max(-3.5,r.z[i])).toFixed(2);
+    document.getElementById('v'+i).textContent = parseFloat(document.getElementById('p'+i).value).toFixed(2);
+  }
+  renderOne('从 ' + n + ' 组里取了分数最高的（' + r.score.toFixed(2) + '）');
+};
+document.getElementById('bBatch').onclick = renderBatch;
+document.getElementById('bZero').onclick = () => {
+  for (let i=0;i<4;i++){ document.getElementById('p'+i).value = 0;
+    document.getElementById('v'+i).textContent = '0.00'; }
+  renderOne();
+};
+
+/* 图例：当前变体的调色板 */
+function renderLegend(){
+  const V = D.variants[S.variant], box = document.getElementById('legend');
+  box.innerHTML = '';
+  V.palette.forEach((c, i) => {
+    const hex = '#' + c.map(v => Math.min(255,Math.max(0,Math.round(v*17)))
+                               .toString(16).padStart(2,'0')).join('');
+    const d = document.createElement('div');
+    d.className = 'sw';
+    d.innerHTML = '<i style="background:'+hex+'"></i>' + (D.names[i]||'').replace('TERRACOTTA_','T_').slice(0,12);
+    box.appendChild(d);
+  });
+  document.getElementById('stats').innerHTML =
+    '变体 <b>' + S.variant + '</b>' +
+    (V.configs ? '（' + V.configs.length + ' 个固定组合）' : '') +
+    (V.palette_sets ? '（' + V.palette_sets.filter(s=>s.length>1).length + ' 个槽可换）' : '') +
+    ' · 先验校正 <b>' + (S.revive?'开':'关') + '</b> · WOOL→QUARTZ <b>' + (S.wool?'开':'关') +
+    '</b> · 归一化 α <b>' + S.alpha.toFixed(2) + '</b> · 筛选 <b>' +
+    (S.selOn ? (S.cands+' 选 1') : '关') + '</b>';
+}
+
+readUI();
+renderLegend();
+renderOne();
+renderBatch();
+document.getElementById('variant').addEventListener('change', renderLegend);
+</script>
+</body>
+</html>

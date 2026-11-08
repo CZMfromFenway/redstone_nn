@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>配色方案打分器</title>
+<style>
+  :root{--bg:#101216;--panel:#171b23;--line:#2a3140;--txt:#dfe6f2;--dim:#93a0b4;--acc:#4a86e8}
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px;background:var(--bg);color:var(--txt);
+       font:13px/1.55 "Microsoft YaHei",system-ui,sans-serif}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:12px;margin-bottom:12px}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:9;
+       background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line)}
+  button{background:#1b2130;color:var(--txt);border:1px solid #2f3a4d;border-radius:7px;
+         padding:5px 10px;cursor:pointer;font-size:12px}
+  button:hover{border-color:#4a6b9a;background:#212a3c}
+  button.on{background:#1d3b66;border-color:#3a6ea5}
+  select{background:#1b2130;color:var(--txt);border:1px solid #2f3a4d;border-radius:6px;padding:4px 8px}
+  #prog{height:7px;background:#1b2130;border-radius:4px;overflow:hidden;flex:1;min-width:120px}
+  #prog>i{display:block;height:100%;background:var(--acc);width:0}
+  #grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px;
+        width:440px}
+  .card.scored{border-color:#2f5f42}
+  .card.top{border-color:#2e6b8a}
+  .faces{display:flex;gap:3px;margin-bottom:5px}
+  canvas{image-rendering:pixelated;width:50px;height:50px;border-radius:3px;border:1px solid #000}
+  .slots{font-size:10px;color:var(--dim);line-height:1.45;min-height:30px}
+  .sw{display:inline-block;width:9px;height:9px;border-radius:2px;border:1px solid #000;
+      vertical-align:-1px;margin-right:2px}
+  .scores{display:flex;gap:4px;margin-top:5px}
+  .scores button{flex:1;padding:3px 0;font-size:11px}
+  .scores button.sel{background:#1d3b66;border-color:#4a7fc0;color:#fff}
+  .hint{font-size:10px;color:#5d6879;margin-top:3px}
+  .tag{font-size:10px;padding:0 5px;border-radius:3px;background:#22392c;color:#8fd6a8}
+  #msg{font-size:11px;color:var(--dim)}
+</style>
+</head>
+<body>
+<h1>配色方案打分器</h1>
+<div class="sub">
+  这些颜色都来自你自己的调色板：只枚举<b>视觉上有区别</b>的槽位，其余固定为原色。
+  每张卡是 8 张固定形状的样本脸（都是历次评为 4 分、且「可替换面积 ≥60%」的脸），只看配色的影响。打 1~5 分，或按键盘 1~5。
+</div>
+
+<div class="bar">
+  <span id="msg">—</span>
+  <div id="prog"><i></i></div>
+  <label style="font-size:12px;color:var(--dim)">显示</label>
+  <select id="filter">
+    <option value="all">全部</option>
+    <option value="unscored">未评分</option>
+    <option value="scored">已评分</option>
+    <option value="good">≥4 分</option>
+  </select>
+  <button id="sortScore">按分数排序</button>
+  <button id="sortIdx">按序号排序</button>
+  <button id="export">导出 JSON</button>
+  <button id="reset">清空</button>
+</div>
+
+<div id="grid"></div>
+
+<script>
+const D = /*__DATA__*/null;
+const KEY = 'config_ranker_v1';
+const S = { scores: {}, filter: 'all', order: 'idx' };
+
+try { Object.assign(S.scores, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S.scores)); } catch(e) {} }
+
+function hex(rgb){
+  return '#' + rgb.map(v => Math.min(255, Math.max(0, Math.round(v*17)))
+                             .toString(16).padStart(2,'0')).join('');
+}
+const ROW = [], COL = [];
+for (let p=0;p<32;p++){ ROW.push(p%8); COL.push((p-(p%8))/8); }
+
+function drawFace(cv, idx, pal){
+  const ctx = cv.getContext('2d');
+  const img = ctx.createImageData(8,8);
+  for (let p=0;p<32;p++){
+    const c = pal[idx[p]];
+    for (const cc of [COL[p], 7-COL[p]]){
+      const q = (ROW[p]*8 + cc)*4;
+      img.data[q]=c[0]; img.data[q+1]=c[1]; img.data[q+2]=c[2]; img.data[q+3]=255;
+    }
+  }
+  ctx.putImageData(img,0,0);
+}
+
+function paletteOf(cfg){
+  const pal = D.base.map(c => c.map(v => Math.round(v*17)));
+  for (const k in cfg) pal[Number(k)] = cfg[k].map(v => Math.round(v*17));
+  return pal;
+}
+
+function slotLabel(k, rgb){
+  const o = D.opts[k].find(o => Math.abs(o.L - 0) >= 0 && o.rgb.every((v,i)=>Math.abs(v-rgb[i])<0.01));
+  const L = o ? o.L : null;
+  return '<span class="sw" style="background:' + hex(rgb) + '"></span>' +
+         '#' + k + (L!==null ? ' L' + L.toFixed(1) : '');
+}
+
+let cards = [];
+function render(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = ''; cards = [];
+  let list = D.combos.map((c, i) => ({c, i}));
+  if (S.filter === 'unscored') list = list.filter(o => S.scores[o.i] === undefined);
+  else if (S.filter === 'scored') list = list.filter(o => S.scores[o.i] !== undefined);
+  else if (S.filter === 'good') list = list.filter(o => (S.scores[o.i] || 0) >= 4);
+  if (S.order === 'score') list.sort((a,b) => (S.scores[b.i]||0) - (S.scores[a.i]||0));
+
+  for (const {c, i} of list){
+    const card = document.createElement('div');
+    card.className = 'card' + (S.scores[i] !== undefined ? ' scored' : '') +
+                     ((S.scores[i]||0) >= 4 ? ' top' : '');
+    card.dataset.i = i;
+    const pal = paletteOf(c.cfg);
+    const faces = document.createElement('div'); faces.className = 'faces';
+    for (let k=0;k<D.faces.length;k++){
+      const cv = document.createElement('canvas');
+      cv.width = 8; cv.height = 8;
+      drawFace(cv, D.faces[k], pal);
+      faces.appendChild(cv);
+    }
+    card.appendChild(faces);
+    const slots = document.createElement('div'); slots.className = 'slots';
+    slots.innerHTML = Object.keys(c.cfg).map(k => slotLabel(k, c.cfg[k])).join(' &nbsp; ');
+    card.appendChild(slots);
+    const sb = document.createElement('div'); sb.className = 'scores';
+    for (let s=1;s<=5;s++){
+      const b = document.createElement('button');
+      b.textContent = s;
+      if (S.scores[i] === s) b.className = 'sel';
+      b.addEventListener('click', () => setScore(i, s));
+      sb.appendChild(b);
+    }
+    card.appendChild(sb);
+    const hint = document.createElement('div');
+    hint.className = 'hint';
+    hint.textContent = '#' + i + ' · pick ' + c.pick.join('/') +
+      (S.scores[i]!==undefined ? ' · 已评 ' + S.scores[i] : '');
+    card.appendChild(hint);
+    card.addEventListener('click', ev => { if (ev.target.tagName !== 'BUTTON') focusCard(i); });
+    grid.appendChild(card);
+    cards.push({i, el: card});
+  }
+  updateMsg();
+}
+
+let focus = null;
+function focusCard(i){ focus = i; const c = cards.find(c => c.i === i); if (c) c.el.scrollIntoView({block:'nearest'}); }
+function setScore(i, s){
+  S.scores[i] = s; save(); focus = i;
+  const c = cards.find(c => c.i === i);
+  if (c){
+    c.el.classList.add('scored');
+    c.el.classList.toggle('top', s >= 4);
+    c.el.querySelectorAll('.scores button').forEach((b,k) => b.className = (k+1===s)?'sel':'');
+  }
+  updateMsg();
+}
+function updateMsg(){
+  const n = Object.keys(S.scores).length, tot = D.combos.length;
+  const vals = Object.values(S.scores);
+  const mean = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2) : '—';
+  document.getElementById('msg').textContent =
+    `已评 ${n} / ${tot} · 平均 ${mean}`;
+  document.querySelector('#prog>i').style.width = (100*n/tot).toFixed(1) + '%';
+}
+
+document.getElementById('filter').addEventListener('change', e => { S.filter = e.target.value; render(); });
+document.getElementById('sortScore').addEventListener('click', () => { S.order='score'; render(); });
+document.getElementById('sortIdx').addEventListener('click', () => { S.order='idx'; render(); });
+document.getElementById('reset').addEventListener('click', () => {
+  if (!confirm('清空所有评分？')) return;
+  S.scores = {}; save(); render();
+});
+document.getElementById('export').addEventListener('click', () => {
+  const rows = D.combos.map((c, i) => ({ id: i, pick: c.pick, cfg: c.cfg,
+                                         score: S.scores[i] !== undefined ? S.scores[i] : null }));
+  const out = { kind: 'config_scores', created: new Date().toISOString().slice(0,19),
+                scheme: 'pal16_user', vis: D.vis, n: D.combos.length, rows };
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)],
+                                        {type:'application/json'}));
+  a.download = 'config_scores.json'; a.click();
+});
+document.addEventListener('keydown', e => {
+  if (['1','2','3','4','5'].includes(e.key) && focus !== null) setScore(focus, parseInt(e.key, 10));
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight'){
+    const idx = cards.findIndex(c => c.i === focus);
+    if (idx >= 0 && idx+1 < cards.length) focusCard(cards[idx+1].i);
+  }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft'){
+    const idx = cards.findIndex(c => c.i === focus);
+    if (idx > 0) focusCard(cards[idx-1].i);
+  }
+});
+
+render();
+if (cards.length) focusCard(cards[0].i);
+</script>
+</body>
+</html>

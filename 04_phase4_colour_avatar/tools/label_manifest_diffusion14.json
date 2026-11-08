@@ -1,0 +1,48 @@
+{
+  "round": 14,
+  "note": "四期第十四轮：现役臂改回「页面现场生成」（不放池子，避免重写管线的 bug），扩散/真实数据仍用预计算池",
+  "arms": [
+    {
+      "name": "real",
+      "precomputed": true,
+      "file": "../results/diffusion/real_n200.json",
+      "note": "真实数据（4bit 原样，吸附 16 槽）——人判基线；页面算不出，必须用池子"
+    },
+    {
+      "name": "cur_a",
+      "file": "../results/twostage/pal16_curated64.json",
+      "k": 4,
+      "pipe": { "gray": "../results/twostage/gray_pca4.json" },
+      "norm": 1.0,
+      "post": "wool2white",
+      "select": {
+        "weights": [0.090723, 0.155856, -0.179823, 0.016738, 0.002562, -0.079504, 0.03924, 0.039766,
+                    -0.071914, -0.15306, -0.290105, 0.06024, 0.189297, 0.001789, -0.016188],
+        "kind": "quad",
+        "candidates": 4
+      },
+      "note": "现役全档：PCA4 灰度 → 16 色头 → 逐张换调色板 → 4 选 1（**页面现场生成**）"
+    },
+    {
+      "name": "cur_b",
+      "file": "../results/twostage/pal16_curated64.json",
+      "k": 4,
+      "pipe": { "gray": "../results/twostage/gray_pca4.json" },
+      "norm": 1.0,
+      "post": "wool2white",
+      "select": {
+        "weights": [0.090723, 0.155856, -0.179823, 0.016738, 0.002562, -0.079504, 0.03924, 0.039766,
+                    -0.071914, -0.15306, -0.290105, 0.06024, 0.189297, 0.001789, -0.016188],
+        "kind": "quad",
+        "candidates": 4
+      },
+      "note": "与 cur_a 完全同一配置——用来量本轮噪声地板（两条臂各自现场抽旋钮）"
+    },
+    {
+      "name": "tokM_rand",
+      "precomputed": true,
+      "file": "../results/diffusion/tokM_h192_rand_s10.json",
+      "note": "纯 MLP token(mask) 扩散 + 采样揭盖，10 步（页面算不出，用池子）"
+    }
+  ]
+}
